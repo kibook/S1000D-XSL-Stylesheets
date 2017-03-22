@@ -1090,7 +1090,6 @@
           <xsl:with-param name="change.type">modify</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
-      <xsl:attribute name="frame">topbot</xsl:attribute>
       <xsl:attribute name="colsep">0</xsl:attribute>
       <xsl:for-each select="@*">
         <xsl:if test="name(.) != 'id'">
@@ -1103,7 +1102,6 @@
 
   <xsl:template match="tbody">
     <xsl:element name="tbody">
-      <xsl:attribute name="rowsep">0</xsl:attribute>
       <xsl:for-each select="@*">
 	<xsl:copy/>
       </xsl:for-each>
