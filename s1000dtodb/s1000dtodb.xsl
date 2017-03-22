@@ -339,6 +339,14 @@
     </xsl:if>
     <xsl:number level="single"/>
   </xsl:template>
+
+  <xsl:template match="commonInfoDescrPara" mode="number">
+    <xsl:if test="parent::commonInfoDescrPara">
+      <xsl:apply-templates select="parent::commonInfoDescrPara" mode="number"/>
+      <xsl:text>.</xsl:text>
+    </xsl:if>
+    <xsl:number level="single"/>
+  </xsl:template>
   
   <xsl:template match="proceduralStep" mode="number">
     <xsl:if test="parent::proceduralStep">
@@ -497,6 +505,14 @@
   </xsl:template>
 
   <xsl:template match="levelledPara">
+    <xsl:element name="section">
+      <xsl:call-template name="copy.id"/>
+      <xsl:call-template name="revisionflag"/>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="commonInfoDescrPara">
     <xsl:element name="section">
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
@@ -889,7 +905,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="para|warningAndCautionPara|notePara|simplePara|commonInfoDescrPara|attentionListItemPara">
+  <xsl:template match="para|warningAndCautionPara|notePara|simplePara|attentionListItemPara">
     <xsl:element name="para">
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
