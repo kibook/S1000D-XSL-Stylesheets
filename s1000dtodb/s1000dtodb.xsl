@@ -1081,7 +1081,13 @@
   </xsl:template>
   
   <xsl:template match="table">
-    <xsl:element name="table">
+    <xsl:variable name="table-type">
+      <xsl:choose>
+        <xsl:when test="title">table</xsl:when>
+        <xsl:otherwise>informaltable</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:element name="{$table-type}">
       <xsl:call-template name="copy.id"/>
       <xsl:if test="descendant-or-self::*[@changeMark = '1']">
         <xsl:call-template name="revisionflag">
