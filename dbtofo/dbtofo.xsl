@@ -147,6 +147,8 @@
       </l:context>
     </l:l10n>
   </l:i18n>
+
+  <xsl:param name="end-of-data-module.position">body</xsl:param>
   
   <!-- *************************************************************************** -->
   

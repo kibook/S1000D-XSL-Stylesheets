@@ -150,11 +150,20 @@
 
 	<xsl:apply-templates select="*[not(@role='before.toc')]|processing-instruction()"/>
 
-        <fo:block id="{$id}-end" text-align-last="center"
-          xsl:use-attribute-sets="root.properties" font-weight="bold"
-          font-size="11pt" margin-top="10pt" start-indent="0pt">
-          <fo:inline>End of data module</fo:inline>
-        </fo:block>
+        <xsl:choose>
+          <xsl:when test="$end-of-data-module.position = 'body'">
+            <fo:block id="{$id}-end" text-align-last="center"
+              xsl:use-attribute-sets="root.properties" font-weight="bold"
+              font-size="11pt" margin-top="10pt" start-indent="0pt">
+              <fo:inline>End of data module</fo:inline>
+            </fo:block>
+          </xsl:when>
+          <xsl:when test="$end-of-data-module.position = 'footer'">
+            <fo:block>
+              <fo:marker marker-class-name="end-of-data-module">End of data module</fo:marker>
+            </fo:block>
+          </xsl:when>
+        </xsl:choose>
       </fo:flow>
     </fo:page-sequence>
   </xsl:template>
