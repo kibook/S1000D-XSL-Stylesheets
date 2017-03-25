@@ -35,6 +35,8 @@
   <xsl:include href="fault.xsl"/>
   <xsl:include href="proced.xsl"/>
 
+  <xsl:include href="inlineSignificantData.xsl"/>
+
   <xsl:variable name="all.dmodules" select="/publication/dmodule"/>
 
   <xsl:template match="/publication">
