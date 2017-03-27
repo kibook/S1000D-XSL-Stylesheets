@@ -90,6 +90,14 @@
 	  </fo:block>
         </xsl:when>
 
+        <xsl:when test="$double.sided = 0 and $position = 'right'">
+          <fo:block text-align-last="right" margin-bottom="20pt">
+            <fo:retrieve-marker retrieve-class-name="chapter.publication.code"
+              retrieve-position="first-including-carryover"
+              retrieve-boundary="page-sequence"/>
+          </fo:block>
+        </xsl:when>
+
         <xsl:when test="$position='center'">
           <fo:block text-align-last="center">
             <fo:retrieve-marker retrieve-class-name="chapter.classification"
