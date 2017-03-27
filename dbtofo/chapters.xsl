@@ -109,7 +109,11 @@
         <xsl:apply-templates select="d:info/d:bibliomisc"
           mode="data.module.bibliomisc"/>
 
-        <fo:block id="{$id}"/>
+        <fo:block id="{$id}">
+          <xsl:if test="$end-of-data-module.position = 'footer'">
+            <fo:marker marker-class-name="end-of-data-module">&#160;</fo:marker>
+          </xsl:if>
+        </fo:block>
 
 	<xsl:if test="not(d:info/d:bibliomisc[@role='no.chapter.title'])">
           <fo:block xsl:use-attribute-sets="component.titlepage.properties">
