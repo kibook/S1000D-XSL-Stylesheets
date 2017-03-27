@@ -187,7 +187,7 @@
         </fo:table-body>
       </fo:table>
       <xsl:if test="$end-of-data-module.position = 'footer'">
-        <fo:table width="100%" xsl:use-attribute-sets="footer.table.properties root.properties" margin-top="-2.75mm">
+        <fo:table width="100%" xsl:use-attribute-sets="footer.table.properties root.properties" margin-top="-2.5mm">
           <fo:table-column column-width="proportional-column-width(1)"/>
           <fo:table-body>
             <fo:table-row>
