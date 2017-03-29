@@ -22,6 +22,8 @@
   <xsl:output indent="no" method="xml"/>
 
   <!-- Params & attribute sets *********************************************************** -->
+
+  <xsl:param name="end-of-data-module.position">body</xsl:param>
   
   <xsl:param name="s1000d.xsl.version"/>
   
@@ -43,7 +45,12 @@
   <xsl:param name="body.margin.top">25mm</xsl:param>
   
   <xsl:param name="page.margin.bottom">12mm</xsl:param>
-  <xsl:param name="region.after.extent">15mm</xsl:param>
+  <xsl:param name="region.after.extent">
+    <xsl:choose>
+      <xsl:when test="$end-of-data-module.position = 'body'">15mm</xsl:when>
+      <xsl:when test="$end-of-data-module.position = 'footer'">17.5mm</xsl:when>
+    </xsl:choose>
+  </xsl:param>
   <xsl:param name="body.margin.bottom">25mm</xsl:param>
   
   <xsl:param name="page.width.portrait">210mm</xsl:param>
@@ -148,8 +155,6 @@
     </l:l10n>
   </l:i18n>
 
-  <xsl:param name="end-of-data-module.position">body</xsl:param>
-  
   <!-- *************************************************************************** -->
   
   <xsl:include href="admonitions.xsl"/>
