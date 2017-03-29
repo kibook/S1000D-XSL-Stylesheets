@@ -202,7 +202,7 @@
               <fo:table-cell text-align="center">
                 <fo:block font-size="11pt" font-weight="bold">
                   <fo:retrieve-marker retrieve-class-name="end-of-data-module"
-                    retrieve-position="first-including-carryover"
+                    retrieve-position="last-starting-within-page"
                     retrieve-boundary="page-sequence"/>
                 </fo:block>
               </fo:table-cell>
