@@ -18,6 +18,7 @@
   <xsl:template match="dmodule[contains(@xsi:noNamespaceSchemaLocation, 'crew.xsd')]">
     <xsl:element name="chapter">
       <xsl:attribute name="xml:id">
+        <xsl:text>ID_</xsl:text>
         <xsl:call-template name="get.dmcode"/>
       </xsl:attribute>
       <xsl:variable name="info.code">

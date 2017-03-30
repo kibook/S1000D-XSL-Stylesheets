@@ -18,7 +18,8 @@
   <xsl:template match="dmodule[contains(@xsi:noNamespaceSchemaLocation, 'proced.xsd')]">
     <xsl:element name="chapter">
       <xsl:attribute name="xml:id">
-	<xsl:call-template name="get.dmcode"/>
+        <xsl:text>ID_</xsl:text>
+	      <xsl:call-template name="get.dmcode"/>
       </xsl:attribute>
       <xsl:apply-templates select="identAndStatusSection"/>
       <xsl:call-template name="content.refs"/>

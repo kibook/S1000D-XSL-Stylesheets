@@ -18,7 +18,8 @@
   <xsl:template match="dmodule[contains(@xsi:noNamespaceSchemaLocation, 'fault.xsd')]">
     <xsl:element name="chapter">
       <xsl:attribute name="xml:id">
-	<xsl:call-template name="get.dmcode"/>
+        <xsl:text>ID_</xsl:text>
+	      <xsl:call-template name="get.dmcode"/>
       </xsl:attribute>
       <xsl:if test="content/faultIsolation/faultIsolationProcedure"> 
         <xsl:call-template name="fault.codes.table"/>

@@ -96,23 +96,23 @@
   <xsl:template match="pm">
     <xsl:for-each select="content/pmEntry//dmRef">
       <xsl:variable name="dm.ref.dm.code">
-  <xsl:apply-templates select="dmRefIdent/identExtension"/>
-	<xsl:apply-templates select="dmRefIdent/dmCode"/>
+        <xsl:apply-templates select="dmRefIdent/identExtension"/>
+	      <xsl:apply-templates select="dmRefIdent/dmCode"/>
       </xsl:variable>
       <xsl:variable name="module.content">
         <xsl:for-each select="$all.dmodules">
-	  <xsl:variable name="dm.code">
-	    <xsl:call-template name="get.dmcode"/>
-	  </xsl:variable>
-	  <xsl:if test="$dm.ref.dm.code = $dm.code">
-	    <!--
-	    <xsl:message>
-	      <xsl:text>Data module: </xsl:text>
-	      <xsl:value-of select="$dm.code"/>
-	    </xsl:message>
-	    -->
-	    <xsl:apply-templates select="."/>
-	  </xsl:if>
+	        <xsl:variable name="dm.code">
+	          <xsl:call-template name="get.dmcode"/>
+	        </xsl:variable>
+	        <xsl:if test="$dm.ref.dm.code = $dm.code">
+            <!--
+            <xsl:message>
+              <xsl:text>Data module: </xsl:text>
+              <xsl:value-of select="$dm.code"/>
+            </xsl:message>
+            -->
+	          <xsl:apply-templates select="."/>
+	        </xsl:if>
         </xsl:for-each>
       </xsl:variable>
       <xsl:choose>
@@ -121,8 +121,10 @@
           <xsl:copy-of select="$module.content"/>
         </xsl:when>
         <xsl:otherwise>
-	  <xsl:message>PM references unknown DM: <xsl:value-of select="$dm.ref.dm.code"/>
-	  </xsl:message>
+	        <xsl:message>
+            <xsl:text>PM references unknown DM: </xsl:text>
+            <xsl:value-of select="$dm.ref.dm.code"/>
+	        </xsl:message>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
@@ -145,6 +147,7 @@
     <xsl:if test="./@id">
       <xsl:variable name="id" select="./@id"/>
       <xsl:attribute name="xml:id">
+        <xsl:text>ID_</xsl:text>
         <xsl:call-template name="get.dmcode"/>
         <xsl:text>-</xsl:text>
 	<xsl:value-of select="$id"/>
@@ -445,7 +448,7 @@
         <xsl:if test="$dm.ref.dm.code = $dm.code">
           <xsl:element name="link">
             <xsl:attribute name="linkend">
-              <xsl:value-of select="$dm.ref.dm.code"/>
+              <xsl:value-of select="concat('ID_', $dm.ref.dm.code)"/>
             </xsl:attribute>
             <xsl:value-of select="$dm.ref.dm.code"/>
           </xsl:element>
@@ -462,12 +465,31 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="identExtension">
-    <xsl:text>DME-</xsl:text>
+  <xsl:template match="identExtension" mode="text">
     <xsl:value-of select="@extensionProducer"/>
     <xsl:text>-</xsl:text>
     <xsl:value-of select="@extensionCode"/>
     <xsl:text>-</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="identExtension">
+    <xsl:variable name="dm.code">
+      <xsl:apply-templates select="../dmCode"/>
+    </xsl:variable>
+    <xsl:variable name="extension">
+      <xsl:apply-templates select="." mode="text"/>
+    </xsl:variable>
+    <xsl:for-each select="$all.dmodules/identAndStatusSection/dmAddress/dmIdent">
+      <xsl:variable name="other.dm.code">
+        <xsl:apply-templates select="dmCode"/>
+      </xsl:variable>
+      <xsl:variable name="other.extension">
+        <xsl:apply-templates select="identExtension" mode="text"/>
+      </xsl:variable>
+      <xsl:if test="$dm.code = $other.dm.code and $extension != $other.extension">
+        <xsl:value-of select="$extension"/>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="dmCode">
@@ -767,6 +789,7 @@
 		  <xsl:element name="entry">
 		    <xsl:if test="./@id">
 		      <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
 		        <xsl:call-template name="get.dmcode"/>
 		        <xsl:text>-</xsl:text>
 		        <xsl:value-of select="$id"/>
@@ -820,6 +843,7 @@
                   <xsl:element name="entry">
 		    <xsl:if test="./@id">
 		      <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
 		        <xsl:call-template name="get.dmcode"/>
 		        <xsl:text>-</xsl:text>
 		        <xsl:value-of select="$id"/>
@@ -873,6 +897,7 @@
                   <xsl:element name="entry">
 		    <xsl:if test="./@id">
 		      <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
 		        <xsl:call-template name="get.dmcode"/>
 		        <xsl:text>-</xsl:text>
 		        <xsl:value-of select="$id"/>
