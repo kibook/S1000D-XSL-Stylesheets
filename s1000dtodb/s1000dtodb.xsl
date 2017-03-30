@@ -96,6 +96,7 @@
   <xsl:template match="pm">
     <xsl:for-each select="content/pmEntry//dmRef">
       <xsl:variable name="dm.ref.dm.code">
+  <xsl:apply-templates select="dmRefIdent/identExtension"/>
 	<xsl:apply-templates select="dmRefIdent/dmCode"/>
       </xsl:variable>
       <xsl:variable name="module.content">
@@ -129,6 +130,7 @@
 
   <xsl:template name="get.dmcode">
     <xsl:for-each select="ancestor-or-self::dmodule">
+      <xsl:apply-templates select="identAndStatusSection/dmAddress/dmIdent/identExtension"/>
       <xsl:apply-templates select="identAndStatusSection/dmAddress/dmIdent/dmCode"/>
     </xsl:for-each>
   </xsl:template>
@@ -432,6 +434,7 @@
 
   <xsl:template match="dmRef">
     <xsl:variable name="dm.ref.dm.code">
+      <xsl:apply-templates select="dmRefIdent/identExtension"/>
       <xsl:apply-templates select="dmRefIdent/dmCode"/>
     </xsl:variable>
     <xsl:variable name="result">
@@ -457,6 +460,14 @@
         <xsl:value-of select="$dm.ref.dm.code"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="identExtension">
+    <xsl:text>DME-</xsl:text>
+    <xsl:value-of select="@extensionProducer"/>
+    <xsl:text>-</xsl:text>
+    <xsl:value-of select="@extensionCode"/>
+    <xsl:text>-</xsl:text>
   </xsl:template>
 
   <xsl:template match="dmCode">
