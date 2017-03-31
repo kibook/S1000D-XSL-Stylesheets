@@ -13,7 +13,29 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns="http://docbook.org/ns/docbook"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:fo="http://www.w3.org/1999/XSL/Format"
   version="1.0">
+
+  <xsl:attribute-set name="step.title.level1.properties">
+    <xsl:attribute name="font-size">14pt</xsl:attribute>
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
+  </xsl:attribute-set>
+  <xsl:attribute-set name="step.title.level2.properties">
+    <xsl:attribute name="font-size">12pt</xsl:attribute>
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
+  </xsl:attribute-set>
+  <xsl:attribute-set name="step.title.level3.properties">
+    <xsl:attribute name="font-size">10pt</xsl:attribute>
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
+  </xsl:attribute-set>
+  <xsl:attribute-set name="step.title.level4.properties">
+    <xsl:attribute name="font-size">10pt</xsl:attribute>
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
+  </xsl:attribute-set>
+  <xsl:attribute-set name="step.title.level5.properties">
+    <xsl:attribute name="font-size">10pt</xsl:attribute>
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
+  </xsl:attribute-set>
 
   <xsl:template match="dmodule[contains(@xsi:noNamespaceSchemaLocation, 'proced.xsd')]">
     <xsl:element name="chapter">
@@ -40,9 +62,29 @@
   </xsl:template>
 
   <xsl:template match="proceduralStep/title">
-    <emphasis role="bold">
+    <fo:block xsl:use-attribute-sets="step.title.level1.properties">
       <xsl:apply-templates/>
-    </emphasis>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep/title">
+    <fo:block xsl:use-attribute-sets="step.title.level2.properties">
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep/proceduralStep/title">
+    <fo:block xsl:use-attribute-sets="step.title.level3.properties">
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep/proceduralStep/proceduralStep/title">
+    <fo:block xsl:use-attribute-sets="step.title.level4.properties">
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep/proceduralStep/proceduralStep/proceduralStep/title">
+    <fo:block xsl:use-attribute-sets="step.title.level5.properties">
+      <xsl:apply-templates/>
+    </fo:block>
   </xsl:template>
 
   <xsl:template match="proceduralStep">
