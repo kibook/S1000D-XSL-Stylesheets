@@ -29,6 +29,7 @@
   <xsl:param name="show.unimplemented.markup">1</xsl:param>
 
   <xsl:param name="generate.references.table">0</xsl:param>
+  <xsl:param name="use.unparsed.entity.uri">0</xsl:param>
 
   <xsl:output indent="no" method="xml"/>
 
@@ -152,7 +153,7 @@
         <xsl:text>ID_</xsl:text>
         <xsl:call-template name="get.dmcode"/>
         <xsl:text>-</xsl:text>
-	<xsl:value-of select="$id"/>
+	      <xsl:value-of select="$id"/>
       </xsl:attribute>
     </xsl:if>
   </xsl:template>
@@ -993,10 +994,13 @@
     <xsl:variable name="fileref">
       <xsl:choose>
         <xsl:when test="function-available('ier:resolve')">
-	  <xsl:value-of select="ier:resolve($entity)"/>
+	        <xsl:value-of select="ier:resolve($entity)"/>
+        </xsl:when>
+        <xsl:when test="$use.unparsed.entity.uri = 1">
+          <xsl:value-of select="unparsed-entity-uri($entity)"/>
         </xsl:when>
         <xsl:otherwise>
-	  <xsl:value-of select="$entity"/>
+	        <xsl:value-of select="$entity"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -1010,35 +1014,35 @@
       <xsl:element name="imagedata">
         <xsl:attribute name="align">center</xsl:attribute>
         <xsl:attribute name="fileref">
-	  <xsl:value-of select="$fileref"/>
+	        <xsl:value-of select="$fileref"/>
         </xsl:attribute>
         <xsl:if test="@reproductionWidth">
-	  <xsl:attribute name="width">
-	    <xsl:value-of select="@reproductionWidth"/>
-	  </xsl:attribute>
-	  <xsl:attribute name="contentwidth">
-	    <xsl:value-of select="@reproductionWidth"/>
-	  </xsl:attribute>
+	        <xsl:attribute name="width">
+	          <xsl:value-of select="@reproductionWidth"/>
+	        </xsl:attribute>
+	        <xsl:attribute name="contentwidth">
+	          <xsl:value-of select="@reproductionWidth"/>
+	        </xsl:attribute>
         </xsl:if>
         <xsl:if test="@reproductionHeight">
-	  <xsl:attribute name="depth">
-	    <xsl:value-of select="@reproductionHeight"/>
-	  </xsl:attribute>
-	  <xsl:attribute name="contentdepth">
-	    <xsl:value-of select="@reproductionHeight"/>
-	  </xsl:attribute>
+	        <xsl:attribute name="depth">
+	          <xsl:value-of select="@reproductionHeight"/>
+	        </xsl:attribute>
+	        <xsl:attribute name="contentdepth">
+	          <xsl:value-of select="@reproductionHeight"/>
+	        </xsl:attribute>
         </xsl:if>
         <xsl:choose>
-	  <xsl:when test="@reproductionScale">
-	    <xsl:attribute name="scale">
-	      <xsl:value-of select="@reproductionScale"/>
-	    </xsl:attribute>
-	  </xsl:when>
-	  <!--
-	  <xsl:otherwise>
-	    <xsl:attribute name="scalefit">1</xsl:attribute>
-	  </xsl:otherwise>
-	  -->
+	        <xsl:when test="@reproductionScale">
+	          <xsl:attribute name="scale">
+	            <xsl:value-of select="@reproductionScale"/>
+	          </xsl:attribute>
+	        </xsl:when>
+	        <!--
+	        <xsl:otherwise>
+	          <xsl:attribute name="scalefit">1</xsl:attribute>
+	        </xsl:otherwise>
+	        -->
         </xsl:choose>
       </xsl:element>
     </imageobject>
