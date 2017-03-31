@@ -44,6 +44,10 @@
   </xsl:template>
 
   <xsl:template match="description">
+    <xsl:processing-instruction name="dbfo-need">
+      <xsl:text>height="2cm"</xsl:text>
+    </xsl:processing-instruction>
+    <bridgehead renderas="centerhead">Description</bridgehead>
     <xsl:apply-templates/>
   </xsl:template>
 
