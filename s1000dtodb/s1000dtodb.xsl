@@ -28,6 +28,8 @@
   
   <xsl:param name="show.unimplemented.markup">1</xsl:param>
 
+  <xsl:param name="generate.references.table">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -258,6 +260,22 @@
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="2cm"</xsl:text>
     </xsl:processing-instruction>
+
+    <!-- Create references table automatically when $generate.references.table = 1 -->
+    <xsl:variable name="content" select="content/description|content/procedure"/>
+
+    <xsl:variable name="auth.dm.refs" select="content/refs/dmRef"/>
+    <xsl:variable name="auth.ep.refs" select="content/refs/externalPubRef"/>
+
+    <xsl:variable name="auto.dm.refs" select="$content//dmRef"/>
+    <xsl:variable name="auto.ep.refs" select="$content//externalPubRef"/>
+
+    <xsl:variable name="gen" select="$generate.references.table"/>
+
+    <xsl:variable name="dm.refs" select="$auth.dm.refs[$gen=0]|$auto.dm.refs[$gen=1]"/>
+    <xsl:variable name="ep.refs" select="$auth.ep.refs[$gen=0]|$auto.ep.refs[$gen=1]"/>
+    <xsl:variable name="refs" select="$dm.refs|$ep.refs"/>
+
     <bridgehead renderas="centerhead">References</bridgehead>
     <table pgwide="1" frame="topbot" colsep="0">
       <title>References</title>
@@ -269,44 +287,44 @@
           </row>
         </thead>
         <tbody rowsep="0">
-	  <xsl:if test="not(content/refs)">
-	    <row>
-	      <entry>None</entry>
-	      <entry></entry>
-	    </row>
-	  </xsl:if>
-	  <xsl:for-each select="content/refs/dmRef">
-	    <row>
-	      <entry><xsl:apply-templates select="."/></entry>
-	      <entry>
-	        <xsl:if test="dmRefAddressItems/dmTitle">
-		  <xsl:apply-templates select="dmRefAddressItems/dmTitle/techName"/>
-		  <xsl:if test="dmRefAddressItems/dmTitle/infoName">
-		    <xsl:text> - </xsl:text>
-		    <xsl:apply-templates select="dmRefAddressItems/dmTitle/infoName"/>
-		  </xsl:if>
+	        <xsl:if test="not($refs)">
+	          <row>
+	            <entry>None</entry>
+	            <entry></entry>
+	          </row>
 	        </xsl:if>
-	      </entry>
-	    </row>
-	  </xsl:for-each>
-	  <xsl:for-each select="content/refs/externalPubRef">
-	    <row>
-	      <entry>
-	        <xsl:if test="externalPubRefIdent/externalPubCode">
-		  <xsl:if test="externalPubRefIdent/externalPubCode/@pubCodingScheme">
-		    <xsl:value-of select="externalPubRefIdent/externalPubCode/@pubCodingScheme"/>
-		    <xsl:text> </xsl:text>
-	          </xsl:if>
-		  <xsl:value-of select="externalPubRefIdent/externalPubCode"/>
-	        </xsl:if>
-	      </entry>
-	      <entry>
-	        <xsl:if test="externalPubRefIdent/externalPubTitle">
-		  <xsl:value-of select="externalPubRefIdent/externalPubTitle"/>
-	        </xsl:if>
-	      </entry>
-	    </row>
-	  </xsl:for-each>
+	        <xsl:for-each select="$dm.refs">
+	          <row>
+	            <entry><xsl:apply-templates select="."/></entry>
+	            <entry>
+	              <xsl:if test="dmRefAddressItems/dmTitle">
+		              <xsl:apply-templates select="dmRefAddressItems/dmTitle/techName"/>
+		              <xsl:if test="dmRefAddressItems/dmTitle/infoName">
+		                <xsl:text> - </xsl:text>
+		                <xsl:apply-templates select="dmRefAddressItems/dmTitle/infoName"/>
+		              </xsl:if>
+	              </xsl:if>
+	            </entry>
+	          </row>
+	        </xsl:for-each>
+	        <xsl:for-each select="$ep.refs">
+	          <row>
+	            <entry>
+	              <xsl:if test="externalPubRefIdent/externalPubCode">
+		              <xsl:if test="externalPubRefIdent/externalPubCode/@pubCodingScheme">
+		                <xsl:value-of select="externalPubRefIdent/externalPubCode/@pubCodingScheme"/>
+		                <xsl:text> </xsl:text>
+	                </xsl:if>
+		              <xsl:value-of select="externalPubRefIdent/externalPubCode"/>
+	              </xsl:if>
+	            </entry>
+	            <entry>
+	              <xsl:if test="externalPubRefIdent/externalPubTitle">
+		              <xsl:value-of select="externalPubRefIdent/externalPubTitle"/>
+	              </xsl:if>
+	            </entry>
+	          </row>
+	        </xsl:for-each>
         </tbody>
       </tgroup>
     </table>      
