@@ -386,6 +386,7 @@
     <xsl:variable name="id" select="@internalRefId"/>
     <xsl:variable name="target" select="ancestor-or-self::dmodule//*[@id = $id]"/>
     <xsl:variable name="linkend">
+      <xsl:text>ID_</xsl:text>
       <xsl:call-template name="get.dmcode"/>
       <xsl:text>-</xsl:text>
       <xsl:value-of select="$id"/>
