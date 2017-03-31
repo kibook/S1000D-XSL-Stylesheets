@@ -1364,21 +1364,21 @@
 
   <xsl:template match="@applicRefId">
     <xsl:variable name="id" select="."/>
-    <fo:block font-weight="bold" font-size="10pt">
-      <xsl:text>Applicable to: </xsl:text>
-      <xsl:apply-templates select="ancestor::content/referencedApplicGroup/applic[@id=$id]"/>
-    </fo:block>
+    <xsl:apply-templates select="ancestor::content/referencedApplicGroup/applic[@id=$id]"/>
   </xsl:template>
 
   <xsl:template match="applic">
-    <xsl:choose>
-      <xsl:when test="displayText">
-        <xsl:apply-templates select="displayText/simplePara/text()"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:apply-templates select="assert|evaluate"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <fo:block font-weight="bold" font-size="10pt">
+      <xsl:text>Applicable to: </xsl:text>
+      <xsl:choose>
+        <xsl:when test="displayText">
+          <xsl:apply-templates select="displayText/simplePara/text()"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="assert|evaluate"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </fo:block>
   </xsl:template>
 
   <xsl:template match="assert">
@@ -1404,9 +1404,16 @@
     <xsl:variable name="parent.applic" select="ancestor::*[@applicRefId][1]/@applicRefId"/>
     <xsl:variable name="preced.applic" select="preceding-sibling::*[@applicRefId][1]/@applicRefId"/>
 
+    <xsl:variable name="dm.applic" select="ancestor::dmodule/identAndStatusSection/dmStatus/applic"/>
+
     <!-- If this element has no applic annotation and its preceding sibling has different applic than both elements' parent,
          show the parent's applic annotation to clarify the applicability -->
     <xsl:if test="not($this.applic) and $preced.applic">
+      <xsl:if test="not($parent.applic)">
+        <xsl:if test="preceding-sibling::*[1]/descendant-or-self::*[@applicRefId]">
+          <xsl:apply-templates select="$dm.applic"/>
+        </xsl:if>
+      </xsl:if>
       <xsl:apply-templates select="$parent.applic"/>
     </xsl:if>
 
