@@ -194,14 +194,14 @@
           </fo:table-row>
         </fo:table-body>
       </fo:table>
-      <xsl:if test="$end-of-data-module.position = 'footer'">
+      <xsl:if test="$end.of.data.module.position = 'footer'">
         <fo:table width="100%" xsl:use-attribute-sets="footer.table.properties root.properties" margin-top="-2.5mm">
           <fo:table-column column-width="proportional-column-width(1)"/>
           <fo:table-body>
             <fo:table-row>
               <fo:table-cell text-align="center">
                 <fo:block font-size="11pt" font-weight="bold">
-                  <fo:retrieve-marker retrieve-class-name="end-of-data-module"
+                  <fo:retrieve-marker retrieve-class-name="end.of.data.module"
                     retrieve-position="last-starting-within-page"
                     retrieve-boundary="page-sequence"/>
                 </fo:block>

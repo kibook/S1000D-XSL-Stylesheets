@@ -110,8 +110,8 @@
           mode="data.module.bibliomisc"/>
 
         <fo:block id="{$id}">
-          <xsl:if test="$end-of-data-module.position = 'footer'">
-            <fo:marker marker-class-name="end-of-data-module">&#160;</fo:marker>
+          <xsl:if test="$end.of.data.module.position = 'footer'">
+            <fo:marker marker-class-name="end.of.data.module">&#160;</fo:marker>
           </xsl:if>
         </fo:block>
 
@@ -155,16 +155,16 @@
 	<xsl:apply-templates select="*[not(@role='before.toc')]|processing-instruction()"/>
 
         <xsl:choose>
-          <xsl:when test="$end-of-data-module.position = 'body'">
+          <xsl:when test="$end.of.data.module.position = 'body'">
             <fo:block id="{$id}-end" text-align-last="center"
               xsl:use-attribute-sets="root.properties" font-weight="bold"
               font-size="11pt" margin-top="10pt" start-indent="0pt">
               <fo:inline>End of data module</fo:inline>
             </fo:block>
           </xsl:when>
-          <xsl:when test="$end-of-data-module.position = 'footer'">
+          <xsl:when test="$end.of.data.module.position = 'footer'">
             <fo:block>
-              <fo:marker marker-class-name="end-of-data-module">End of data module</fo:marker>
+              <fo:marker marker-class-name="end.of.data.module">End of data module</fo:marker>
             </fo:block>
           </xsl:when>
         </xsl:choose>
