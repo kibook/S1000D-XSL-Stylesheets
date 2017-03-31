@@ -44,14 +44,16 @@
       <xsl:apply-templates/>
     </emphasis>
   </xsl:template>
-  
+
   <xsl:template match="proceduralStep">
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
         <xsl:apply-templates select="." mode="number"/>
       </xsl:with-param>
       <xsl:with-param name="content">
-        <xsl:apply-templates select="*[not(self::proceduralStep)]"/>
+        <xsl:apply-templates select="title"/>
+        <xsl:call-template name="make.applic.annotation"/>
+        <xsl:apply-templates select="*[not(self::proceduralStep or self::title)]"/>
       </xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates select="proceduralStep"/>

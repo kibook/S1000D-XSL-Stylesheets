@@ -541,6 +541,7 @@
 
   <xsl:template match="levelledPara">
     <xsl:element name="section">
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
@@ -549,6 +550,7 @@
 
   <xsl:template match="commonInfoDescrPara">
     <xsl:element name="section">
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
@@ -945,6 +947,7 @@
 
   <xsl:template match="para|warningAndCautionPara|notePara|simplePara|attentionListItemPara">
     <xsl:element name="para">
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
@@ -1113,6 +1116,7 @@
 
   <xsl:template match="listItem|listItemDefinition|attentionSequentialListItem|attentionRandomListItem">
     <xsl:element name="listitem">
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
@@ -1337,6 +1341,52 @@
         </tbody>
       </tgroup>
     </informaltable>
+  </xsl:template>
+
+  <xsl:template match="@applicRefId">
+    <xsl:variable name="id" select="."/>
+    <fo:block font-weight="bold" font-size="10pt">
+      <xsl:text>Applicable to: </xsl:text>
+      <xsl:apply-templates select="ancestor::content/referencedApplicGroup/applic[@id=$id]"/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="applic">
+    <xsl:choose>
+      <xsl:when test="displayText">
+        <xsl:apply-templates select="displayText/simplePara/text()"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="assert|evaluate"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="assert">
+    <xsl:value-of select="@applicPropertyIdent"/>
+    <xsl:text> = </xsl:text>
+    <xsl:value-of select="@applicPropertyValues"/>
+  </xsl:template>
+
+  <xsl:template match="evaluate">
+    <xsl:variable name="op" select="@andOr"/>
+    <xsl:for-each select="assert|evaluate">
+      <xsl:apply-templates select="."/>
+      <xsl:if test="position() != last()">
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="$op"/>
+        <xsl:text> </xsl:text>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template name="make.applic.annotation">
+    <!-- If this element has no applic annotation and its preceding sibling has different applic than both elements' parent,
+         show the parent's applic annotation to clarify the applicability -->
+    <xsl:if test="not(@applicRefId) and preceding-sibling::*/@applicRefId">
+      <xsl:apply-templates select="ancestor::*[@applicRefId][1]/@applicRefId"/>
+    </xsl:if>
+    <xsl:apply-templates select="@applicRefId"/>
   </xsl:template>
 
 </xsl:stylesheet>
