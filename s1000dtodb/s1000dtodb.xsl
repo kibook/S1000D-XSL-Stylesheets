@@ -1400,12 +1400,20 @@
   </xsl:template>
 
   <xsl:template name="make.applic.annotation">
+    <xsl:variable name="this.applic" select="@applicRefId"/>
+    <xsl:variable name="parent.applic" select="ancestor::*[@applicRefId][1]/@applicRefId"/>
+    <xsl:variable name="preced.applic" select="preceding-sibling::*[@applicRefId][1]/@applicRefId"/>
+
     <!-- If this element has no applic annotation and its preceding sibling has different applic than both elements' parent,
          show the parent's applic annotation to clarify the applicability -->
-    <xsl:if test="not(@applicRefId) and preceding-sibling::*/@applicRefId">
-      <xsl:apply-templates select="ancestor::*[@applicRefId][1]/@applicRefId"/>
+    <xsl:if test="not($this.applic) and $preced.applic">
+      <xsl:apply-templates select="$parent.applic"/>
     </xsl:if>
-    <xsl:apply-templates select="@applicRefId"/>
+
+    <!-- If the applic of the preceding sibling is the same, don't repeat the applicability annotation -->
+    <xsl:if test="not($preced.applic) or $preced.applic != $this.applic">
+      <xsl:apply-templates select="$this.applic"/>
+    </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet>
