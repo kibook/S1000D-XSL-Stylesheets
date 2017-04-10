@@ -30,11 +30,10 @@
   </xsl:attribute-set>
   <xsl:attribute-set name="step.title.level4.properties">
     <xsl:attribute name="font-size">10pt</xsl:attribute>
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
   </xsl:attribute-set>
   <xsl:attribute-set name="step.title.level5.properties">
     <xsl:attribute name="font-size">10pt</xsl:attribute>
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
+    <xsl:attribute name="font-style">italic</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:template match="dmodule[contains(@xsi:noNamespaceSchemaLocation, 'proced.xsd')]">
