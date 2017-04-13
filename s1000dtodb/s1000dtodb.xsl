@@ -28,8 +28,20 @@
   
   <xsl:param name="show.unimplemented.markup">1</xsl:param>
 
+  <!-- When generate.references.table = 1, the contents of the References table
+       are automatically generated (if the refs element exists, it is ignored). -->
   <xsl:param name="generate.references.table">0</xsl:param>
+
+  <!-- When use.unparsed.entity.uri = 1, the unparsed URI of an ICN entity is
+       used to determine the filename. -->
   <xsl:param name="use.unparsed.entity.uri">0</xsl:param>
+
+  <!-- When external.pub.ref.inline = 'title', externalPubRefs are presented
+       using the externalPubTitle.
+
+       When external.pub.ref.inline = 'code', externalPubRefs are presented
+       using the externalPubCode. -->
+  <xsl:param name="external.pub.ref.inline">title</xsl:param>
 
   <xsl:output indent="no" method="xml"/>
 
@@ -542,6 +554,14 @@
     <xsl:text>-</xsl:text>
     <xsl:value-of select="./@pmVolume"/>
   </xsl:template>
+
+  <xsl:template match="externalPubCode">
+    <xsl:if test="@pubCodingScheme">
+      <xsl:apply-templates select="@pubCodingScheme"/>
+      <xsl:text> </xsl:text>
+    </xsl:if>
+    <xsl:apply-templates/>
+  </xsl:template>
   
   <xsl:template name="tech.name">
     <xsl:apply-templates select="dmAddress/dmAddressItems/dmTitle/techName"/>
@@ -673,10 +693,10 @@
     <xsl:choose>
       <xsl:when test="@xlink:href" xmlns:xlink="http://www.w3.org/1999/xlink">
         <xsl:element name="link">
-	  <xsl:attribute name="xlink:href">
-	    <xsl:value-of select="@xlink:href"/>
-	  </xsl:attribute>
-	  <xsl:apply-templates/>
+	        <xsl:attribute name="xlink:href">
+	          <xsl:value-of select="@xlink:href"/>
+	        </xsl:attribute>
+	        <xsl:apply-templates/>
         </xsl:element>
       </xsl:when>
       <xsl:otherwise>
@@ -684,8 +704,19 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+  <xsl:template match="externalPubRefIdent">
+    <xsl:choose>
+      <xsl:when test="$external.pub.ref.inline = 'title'">
+        <xsl:apply-templates select="externalPubTitle"/>
+      </xsl:when>
+      <xsl:when test="$external.pub.ref.inline = 'code'">
+        <xsl:apply-templates select="externalPubCode"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
   
-  <xsl:template match="externalPubRefIdent|externalPubTitle">
+  <xsl:template match="externalPubTitle">
     <xsl:apply-templates/>
   </xsl:template>
   
@@ -1162,7 +1193,13 @@
           <xsl:with-param name="change.type">modify</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
-      <xsl:attribute name="colsep">0</xsl:attribute>
+      <!-- Default values of attributes -->
+      <xsl:if test="not(@colsep)">
+        <xsl:attribute name="colsep">0</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="not(@frame)">
+        <xsl:attribute name="frame">topbot</xsl:attribute>
+      </xsl:if>
       <xsl:for-each select="@*">
         <xsl:if test="name(.) != 'id'">
 	  <xsl:copy/>
@@ -1174,8 +1211,11 @@
 
   <xsl:template match="tbody">
     <xsl:element name="tbody">
+      <xsl:if test="not(@rowsep|ancestor::table/@rowsep)">
+        <xsl:attribute name="rowsep">0</xsl:attribute>
+      </xsl:if>
       <xsl:for-each select="@*">
-	<xsl:copy/>
+	      <xsl:copy/>
       </xsl:for-each>
       <xsl:apply-templates/>
     </xsl:element>
@@ -1184,21 +1224,24 @@
   <xsl:template match="tgroup|thead|colspec|row|entry">
     <xsl:element name="{name()}">
       <xsl:call-template name="copy.id"/>
+      <xsl:if test="name(.) = 'thead' and not(@rowsep|ancestor::table/@rowsep)">
+        <xsl:attribute name="rowsep">1</xsl:attribute>
+      </xsl:if>
       <xsl:for-each select="@*">
         <xsl:choose>
-	  <xsl:when test="name(.) = 'id'">
-	    <!-- ignore it -->
-	  </xsl:when>
-	  <xsl:when test="name(.) = 'colwidth' and string(number(.))!='NaN'">
-	  <!-- colwidth is just a plain number so suffix with '*' -->
-	  <xsl:attribute name="colwidth">
-	    <xsl:value-of select="."/>
-	    <xsl:text>*</xsl:text>
-	    </xsl:attribute>
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <xsl:copy/>
-	  </xsl:otherwise>
+	        <xsl:when test="name(.) = 'id'">
+	          <!-- ignore it -->
+	        </xsl:when>
+	        <xsl:when test="name(.) = 'colwidth' and string(number(.))!='NaN'">
+	          <!-- colwidth is just a plain number so suffix with '*' -->
+	          <xsl:attribute name="colwidth">
+	            <xsl:value-of select="."/>
+	            <xsl:text>*</xsl:text>
+	          </xsl:attribute>
+	        </xsl:when>
+	        <xsl:otherwise>
+	          <xsl:copy/>
+	        </xsl:otherwise>
         </xsl:choose>
       </xsl:for-each>
       <xsl:apply-templates/>
