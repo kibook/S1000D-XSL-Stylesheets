@@ -163,7 +163,7 @@
             </fo:block>
           </xsl:when>
           <xsl:when test="$end.of.data.module.position = 'footer'">
-            <fo:block>
+            <fo:block id="{$id}-end">
               <fo:marker marker-class-name="end.of.data.module">End of data module</fo:marker>
             </fo:block>
           </xsl:when>

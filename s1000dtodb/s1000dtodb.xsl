@@ -1373,6 +1373,7 @@
                   <entry>
                     <xsl:element name="link">
                       <xsl:attribute name="linkend">
+                        <xsl:text>ID_</xsl:text>
                         <xsl:call-template name="get.dmcode"/>
                       </xsl:attribute>
                       <xsl:call-template name="get.dmcode"/>
@@ -1393,7 +1394,7 @@
                   </entry>
                   <entry>
                     <para>
-                      <fo:page-number-citation-last ref-id="{$dm.code}-end"/>
+                      <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
                     </para>
                   </entry>
                   <entry>
