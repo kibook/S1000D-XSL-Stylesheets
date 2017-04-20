@@ -158,6 +158,10 @@
     </xsl:for-each>
   </xsl:template>
 
+  <xsl:template name="get.dmref.infocode">
+    <xsl:apply-templates select="ancestor-or-self::dmRef/dmRefIdent/dmCode/@infoCode"/>
+  </xsl:template>
+
   <xsl:template name="copy.id">
     <xsl:if test="./@id">
       <xsl:variable name="id" select="./@id"/>
@@ -204,11 +208,21 @@
         <xsl:call-template name="get.infocode"/>
       </xsl:variable>
       <title>
-        <xsl:call-template name="tech.name"/>
+        <xsl:choose>
+          <!-- present only infoname of frontmatter data modules -->
+          <xsl:when test="$info.code = '00S'">
+            <xsl:call-template name="info.name"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:call-template name="tech.name"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </title>
-      <subtitle>
-        <xsl:call-template name="info.name"/>
-      </subtitle>
+      <xsl:if test="$info.code != '00S'">
+        <subtitle>
+          <xsl:call-template name="info.name"/>
+        </subtitle>
+      </xsl:if>
       <date>
         <xsl:apply-templates select=".//issueDate"/>
       </date>
@@ -311,11 +325,12 @@
 	            <entry><xsl:apply-templates select="."/></entry>
 	            <entry>
 	              <xsl:if test="dmRefAddressItems/dmTitle">
-		              <xsl:apply-templates select="dmRefAddressItems/dmTitle/techName"/>
+                  <xsl:apply-templates select="dmRefAddressItems/dmTitle"/>
+		              <!--<xsl:apply-templates select="dmRefAddressItems/dmTitle/techName"/>
 		              <xsl:if test="dmRefAddressItems/dmTitle/infoName">
 		                <xsl:text> - </xsl:text>
 		                <xsl:apply-templates select="dmRefAddressItems/dmTitle/infoName"/>
-		              </xsl:if>
+		              </xsl:if>-->
 	              </xsl:if>
 	            </entry>
 	          </row>
@@ -1324,6 +1339,43 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+
+  <!-- Associate certain info codes with 'types' of data modules -->
+  <xsl:template name="get.dm.type">
+    <xsl:variable name="info.code">
+      <xsl:choose>
+        <!-- if this is inside a dmRef, we want the info code of the referenced dm -->
+        <xsl:when test="ancestor-or-self::dmRef">
+          <xsl:call-template name="get.dmref.infocode"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="get.infocode"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:choose>
+      <xsl:when test="$info.code = '001'">frontmatter</xsl:when>
+      <xsl:when test="$info.code = '00S'">frontmatter</xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="dmTitle">
+    <!-- present only infoname as title for frontmatter data modules -->
+    <xsl:variable name="dm.type">
+      <xsl:call-template name="get.dm.type"/>
+    </xsl:variable>
+
+    <xsl:if test="not($dm.type = 'frontmatter')">
+      <xsl:apply-templates select="techName"/>
+    </xsl:if>
+
+    <xsl:if test="infoName">
+      <xsl:if test="not($dm.type = 'frontmatter')">
+        <xsl:text> - </xsl:text>
+      </xsl:if>
+      <xsl:apply-templates select="infoName"/>
+    </xsl:if>
+  </xsl:template>
   
   <xsl:template name="gen.lodm">
     <para>The listed documents are included in issue
@@ -1364,11 +1416,7 @@
               <xsl:if test="$dm.ref.dm.code = $dm.code">
                 <row>
                   <entry>
-                    <xsl:apply-templates select="identAndStatusSection//dmTitle/techName"/>
-                    <xsl:if test="identAndStatusSection//dmTitle/infoName">
-                      <xsl:text> - </xsl:text>
-                      <xsl:apply-templates select="identAndStatusSection//dmTitle/infoName"/>
-                    </xsl:if>
+                    <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
                   </entry>
                   <entry>
                     <xsl:element name="link">
