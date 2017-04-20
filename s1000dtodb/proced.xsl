@@ -86,10 +86,36 @@
     </fo:block>
   </xsl:template>
 
+  <xsl:template match="proceduralStep" mode="label">
+    <fo:block  xsl:use-attribute-sets="step.title.level1.properties">
+      <xsl:apply-templates select="." mode="number"/>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep" mode="label">
+    <fo:block xsl:use-attribute-sets="step.title.level2.properties">
+      <xsl:apply-templates select="." mode="number"/>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep/proceduralStep" mode="label">
+    <fo:block xsl:use-attribute-sets="step.title.level3.properties">
+      <xsl:apply-templates select="." mode="number"/>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep/procedurapStep/proceduralStep" mode="label">
+    <fo:block xsl:use-attribute-sets="step.title.level4.properties">
+      <xsl:apply-templates select="." mode="number"/>
+    </fo:block>
+  </xsl:template>
+  <xsl:template match="proceduralStep/proceduralStep/proceduralStep/proceduralStep/proceduralStep" mode="label">
+    <fo:block xsl:use-attribute-sets="step.title.level5.properties">
+      <xsl:apply-templates select="." mode="number"/>
+    </fo:block>
+  </xsl:template>
+
   <xsl:template match="proceduralStep">
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
-        <xsl:apply-templates select="." mode="number"/>
+        <xsl:apply-templates select="." mode="label"/>
       </xsl:with-param>
       <xsl:with-param name="content">
         <xsl:apply-templates select="title"/>
