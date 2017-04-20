@@ -50,6 +50,13 @@
   <!-- 00S List of effective data modules -->
   <xsl:param name="generate.list.of.datamodules">1</xsl:param>
 
+  <!-- When hierarchical.table.of.contents = 1, pmEntryTitles are shown in the
+       table of contents with indentation to reflect their level. -->
+  <xsl:param name="hierarchical.table.of.contents">0</xsl:param>
+
+  <!-- Indentation for each level on the generated hierarchical table of contents -->
+  <xsl:param name="generated.hierarchical.toc.indent">24pt</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -58,6 +65,10 @@
   <xsl:include href="proced.xsl"/>
 
   <xsl:include href="inlineSignificantData.xsl"/>
+
+  <xsl:variable name="lower">abcdefghijklmnopqrstuvwxyz</xsl:variable>
+  <xsl:variable name="upper">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
+  <xsl:variable name="number">0123456789.</xsl:variable>
 
   <xsl:variable name="all.dmodules" select="/publication/dmodule"/>
 
@@ -1513,48 +1524,97 @@
               <entry>None</entry>
             </row>
           </xsl:if>
-          <xsl:for-each select="/publication/pm/content/pmEntry//dmRef">
-            <xsl:variable name="dm.ref.dm.code">
-              <xsl:apply-templates select="dmRefIdent/dmCode"/>
-            </xsl:variable>
-            <xsl:for-each select="$all.dmodules">
-              <xsl:variable name="dm.code">
-                <xsl:call-template name="get.dmcode"/>
-              </xsl:variable>
-              <xsl:if test="$dm.ref.dm.code = $dm.code">
-                <row>
-                  <entry>
-                    <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
-                  </entry>
-                  <entry>
-                    <link>
-                      <xsl:attribute name="linkend">
-                        <xsl:text>ID_</xsl:text>
-                        <xsl:call-template name="get.dmcode"/>
-                      </xsl:attribute>
-                      <xsl:call-template name="get.dmcode"/>
-                    </link>
-                  </entry>
-                  <entry>
-                    <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
-                  </entry>
-                  <entry>
-                    <para>
-                      <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
-                    </para>
-                  </entry>
-                  <entry>
-                    <xsl:for-each select="identAndStatusSection">
-                      <xsl:call-template name="get.applicability.string"/>
-                    </xsl:for-each>
-                  </entry>
-                </row>
-              </xsl:if>
-            </xsl:for-each>
-          </xsl:for-each>
+          <xsl:apply-templates select="/publication/pm/content/pmEntry" mode="toc"/>
         </tbody>
       </tgroup>
     </informaltable>
+  </xsl:template>
+
+  <xsl:template match="dmRef" mode="toc">
+    <xsl:variable name="dm.ref.dm.code">
+      <xsl:apply-templates select="dmRefIdent/dmCode"/>
+    </xsl:variable>
+    <xsl:for-each select="$all.dmodules">
+      <xsl:variable name="dm.code">
+        <xsl:call-template name="get.dmcode"/>
+      </xsl:variable>
+      <xsl:if test="$dm.ref.dm.code = $dm.code">
+        <row>
+          <entry>
+            <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
+          </entry>
+          <entry>
+            <link>
+              <xsl:attribute name="linkend">
+                <xsl:text>ID_</xsl:text>
+                <xsl:call-template name="get.dmcode"/>
+              </xsl:attribute>
+              <xsl:call-template name="get.dmcode"/>
+            </link>
+          </entry>
+          <entry>
+            <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
+          </entry>
+          <entry>
+            <para>
+              <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+            </para>
+          </entry>
+          <entry>
+            <xsl:for-each select="identAndStatusSection">
+              <xsl:call-template name="get.applicability.string"/>
+            </xsl:for-each>
+          </entry>
+        </row>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="pmEntry" mode="toc">
+    <xsl:choose>
+      <xsl:when test="$hierarchical.table.of.contents = 1">
+        <xsl:apply-templates mode="toc"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="pmEntry|dmRef" mode="toc"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="get.measurement.value">
+    <xsl:param name="measurement"/>
+    <xsl:value-of select="translate(translate($measurement, $lower, ''), $upper, '')"/>
+  </xsl:template>
+
+  <xsl:template name="get.measurement.unit">
+    <xsl:param name="measurement"/>
+    <xsl:value-of select="translate($measurement, $number, '')"/>
+  </xsl:template>
+
+  <xsl:template match="pmEntryTitle" mode="toc">
+    <xsl:variable name="level" select="count(ancestor::pmEntry) - 1"/>
+    
+    <xsl:variable name="indent.value">
+      <xsl:call-template name="get.measurement.value">
+        <xsl:with-param name="measurement" select="$generated.hierarchical.toc.indent"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:variable name="indent.unit">
+      <xsl:call-template name="get.measurement.unit">
+        <xsl:with-param name="measurement" select="$generated.hierarchical.toc.indent"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:variable name="indent" select="concat($indent.value * $level, $indent.unit)"/>
+
+    <row>
+      <entry namest="c1" nameend="c5">
+        <fo:inline font-weight="bold" padding-left="{$indent}">
+          <xsl:apply-templates/>
+        </fo:inline>
+      </entry>
+    </row>
   </xsl:template>
 
   <xsl:template match="@applicRefId">
