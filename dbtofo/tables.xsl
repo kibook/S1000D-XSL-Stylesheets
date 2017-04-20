@@ -83,4 +83,11 @@
     <xsl:attribute name="keep-together.within-column">auto</xsl:attribute> 
   </xsl:attribute-set>
 
+  <xsl:attribute-set name="table.cell.padding">
+    <xsl:attribute name="padding-start">4pt</xsl:attribute>
+    <xsl:attribute name="padding-end">4pt</xsl:attribute>
+    <xsl:attribute name="padding-top">4pt</xsl:attribute>
+    <xsl:attribute name="padding-bottom">4pt</xsl:attribute>
+  </xsl:attribute-set>
+
 </xsl:stylesheet>
