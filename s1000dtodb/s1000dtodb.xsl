@@ -43,6 +43,13 @@
        using the externalPubCode. -->
   <xsl:param name="external.pub.ref.inline">title</xsl:param>
 
+  <!-- When these variables = 1 and a project includes a data module
+       with their associated info code, the contents are automatically generated. -->
+  <!-- 009 Table of contents -->
+  <xsl:param name="generate.table.of.contents">1</xsl:param>
+  <!-- 00S List of effective data modules -->
+  <xsl:param name="generate.list.of.datamodules">1</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -207,10 +214,13 @@
       <xsl:variable name="info.code">
         <xsl:call-template name="get.infocode"/>
       </xsl:variable>
+      <xsl:variable name="dm.type">
+        <xsl:call-template name="get.dm.type"/>
+      </xsl:variable>
       <title>
         <xsl:choose>
           <!-- present only infoname of frontmatter data modules -->
-          <xsl:when test="$info.code = '00S'">
+          <xsl:when test="$dm.type = 'frontmatter'">
             <xsl:call-template name="info.name"/>
           </xsl:when>
           <xsl:otherwise>
@@ -218,7 +228,7 @@
           </xsl:otherwise>
         </xsl:choose>
       </title>
-      <xsl:if test="$info.code != '00S'">
+      <xsl:if test="$dm.type != 'frontmatter'">
         <subtitle>
           <xsl:call-template name="info.name"/>
         </subtitle>
@@ -1372,8 +1382,7 @@
       </xsl:choose>
     </xsl:variable>
     <xsl:choose>
-      <xsl:when test="$info.code = '001'">frontmatter</xsl:when>
-      <xsl:when test="$info.code = '00S'">frontmatter</xsl:when>
+      <xsl:when test="$info.code = '001' or $info.code = '009' or $info.code = '00S'">frontmatter</xsl:when>
     </xsl:choose>
   </xsl:template>
 
@@ -1454,6 +1463,77 @@
                         <xsl:text>C</xsl:text>
                       </xsl:when>
                     </xsl:choose>
+                  </entry>
+                  <entry>
+                    <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
+                  </entry>
+                  <entry>
+                    <para>
+                      <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+                    </para>
+                  </entry>
+                  <entry>
+                    <xsl:for-each select="identAndStatusSection">
+                      <xsl:call-template name="get.applicability.string"/>
+                    </xsl:for-each>
+                  </entry>
+                </row>
+              </xsl:if>
+            </xsl:for-each>
+          </xsl:for-each>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template name="gen.toc">
+    <para>
+      <xsl:text>The listed documents are included in issue </xsl:text>
+      <xsl:value-of select="/publication/pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>
+      <xsl:text>, dated </xsl:text>
+      <xsl:apply-templates select="/publication/pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>
+      <xsl:text>, of this publication.</xsl:text>
+    </para>
+    <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
+      <tgroup cols="5" align="left">
+        <colspec colnum="3" colwidth="6em"/>
+        <colspec colnum="4" colwidth="4em"/>
+        <thead rowsep="1">
+          <row>
+            <entry>Document title</entry>
+            <entry>Data module code</entry>
+            <entry>Issue date</entry>
+            <entry>No. of pages</entry>
+            <entry>Applicable to</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:if test="not(/publication/pm/content/pmEntry//dmRef)">
+            <row>
+              <entry>None</entry>
+            </row>
+          </xsl:if>
+          <xsl:for-each select="/publication/pm/content/pmEntry//dmRef">
+            <xsl:variable name="dm.ref.dm.code">
+              <xsl:apply-templates select="dmRefIdent/dmCode"/>
+            </xsl:variable>
+            <xsl:for-each select="$all.dmodules">
+              <xsl:variable name="dm.code">
+                <xsl:call-template name="get.dmcode"/>
+              </xsl:variable>
+              <xsl:if test="$dm.ref.dm.code = $dm.code">
+                <row>
+                  <entry>
+                    <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
+                  </entry>
+                  <entry>
+                    <link>
+                      <xsl:attribute name="linkend">
+                        <xsl:text>ID_</xsl:text>
+                        <xsl:call-template name="get.dmcode"/>
+                      </xsl:attribute>
+                      <xsl:call-template name="get.dmcode"/>
+                    </link>
                   </entry>
                   <entry>
                     <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>

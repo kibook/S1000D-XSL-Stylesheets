@@ -30,7 +30,10 @@
           <!-- title page -->
           <xsl:apply-templates select="content/description"/>
         </xsl:when>
-        <xsl:when test="$info.code = '00S'">
+        <xsl:when test="$info.code = '009' and $generate.table.of.contents = 1">
+          <xsl:call-template name="gen.toc"/>
+        </xsl:when>
+        <xsl:when test="$info.code = '00S' and $generate.list.of.datamodules = 1">
           <!-- list of effective data modules -->
           <xsl:call-template name="gen.lodm"/>
         </xsl:when>
