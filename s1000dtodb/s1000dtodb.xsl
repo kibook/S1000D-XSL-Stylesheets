@@ -594,13 +594,31 @@
     <xsl:value-of select="@day"/>
   </xsl:template>
 
+  <xsl:template name="levelled.para.content">
+    <xsl:call-template name="make.applic.annotation"/>
+    <xsl:call-template name="copy.id"/>
+    <xsl:call-template name="revisionflag"/>
+    <xsl:apply-templates/>
+  </xsl:template>
+
   <xsl:template match="levelledPara">
-    <xsl:element name="section">
-      <xsl:call-template name="make.applic.annotation"/>
-      <xsl:call-template name="copy.id"/>
-      <xsl:call-template name="revisionflag"/>
-      <xsl:apply-templates/>
-    </xsl:element>
+    <xsl:choose>
+      <xsl:when test="title">
+        <xsl:element name="section">
+          <xsl:call-template name="levelled.para.content"/>
+        </xsl:element>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="labelled.para">
+          <xsl:with-param name="label">
+            <xsl:apply-templates select="." mode="number"/>
+          </xsl:with-param>
+          <xsl:with-param name="content">
+            <xsl:call-template name="levelled.para.content"/>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="commonInfoDescrPara">

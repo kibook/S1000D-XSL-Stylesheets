@@ -115,7 +115,14 @@
   <xsl:template match="proceduralStep">
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
-        <xsl:apply-templates select="." mode="label"/>
+        <xsl:choose>
+          <xsl:when test="title">
+            <xsl:apply-templates select="." mode="label"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="." mode="number"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:with-param>
       <xsl:with-param name="content">
         <xsl:apply-templates select="title"/>
