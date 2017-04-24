@@ -57,6 +57,10 @@
   <!-- Indentation for each level on the generated hierarchical table of contents -->
   <xsl:param name="generated.hierarchical.toc.indent">24pt</xsl:param>
 
+  <!-- When show.unclassified = 0, the security classification for 01
+       (Unclassified) is not shown in the header/footer. -->
+  <xsl:param name="show.unclassified">1</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -290,7 +294,14 @@
       <bibliomisc role="classification">
         <xsl:choose>
           <xsl:when test="*/security/@securityClassification = '01'">
-            <xsl:text>Unclassified</xsl:text>
+            <xsl:choose>
+              <xsl:when test="$show.unclassified != 0">
+                <xsl:text>Unclassified</xsl:text>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>&#160;</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
           </xsl:when>
           <xsl:otherwise>
             <xsl:text>Classified: </xsl:text>
@@ -421,7 +432,7 @@
     </xsl:if>
     <xsl:number level="single"/>
   </xsl:template>
-  
+
   <xsl:template match="proceduralStep" mode="number">
     <xsl:if test="parent::proceduralStep">
       <xsl:apply-templates select="parent::proceduralStep" mode="number"/>
