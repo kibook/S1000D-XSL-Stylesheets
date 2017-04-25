@@ -72,4 +72,10 @@
 
     <xsl:number value="$item-number" format="{$type}"/>
   </xsl:template>
+
+  <xsl:template match="d:orderedlist/d:title|d:unorderedlist/d:title" mode="list.title.mode">
+    <fo:block font-weight="bold" text-align="left">
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
 </xsl:stylesheet>
