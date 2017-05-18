@@ -36,6 +36,9 @@
        used to determine the filename. -->
   <xsl:param name="use.unparsed.entity.uri">0</xsl:param>
 
+  <!-- Show / hide the ICN on graphics. -->
+  <xsl:param name="show.graphic.icn">1</xsl:param>
+
   <!-- When external.pub.ref.inline = 'title', externalPubRefs are presented
        using the externalPubTitle.
 
@@ -1170,9 +1173,11 @@
     <mediaobject>
       <xsl:call-template name="make.imageobject"/>
     </mediaobject>
-    <caption>
-      <para><xsl:value-of select="@infoEntityIdent"/></para>
-    </caption>
+    <xsl:if test="$show.graphic.icn = 1">
+      <caption>
+        <para><xsl:value-of select="@infoEntityIdent"/></para>
+      </caption>
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
 
