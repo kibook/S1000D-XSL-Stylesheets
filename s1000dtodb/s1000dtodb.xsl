@@ -187,7 +187,7 @@
   <xsl:template name="copy.id">
     <xsl:if test="./@id">
       <xsl:variable name="id" select="./@id"/>
-      <xsl:attribute name="xml:id">
+      <xsl:attribute name="id">
         <xsl:text>ID_</xsl:text>
         <xsl:call-template name="get.dmcode"/>
         <xsl:text>-</xsl:text>
@@ -417,28 +417,49 @@
     </xsl:element>
   </xsl:template>
   
-  <xsl:template match="levelledPara" mode="number">
+  <xsl:template match="levelledPara|levelledParaAlts" mode="number">
     <xsl:if test="parent::levelledPara">
       <xsl:apply-templates select="parent::levelledPara" mode="number"/>
       <xsl:text>.</xsl:text>
     </xsl:if>
-    <xsl:number level="single"/>
+    <xsl:choose>
+      <xsl:when test="parent::levelledParaAlts">
+        <xsl:apply-templates select="parent::levelledParaAlts" mode="number"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:number level="single" count="levelledPara|levelledParaAlts"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="commonInfoDescrPara" mode="number">
+  <xsl:template match="commonInfoDescrPara|commonInfoDescrParaAlts" mode="number">
     <xsl:if test="parent::commonInfoDescrPara">
       <xsl:apply-templates select="parent::commonInfoDescrPara" mode="number"/>
       <xsl:text>.</xsl:text>
     </xsl:if>
-    <xsl:number level="single"/>
+    <xsl:choose>
+      <xsl:when test="parent::commonInfoDescrParaAlts">
+        <xsl:apply-templates select="parent::commonInfoDescrParaAlts" mode="number"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:number level="single" count="commonInfoDescrPara|commonInfoDescrParaAlts"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="proceduralStep" mode="number">
+  <xsl:template match="proceduralStep|proceduralStepAlts" mode="number">
     <xsl:if test="parent::proceduralStep">
       <xsl:apply-templates select="parent::proceduralStep" mode="number"/>
       <xsl:text>.</xsl:text>
     </xsl:if>
-    <xsl:number level="single"/>
+    <xsl:choose>
+      <xsl:when test="parent::proceduralStepAlts">
+        <xsl:apply-templates select="parent::proceduralStepAlts" mode="number"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:number level="single" count="proceduralStep|proceduralStepAlts"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   
   <xsl:template match="internalRef">
@@ -469,19 +490,19 @@
 	    <xsl:value-of select="$linkend"/>
 	  </xsl:attribute>
 	  <xsl:choose>
-	    <xsl:when test="name($target[1]) = 'levelledPara'">
+	    <xsl:when test="name($target[1]) = 'levelledPara' or name($target[1]) = 'levelledParaAlts'">
 	      <xsl:for-each select="$target">
 	        <xsl:text>Para&#160;</xsl:text>
 	        <xsl:apply-templates select="." mode="number"/>
 	      </xsl:for-each>
 	    </xsl:when>
-	    <xsl:when test="name($target[1]) = 'figure'">
+	    <xsl:when test="name($target[1]) = 'figure' or name($target[1]) = 'figureAlts'">
 	      <xsl:for-each select="$target">
 	        <xsl:text>Fig&#160;</xsl:text>
 	        <xsl:apply-templates select="." mode="number"/>
 	      </xsl:for-each>
 	    </xsl:when>
-	    <xsl:when test="name($target[1]) = 'proceduralStep'">
+	    <xsl:when test="name($target[1]) = 'proceduralStep' or name($target[1]) = 'proceduralStepAlts'">
 	      <xsl:attribute name="xrefstyle">select:nopage</xsl:attribute>
 	      <xsl:for-each select="$target">
 	        <xsl:text>Step&#160;</xsl:text>
@@ -1687,6 +1708,13 @@
     <xsl:if test="not($preced.applic) or $preced.applic != $this.applic">
       <xsl:apply-templates select="$this.applic"/>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="levelledParaAlts|proceduralStepAlts|figureAlts">
+    <fo:block keep-with-next="always">
+      <xsl:call-template name="copy.id"/>
+    </fo:block>
+    <xsl:apply-templates/>
   </xsl:template>
 
 </xsl:stylesheet>
