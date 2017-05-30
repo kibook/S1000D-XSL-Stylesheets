@@ -1722,4 +1722,26 @@
     <xsl:apply-templates/>
   </xsl:template>
 
+  <xsl:template match="functionalItemRef">
+    <xsl:choose>
+      <xsl:when test="shortName">
+        <xsl:apply-templates select="shortName"/>
+      </xsl:when>
+      <xsl:when test="name">
+        <xsl:apply-templates select="name"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="@functionalItemNumber"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="name">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="shortName">
+    <xsl:apply-templates/>
+  </xsl:template>
+
 </xsl:stylesheet>
