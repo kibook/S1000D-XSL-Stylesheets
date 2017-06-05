@@ -33,6 +33,13 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+  <xsl:template match="d:para[@labeltitle]">
+    <fo:block keep-with-next="always">
+      <xsl:attribute name="id"><xsl:call-template name="object.id"/></xsl:attribute>
+    </fo:block>
+    <xsl:apply-imports/>
+  </xsl:template>
   
   <!-- suppress space before first paragraph after section heading (and note) -->
   <!-- increase priority so that this template is used in preference to *[@revisionflag] -->

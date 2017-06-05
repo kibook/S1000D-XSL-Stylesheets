@@ -149,7 +149,8 @@
       select="d:section|d:sect1|d:refentry
       |d:article|d:bibliography|d:glossary
       |d:qandaset[$qanda.in.toc != 0]
-      |d:appendix|d:index|d:bridgehead[@renderas='centerhead']"/>
+      |d:appendix|d:index|d:bridgehead[@renderas='centerhead']
+      |d:para[@labeltitle]"/>
     <xsl:if test="$nodes">
       <fo:block id="toc...{$id}" xsl:use-attribute-sets="toc.margin.properties">
         <xsl:if test="$toc.title.p">
@@ -160,5 +161,18 @@
         </xsl:apply-templates>
       </fo:block>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="d:para[@labeltitle]" mode="label.markup">
+    <xsl:value-of select="@label"/>
+  </xsl:template>
+  <xsl:template match="d:para[@labeltitle]" mode="title.markup">
+    <xsl:value-of select="@labeltitle"/>
+  </xsl:template>
+  <xsl:template match="d:para[@labeltitle]" mode="toc">
+    <xsl:param name="toc-context"/>
+    <xsl:call-template name="toc.line">
+      <xsl:with-param name="toc-context" select="$toc-context"/>
+    </xsl:call-template>
   </xsl:template>
 </xsl:stylesheet>

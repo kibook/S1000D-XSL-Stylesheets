@@ -64,6 +64,9 @@
        (Unclassified) is not shown in the header/footer. -->
   <xsl:param name="show.unclassified">1</xsl:param>
 
+  <!-- Show 'titled' labelled paras in the table of contents. -->
+  <xsl:param name="titled.labelled.para.toc">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -400,7 +403,14 @@
   <xsl:template name="labelled.para">
     <xsl:param name="label"/>
     <xsl:param name="content"/>
+    <xsl:param name="title"/>
     <xsl:element name="para">
+      <xsl:if test="$titled.labelled.para.toc = 1">
+        <xsl:attribute name="label"><xsl:value-of select="$label"/></xsl:attribute>
+        <xsl:if test="$title">
+          <xsl:attribute name="labeltitle"><xsl:value-of select="$title"/></xsl:attribute>
+        </xsl:if>
+      </xsl:if>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <fo:list-block start-indent="0mm" provisional-distance-between-starts="{$body.start.indent}">
@@ -482,57 +492,60 @@
       -->
       <xsl:when test="name($target[1]) = 'table'">
         <xsl:element name="xref">
-	  <xsl:attribute name="linkend">
-	    <xsl:value-of select="$linkend"/>
-	  </xsl:attribute>
+          <xsl:attribute name="linkend">
+            <xsl:value-of select="$linkend"/>
+          </xsl:attribute>
         </xsl:element>
       </xsl:when>
       <xsl:otherwise>
         <xsl:element name="link">
-	  <xsl:attribute name="linkend">
-	    <xsl:value-of select="$linkend"/>
-	  </xsl:attribute>
-	  <xsl:choose>
-	    <xsl:when test="name($target[1]) = 'levelledPara' or name($target[1]) = 'levelledParaAlts'">
-	      <xsl:for-each select="$target">
-	        <xsl:text>Para&#160;</xsl:text>
-	        <xsl:apply-templates select="." mode="number"/>
-	      </xsl:for-each>
-	    </xsl:when>
-	    <xsl:when test="name($target[1]) = 'figure' or name($target[1]) = 'figureAlts'">
-	      <xsl:for-each select="$target">
-	        <xsl:text>Fig&#160;</xsl:text>
-	        <xsl:apply-templates select="." mode="number"/>
-	      </xsl:for-each>
-	    </xsl:when>
-	    <xsl:when test="name($target[1]) = 'proceduralStep' or name($target[1]) = 'proceduralStepAlts'">
-	      <xsl:attribute name="xrefstyle">select:nopage</xsl:attribute>
-	      <xsl:for-each select="$target">
-	        <xsl:text>Step&#160;</xsl:text>
-	        <xsl:apply-templates select="." mode="number"/>
-	      </xsl:for-each>
-	    </xsl:when>
-	    <xsl:when test="name($target[1]) = 'hotspot'">
-	      <xsl:for-each select="$target">
-	        <xsl:text>Fig&#160;</xsl:text>
-	        <xsl:for-each select="parent::*">
-		  <xsl:apply-templates select="." mode="number"/>
-	        </xsl:for-each>
-	        <xsl:if test="@applicationStructureName">
-		  <xsl:text>&#160;[</xsl:text>
-		  <xsl:value-of select="@applicationStructureName"/>
-		  <xsl:text>]</xsl:text>
-	        </xsl:if>
-	      </xsl:for-each>
-	    </xsl:when>
-	    <xsl:when test="$target/name">
-	      <xsl:apply-templates select="$target/name/text()"/>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:message>Can't generate link target type for: <xsl:value-of select="name($target[1])"/>(<xsl:value-of select="$id"/>)</xsl:message>
-	      <xsl:value-of select="$id"/>
-	    </xsl:otherwise>
-	  </xsl:choose>
+          <xsl:attribute name="linkend">
+            <xsl:value-of select="$linkend"/>
+          </xsl:attribute>
+          <xsl:choose>
+            <xsl:when test="name($target[1]) = 'levelledPara' or name($target[1]) = 'levelledParaAlts'">
+              <xsl:for-each select="$target">
+                <xsl:text>Para&#xA0;</xsl:text>
+                <xsl:apply-templates select="." mode="number"/>
+              </xsl:for-each>
+            </xsl:when>
+            <xsl:when test="name($target[1]) = 'figure' or name($target[1]) = 'figureAlts'">
+              <xsl:for-each select="$target">
+                <xsl:text>Fig&#xA0;</xsl:text>
+                <xsl:apply-templates select="." mode="number"/>
+              </xsl:for-each>
+            </xsl:when>
+            <xsl:when test="name($target[1]) = 'proceduralStep' or name($target[1]) = 'proceduralStepAlts'">
+              <xsl:attribute name="xrefstyle">select:nopage</xsl:attribute>
+              <xsl:for-each select="$target">
+                <xsl:text>Step&#xA0;</xsl:text>
+                <xsl:apply-templates select="." mode="number"/>
+              </xsl:for-each>
+            </xsl:when>
+            <xsl:when test="name($target[1]) = 'hotspot'">
+              <xsl:for-each select="$target">
+                <xsl:text>Fig&#xA0;</xsl:text>
+                <xsl:for-each select="parent::*">
+                  <xsl:apply-templates select="." mode="number"/>
+                </xsl:for-each>
+                <xsl:if test="@applicationStructureName">
+                  <xsl:text>&#xA0;[</xsl:text>
+                  <xsl:value-of select="@applicationStructureName"/>
+                  <xsl:text>]</xsl:text>
+                </xsl:if>
+              </xsl:for-each>
+            </xsl:when>
+            <xsl:when test="$target/shortName">
+              <xsl:apply-templates select="$target/shortName/text()"/>
+            </xsl:when>
+            <xsl:when test="$target/name">
+              <xsl:apply-templates select="$target/name/text()"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:message>Can't generate link target type for: <xsl:value-of select="name($target[1])"/>(<xsl:value-of select="$id"/>)</xsl:message>
+              <xsl:value-of select="$id"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:element>
       </xsl:otherwise>
     </xsl:choose>
