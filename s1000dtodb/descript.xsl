@@ -51,6 +51,7 @@
       <xsl:text>height="2cm"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="centerhead">Description</bridgehead>
+    <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
     <xsl:apply-templates/>
   </xsl:template>
 

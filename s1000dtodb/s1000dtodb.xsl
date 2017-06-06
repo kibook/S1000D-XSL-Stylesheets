@@ -503,7 +503,7 @@
             <xsl:value-of select="$linkend"/>
           </xsl:attribute>
           <xsl:choose>
-            <xsl:when test="name($target[1]) = 'levelledPara' or name($target[1]) = 'levelledParaAlts'">
+            <xsl:when test="name($target[1]) = 'levelledPara' or name($target[1]) = 'levelledParaAlts' or name($target[1]) = 'commonInfoDescrPara' or name($target[1]) = 'commonInfoDescrParaAlts'">
               <xsl:for-each select="$target">
                 <xsl:text>Para&#xA0;</xsl:text>
                 <xsl:apply-templates select="." mode="number"/>
@@ -670,33 +670,14 @@
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="levelledPara">
-    <xsl:choose>
-      <xsl:when test="title">
-        <xsl:element name="section">
-          <xsl:call-template name="levelled.para.content"/>
-        </xsl:element>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:call-template name="labelled.para">
-          <xsl:with-param name="label">
-            <xsl:apply-templates select="." mode="number"/>
-          </xsl:with-param>
-          <xsl:with-param name="content">
-            <xsl:call-template name="levelled.para.content"/>
-          </xsl:with-param>
-        </xsl:call-template>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-  <xsl:template match="commonInfoDescrPara">
-    <xsl:element name="section">
+  <xsl:template match="levelledPara|commonInfoDescrPara">
+    <section>
       <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
+      <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
       <xsl:apply-templates/>
-    </xsl:element>
+    </section>
   </xsl:template>
 
   <xsl:template match="commonInfo">
@@ -1087,6 +1068,7 @@
   </xsl:template>
 
   <xsl:template match="safetyRqmts">
+    <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -1348,6 +1330,7 @@
 	        </xsl:otherwise>
         </xsl:choose>
       </xsl:for-each>
+      <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
@@ -1755,6 +1738,41 @@
 
   <xsl:template match="shortName">
     <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template name="apply.delimited.id.refs">
+    <xsl:param name="refs"/>
+    <xsl:param name="delim" select="' '"/>
+
+    <xsl:variable name="before" select="substring-before($refs, $delim)"/>
+
+    <xsl:variable name="id">
+      <xsl:choose>
+        <xsl:when test="$before != ''">
+          <xsl:value-of select="$before"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$refs"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="after" select="substring-after($refs, $delim)"/>
+
+    <xsl:apply-templates select="//*[@id=$id]"/>
+
+    <xsl:if test="$after != ''">
+      <xsl:call-template name="apply.delimited.id.refs">
+        <xsl:with-param name="ids" select="$after"/>
+        <xsl:with-param name="delim" select="$delim"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="@warningRefs|@cautionRefs">
+    <xsl:call-template name="apply.delimited.id.refs">
+      <xsl:with-param name="refs" select="."/>
+    </xsl:call-template>
   </xsl:template>
 
 </xsl:stylesheet>

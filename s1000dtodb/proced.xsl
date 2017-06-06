@@ -127,6 +127,7 @@
       <xsl:with-param name="content">
         <xsl:apply-templates select="title"/>
         <xsl:call-template name="make.applic.annotation"/>
+        <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
         <xsl:apply-templates select="*[not(self::proceduralStep or self::title)]"/>
       </xsl:with-param>
       <xsl:with-param name="title" select="title"/>
