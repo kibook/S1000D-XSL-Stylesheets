@@ -1160,6 +1160,9 @@
 	        </xsl:otherwise>
 	        -->
         </xsl:choose>
+        <xsl:if test="not(@reproductionWidth) and not(@reproductionHeight) and not(@reproductionScale)">
+          <xsl:attribute name="scalefit">1</xsl:attribute>
+        </xsl:if>
       </xsl:element>
     </imageobject>
   </xsl:template>
@@ -1352,6 +1355,9 @@
   <xsl:template match="verbatimText">
     <xsl:choose>
       <xsl:when test="not(@verbatimStyle)">
+        <literal><xsl:apply-templates/></literal>
+      </xsl:when>
+      <xsl:when test="@verbatimStyle = 'vs11'">
         <programlisting><xsl:apply-templates/></programlisting>
       </xsl:when>
       <xsl:when test="@verbatimStyle = 'vs23'">

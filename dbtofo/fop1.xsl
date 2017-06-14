@@ -101,4 +101,18 @@
     </fo:declarations>
   </xsl:template>
 
+  <!-- The above fop1.outline mode templates are NOT being called, so the
+       imported templates are being used instead, resulting in data modules
+       (chapters) only using the techName (title) for bookmarks.
+
+       This is a quick fix overriding the object.title.markup for a chapter to
+       use both techName (title) and infoName (subtitle). -->
+  <xsl:template match="d:chapter" mode="object.title.markup">
+      <xsl:apply-templates select="d:info/d:title/text()"/>
+      <xsl:if test="d:info/d:subtitle/text()">
+        <xsl:text> - </xsl:text>
+        <xsl:apply-templates select="d:info/d:subtitle/text()"/>
+      </xsl:if>
+  </xsl:template>
+
 </xsl:stylesheet>

@@ -37,8 +37,8 @@
       <xsl:when test="self::d:chapter">
         <xsl:apply-templates select="." mode="object.title.markup"/>
         <xsl:if test="d:info/d:subtitle/text()">
-	  <xsl:text> - </xsl:text>
-	  <xsl:apply-templates select="." mode="object.subtitle.markup"/>
+          <xsl:text> - </xsl:text>
+	        <xsl:apply-templates select="." mode="object.subtitle.markup"/>
         </xsl:if>
       </xsl:when>
       <xsl:otherwise>
