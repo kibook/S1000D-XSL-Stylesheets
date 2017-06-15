@@ -67,6 +67,10 @@
   <!-- Show 'titled' labelled paras in the table of contents. -->
   <xsl:param name="titled.labelled.para.toc">0</xsl:param>
 
+  <!-- When bookmarks are enabled, also include pmEntry elements in the
+       bookmark outline structure. -->
+  <xsl:param name="include.pmentry.bookmarks">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -137,44 +141,67 @@
   </xsl:template>
 
   <xsl:template match="pm">
-    <xsl:for-each select="content/pmEntry//dmRef">
-      <xsl:variable name="dm.ref.dm.code">
-        <xsl:apply-templates select="dmRefIdent/identExtension"/>
-	      <xsl:apply-templates select="dmRefIdent/dmCode"/>
-      </xsl:variable>
-      <xsl:variable name="module.content">
-        <xsl:for-each select="$all.dmodules">
-	        <xsl:variable name="dm.code">
-	          <xsl:call-template name="get.dmcode"/>
-	        </xsl:variable>
-	        <xsl:if test="$dm.ref.dm.code = $dm.code">
-            <!--
-            <xsl:message>
-              <xsl:text>Data module: </xsl:text>
-              <xsl:value-of select="$dm.code"/>
-            </xsl:message>
-            -->
-	          <xsl:apply-templates select="."/>
-	        </xsl:if>
-        </xsl:for-each>
-      </xsl:variable>
-      <xsl:choose>
-        <!-- FIXME: this test works but isn't efficient -->
-        <xsl:when test="normalize-space($module.content)">
-          <xsl:copy-of select="$module.content"/>
-        </xsl:when>
-        <xsl:otherwise>
-	        <xsl:message>
-            <xsl:text>PM references unknown DM: </xsl:text>
-            <xsl:value-of select="$dm.ref.dm.code"/>
-	        </xsl:message>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:for-each>
+    <xsl:apply-templates select="content/pmEntry"/>
   </xsl:template>
 
   <xsl:template match="pmTitle">
     <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="pmEntry">
+    <xsl:choose>
+      <xsl:when test="$include.pmentry.bookmarks = 1">
+        <part>
+          <xsl:apply-templates/>
+        </part>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="pmEntry|dmRef"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="pmEntryTitle">
+    <info>
+      <title>
+        <xsl:apply-templates/>
+      </title>
+    </info>
+  </xsl:template>
+
+  <xsl:template match="pmEntry/dmRef">
+    <xsl:variable name="dm.ref.dm.code">
+      <xsl:apply-templates select="dmRefIdent/identExtension"/>
+      <xsl:apply-templates select="dmRefIdent/dmCode"/>
+    </xsl:variable>
+    <xsl:variable name="module.content">
+      <xsl:for-each select="$all.dmodules">
+        <xsl:variable name="dm.code">
+          <xsl:call-template name="get.dmcode"/>
+        </xsl:variable>
+        <xsl:if test="$dm.ref.dm.code = $dm.code">-->
+          <!--
+          <xsl:message>
+            <xsl:text>Data module: </xsl:text>
+            <xsl:value-of select="$dm.code"/>
+          </xsl:message>
+          -->
+          <xsl:apply-templates select="."/>
+        </xsl:if>
+      </xsl:for-each>
+    </xsl:variable>
+    <xsl:choose>
+      <!-- FIXME: this test works but isn't efficient -->
+      <xsl:when test="normalize-space($module.content)">
+        <xsl:copy-of select="$module.content"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message>
+          <xsl:text>PM references unknown DM: </xsl:text>
+          <xsl:value-of select="$dm.ref.dm.code"/>
+        </xsl:message>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="get.dmcode">

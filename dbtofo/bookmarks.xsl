@@ -17,9 +17,20 @@
   xmlns:fox="http://xml.apache.org/fop/extensions"
   version="1.0">
 
-  <xsl:template match="d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section" mode="bookmark">
+  <xsl:template match="d:part|d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section" mode="bookmark">
     <xsl:variable name="id">
-      <xsl:call-template name="object.id"/>
+      <xsl:choose>
+        <!-- pmEntry (part) bookmarks link to first data module (chapter) -->
+        <xsl:when test="self::d:part">
+          <xsl:call-template name="object.id">
+            <xsl:with-param name="object" select="descendant::d:chapter[1]"/>
+          </xsl:call-template>
+        </xsl:when>
+        <!-- all other element bookmarks link to the element itself -->
+        <xsl:otherwise>
+          <xsl:call-template name="object.id"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:variable>
     <xsl:variable name="bookmark-label">
       <xsl:call-template name="bookmark.label"/>

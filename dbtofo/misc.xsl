@@ -34,7 +34,7 @@
 
   <xsl:template name="bookmark.label">
     <xsl:choose>
-      <xsl:when test="self::d:chapter">
+      <xsl:when test="self::d:chapter|self::d:part">
         <xsl:apply-templates select="." mode="object.title.markup"/>
         <xsl:if test="d:info/d:subtitle/text()">
           <xsl:text> - </xsl:text>
@@ -45,6 +45,16 @@
         <xsl:apply-templates select="." mode="object.title.markup"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <!-- Do not show parts -->
+  <xsl:template match="d:part">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <!-- No "Part X." on part titles -->
+  <xsl:template match="d:part" mode="object.title.markup">
+    <xsl:apply-templates select="d:info/d:title/text()"/>
   </xsl:template>
 
 </xsl:stylesheet>
