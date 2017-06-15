@@ -132,7 +132,7 @@
   
   <xsl:param name="ulink.show">1</xsl:param>
   <xsl:param name="ulink.footnotes">1</xsl:param>
-  
+
   <xsl:param name="local.l10n.xml" select="document('')"/>
   
   <l:i18n xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0">
@@ -173,5 +173,6 @@
   <xsl:include href="titles.xsl"/>
   <xsl:include href="toc.xsl"/>
   <xsl:include href="xep.xsl"/>
+  <xsl:include href="bookmarks.xsl"/>
   
 </xsl:stylesheet>

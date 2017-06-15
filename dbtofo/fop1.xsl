@@ -21,7 +21,7 @@
     <xsl:apply-templates select="*" mode="fop1.outline"/>
   </xsl:template>
 
-  <xsl:template match="d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section" mode="bookmark">
+  <xsl:template match="d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section" mode="fop1.outline">
     <xsl:variable name="id">
       <xsl:call-template name="object.id"/>
     </xsl:variable>
@@ -99,11 +99,6 @@
         </rdf:RDF>
       </x:xmpmeta>
     </fo:declarations>
-  </xsl:template>
-
-  <!-- Do not show empty bookmark for book element -->
-  <xsl:template match="d:book" mode="bookmark">
-    <xsl:apply-templates select="*" mode="bookmark"/>
   </xsl:template>
 
 </xsl:stylesheet>
