@@ -21,7 +21,7 @@
     <xsl:apply-templates select="*" mode="fop1.outline"/>
   </xsl:template>
 
-  <xsl:template match="d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section" mode="fop1.outline">
+  <xsl:template match="d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section" mode="bookmark">
     <xsl:variable name="id">
       <xsl:call-template name="object.id"/>
     </xsl:variable>
@@ -101,18 +101,9 @@
     </fo:declarations>
   </xsl:template>
 
-  <!-- The above fop1.outline mode templates are NOT being called, so the
-       imported templates are being used instead, resulting in data modules
-       (chapters) only using the techName (title) for bookmarks.
-
-       This is a quick fix overriding the object.title.markup for a chapter to
-       use both techName (title) and infoName (subtitle). -->
-  <xsl:template match="d:chapter" mode="object.title.markup">
-      <xsl:apply-templates select="d:info/d:title/text()"/>
-      <xsl:if test="d:info/d:subtitle/text()">
-        <xsl:text> - </xsl:text>
-        <xsl:apply-templates select="d:info/d:subtitle/text()"/>
-      </xsl:if>
+  <!-- Do not show empty bookmark for book element -->
+  <xsl:template match="d:book" mode="bookmark">
+    <xsl:apply-templates select="*" mode="bookmark"/>
   </xsl:template>
 
 </xsl:stylesheet>

@@ -86,7 +86,7 @@
     <book>
       <xsl:choose>
         <xsl:when test="pm">
-	  <xsl:apply-templates select="pm"/>
+	        <xsl:apply-templates select="pm"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:apply-templates select="dmodule"/>
@@ -171,6 +171,10 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="pmTitle">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template name="get.dmcode">
