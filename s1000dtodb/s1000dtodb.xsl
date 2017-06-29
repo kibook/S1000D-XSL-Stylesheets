@@ -179,7 +179,7 @@
         <xsl:variable name="dm.code">
           <xsl:call-template name="get.dmcode"/>
         </xsl:variable>
-        <xsl:if test="$dm.ref.dm.code = $dm.code">-->
+        <xsl:if test="$dm.ref.dm.code = $dm.code">
           <!--
           <xsl:message>
             <xsl:text>Data module: </xsl:text>
@@ -1179,18 +1179,11 @@
 	          <xsl:value-of select="@reproductionHeight"/>
 	        </xsl:attribute>
         </xsl:if>
-        <xsl:choose>
-	        <xsl:when test="@reproductionScale">
-	          <xsl:attribute name="scale">
-	            <xsl:value-of select="@reproductionScale"/>
-	          </xsl:attribute>
-	        </xsl:when>
-	        <!--
-	        <xsl:otherwise>
-	          <xsl:attribute name="scalefit">1</xsl:attribute>
-	        </xsl:otherwise>
-	        -->
-        </xsl:choose>
+        <xsl:if test="@reproductionScale">
+          <xsl:attribute name="scale">
+            <xsl:value-of select="@reproductionScale"/>
+          </xsl:attribute>
+        </xsl:if>
         <xsl:if test="not(@reproductionWidth) and not(@reproductionHeight) and not(@reproductionScale)">
           <xsl:attribute name="scalefit">1</xsl:attribute>
         </xsl:if>
