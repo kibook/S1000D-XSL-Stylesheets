@@ -821,10 +821,10 @@
 
   <xsl:template match="externalPubRefIdent">
     <xsl:choose>
-      <xsl:when test="$external.pub.ref.inline = 'title'">
+      <xsl:when test="($external.pub.ref.inline = 'title' and externalPubTitle) or not(externalPubCode)">
         <xsl:apply-templates select="externalPubTitle"/>
       </xsl:when>
-      <xsl:when test="$external.pub.ref.inline = 'code'">
+      <xsl:when test="($external.pub.ref.inline = 'code' and externalPubCode) or not (externalPubTitle)">
         <xsl:apply-templates select="externalPubCode"/>
       </xsl:when>
     </xsl:choose>
