@@ -24,6 +24,14 @@
     <xsl:attribute name="change-bar-style">solid</xsl:attribute>
   </xsl:attribute-set>
 
+  <xsl:attribute-set name="custom.change.bar.attributes">
+    <xsl:attribute name="border-start-color">black</xsl:attribute>
+    <xsl:attribute name="border-start-style">solid</xsl:attribute>
+    <xsl:attribute name="border-start-width">2pt</xsl:attribute>
+    <xsl:attribute name="padding-start">21mm</xsl:attribute>
+    <xsl:attribute name="space-before">8pt</xsl:attribute>
+  </xsl:attribute-set>
+
   <xsl:template name="make.change.bar">
     <xsl:param name="revisionflag">
       <xsl:value-of select="@revisionflag"/>
@@ -31,12 +39,21 @@
     <xsl:param name="content">
       <xsl:apply-templates/>
     </xsl:param>
-    <xsl:if test="$xep.extensions != 0 and $revisionflag != 'off'">
-      <xsl:variable name="class" select="generate-id()"/>
-      <rx:change-bar-begin change-bar-class="{$class}"
-        xsl:use-attribute-sets="change.bar.attributes"/>
-      <xsl:copy-of select="$content"/>
-      <rx:change-bar-end change-bar-class="{$class}"/>
+    <xsl:if test="$revisionflag != 'off'">
+      <xsl:choose>
+        <xsl:when test="$xep.extensions">
+          <xsl:variable name="class" select="generate-id()"/>
+          <rx:change-bar-begin change-bar-class="{$class}"
+            xsl:use-attribute-sets="change.bar.attributes"/>
+          <xsl:copy-of select="$content"/>
+          <rx:change-bar-end change-bar-class="{$class}"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <fo:block xsl:use-attribute-sets="custom.change.bar.attributes">
+            <xsl:copy-of select="$content"/>
+          </fo:block>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:if>
   </xsl:template>
 
