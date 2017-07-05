@@ -54,7 +54,7 @@
 
         <xsl:when
           test="$double.sided != 0 and $sequence = 'even' and $position='left'">
-          <fo:block text-align-last="left" margin-bottom="20pt">
+          <fo:block text-align="left" margin-bottom="20pt" margin-right="-15mm">
             <fo:retrieve-marker retrieve-class-name="chapter.publication.code"
               retrieve-position="first-including-carryover"
               retrieve-boundary="page-sequence"/>
@@ -64,7 +64,7 @@
         <xsl:when
           test="$double.sided != 0 and ($sequence = 'odd' or $sequence = 'first')
           and $position='right'">
-          <fo:block text-align-last="right" margin-bottom="20pt">
+          <fo:block text-align="right" margin-bottom="20pt" margin-left="-15mm">
             <fo:retrieve-marker retrieve-class-name="chapter.publication.code"
               retrieve-position="first-including-carryover"
               retrieve-boundary="page-sequence"/>
@@ -91,7 +91,7 @@
         </xsl:when>
 
         <xsl:when test="$double.sided = 0 and $position = 'right'">
-          <fo:block text-align-last="right" margin-bottom="20pt">
+          <fo:block text-align="right" margin-bottom="20pt" margin-left="-15mm">
             <fo:retrieve-marker retrieve-class-name="chapter.publication.code"
               retrieve-position="first-including-carryover"
               retrieve-boundary="page-sequence"/>
