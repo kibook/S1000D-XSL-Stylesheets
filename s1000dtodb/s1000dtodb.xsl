@@ -84,21 +84,25 @@
   <xsl:variable name="upper">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
   <xsl:variable name="number">0123456789.</xsl:variable>
 
-  <xsl:variable name="all.dmodules" select="/publication/dmodule"/>
+  <xsl:variable name="all.dmodules" select="//dmodule"/>
 
-  <xsl:template match="/publication">
+  <xsl:template match="/">
     <book>
-      <xsl:choose>
-        <xsl:when test="pm">
-	        <xsl:apply-templates select="pm"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:apply-templates select="dmodule"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:apply-templates/>
     </book>
   </xsl:template>
-  
+
+  <xsl:template match="publication">
+    <xsl:choose>
+      <xsl:when test="pm">
+        <xsl:apply-templates select="pm"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="dmodule"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template match="*">
     <xsl:message>Unhandled: <xsl:call-template name="element.name"/></xsl:message>
     <xsl:if test="$show.unimplemented.markup != 0 and ancestor-or-self::dmodule">
@@ -152,11 +156,11 @@
     <xsl:choose>
       <xsl:when test="$include.pmentry.bookmarks = 1">
         <part>
-          <xsl:apply-templates/>
+          <xsl:apply-templates select="pmEntry|dmRef|dmodule"/>
         </part>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates select="pmEntry|dmRef"/>
+        <xsl:apply-templates select="pmEntry|dmRef|dmodule"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -262,6 +266,7 @@
   </xsl:template>
 
   <xsl:template match="identAndStatusSection">
+    <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <info>
       <xsl:variable name="info.code">
         <xsl:call-template name="get.infocode"/>
@@ -289,13 +294,13 @@
         <xsl:apply-templates select=".//issueDate"/>
       </date>
       <bibliomisc role="publication.title">
-        <xsl:apply-templates select="/publication/pm/identAndStatusSection/pmAddress/pmAddressItems/pmTitle/text()"/>
+        <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/pmTitle/text()"/>
       </bibliomisc>
       <bibliomisc role="publication.author">
-        <xsl:apply-templates select="/publication/pm/identAndStatusSection/pmStatus/responsiblePartnerCompany/enterpriseName/text()"/>
+        <xsl:apply-templates select="$pm/identAndStatusSection/pmStatus/responsiblePartnerCompany/enterpriseName/text()"/>
       </bibliomisc>
       <bibliomisc role="page.header.logo">
-        <xsl:apply-templates select="(dmStatus/logo|/publication/pm/identAndStatusSection/pmStatus/logo)[1]"/>
+        <xsl:apply-templates select="(dmStatus/logo|$pm/identAndStatusSection/pmStatus/logo)[1]"/>
       </bibliomisc>
       <xsl:if test="number(dmAddress/dmIdent/issueInfo/@inWork) != 0 and $want.inwork.blurb = 'yes'">
         <bibliomisc role="inwork.blurb">
@@ -320,8 +325,8 @@
       </bibliomisc>
       <bibliomisc role="publication.code">
         <xsl:choose>
-          <xsl:when test="/publication/pm">
-            <xsl:apply-templates select="/publication/pm/identAndStatusSection/pmAddress/pmIdent/pmCode"/>
+          <xsl:when test="$pm">
+            <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmIdent/pmCode"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="$publication.code"/>
@@ -1495,9 +1500,10 @@
   </xsl:template>
   
   <xsl:template name="gen.lodm">
+    <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <para>The listed documents are included in issue
-      <xsl:value-of select="/publication/pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>, dated
-      <xsl:apply-templates select="/publication/pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>, of this publication.
+      <xsl:value-of select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>, dated
+      <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>, of this publication.
     </para>
     <para>C = Changed data module</para>
     <para>N = New data module</para>
@@ -1517,71 +1523,121 @@
           </row>
         </thead>
         <tbody>
-	  <xsl:if test="not(/publication/pm/content/pmEntry//dmRef)">
-	    <row>
-	      <entry>None</entry>
-	    </row>
-	  </xsl:if>
-          <xsl:for-each select="/publication/pm/content/pmEntry//dmRef">
-            <xsl:variable name="dm.ref.dm.code">
-              <xsl:apply-templates select="dmRefIdent/dmCode"/>
-            </xsl:variable>
-            <xsl:for-each select="$all.dmodules">
-              <xsl:variable name="dm.code">
-                <xsl:call-template name="get.dmcode"/>
-              </xsl:variable>
-              <xsl:if test="$dm.ref.dm.code = $dm.code">
-                <row>
-                  <entry>
-                    <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
-                  </entry>
-                  <entry>
-                    <xsl:element name="link">
-                      <xsl:attribute name="linkend">
-                        <xsl:text>ID_</xsl:text>
-                        <xsl:call-template name="get.dmcode"/>
-                      </xsl:attribute>
-                      <xsl:call-template name="get.dmcode"/>
-                    </xsl:element>
-                  </entry>
-                  <entry>
-                    <xsl:choose>
-                      <xsl:when test="identAndStatusSection/dmStatus/@issueType='new'">
-                        <xsl:text>N</xsl:text>
-                      </xsl:when>
-                      <xsl:when test="identAndStatusSection/dmStatus/@issueType='changed'">
-                        <xsl:text>C</xsl:text>
-                      </xsl:when>
-                    </xsl:choose>
-                  </entry>
-                  <entry>
-                    <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
-                  </entry>
-                  <entry>
-                    <para>
-                      <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
-                    </para>
-                  </entry>
-                  <entry>
-                    <xsl:for-each select="identAndStatusSection">
-                      <xsl:call-template name="get.applicability.string"/>
-                    </xsl:for-each>
-                  </entry>
-                </row>
-              </xsl:if>
-            </xsl:for-each>
-          </xsl:for-each>
+	        <xsl:if test="not($pm/content/pmEntry//dmRef)">
+	          <row>
+	            <entry>None</entry>
+	          </row>
+	        </xsl:if>
+          <xsl:apply-templates select="$pm/content/pmEntry" mode="lodm"/>
         </tbody>
       </tgroup>
     </informaltable>
   </xsl:template>
 
+  <xsl:template match="dmRef" mode="lodm">
+    <xsl:variable name="dm.ref.dm.code">
+      <xsl:apply-templates select="dmRefIdent/dmCode"/>
+    </xsl:variable>
+    <xsl:for-each select="$all.dmodules">
+      <xsl:variable name="dm.code">
+        <xsl:call-template name="get.dmcode"/>
+      </xsl:variable>
+      <xsl:if test="$dm.ref.dm.code = $dm.code">
+        <row>
+          <entry>
+            <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
+          </entry>
+          <entry>
+            <xsl:element name="link">
+              <xsl:attribute name="linkend">
+                <xsl:text>ID_</xsl:text>
+                <xsl:call-template name="get.dmcode"/>
+              </xsl:attribute>
+              <xsl:call-template name="get.dmcode"/>
+            </xsl:element>
+          </entry>
+          <entry>
+            <xsl:choose>
+              <xsl:when test="identAndStatusSection/dmStatus/@issueType='new'">
+                <xsl:text>N</xsl:text>
+              </xsl:when>
+              <xsl:when test="identAndStatusSection/dmStatus/@issueType='changed'">
+                <xsl:text>C</xsl:text>
+              </xsl:when>
+            </xsl:choose>
+          </entry>
+          <entry>
+            <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
+          </entry>
+          <entry>
+            <para>
+              <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+            </para>
+          </entry>
+          <entry>
+            <xsl:for-each select="identAndStatusSection">
+              <xsl:call-template name="get.applicability.string"/>
+            </xsl:for-each>
+          </entry>
+        </row>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="dmodule" mode="lodm">
+    <xsl:variable name="dm.code">
+      <xsl:call-template name="get.dmcode"/>
+    </xsl:variable>
+    <row>
+      <entry>
+        <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
+      </entry>
+      <entry>
+        <xsl:element name="link">
+          <xsl:attribute name="linkend">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+          </xsl:attribute>
+          <xsl:call-template name="get.dmcode"/>
+        </xsl:element>
+      </entry>
+      <entry>
+        <xsl:choose>
+          <xsl:when test="identAndStatusSection/dmStatus/@issueType='new'">
+            <xsl:text>N</xsl:text>
+          </xsl:when>
+          <xsl:when test="identAndStatusSection/dmStatus/@issueType='changed'">
+            <xsl:text>C</xsl:text>
+          </xsl:when>
+        </xsl:choose>
+      </entry>
+      <entry>
+        <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
+      </entry>
+      <entry>
+        <para>
+          <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+        </para>
+      </entry>
+      <entry>
+        <xsl:for-each select="identAndStatusSection">
+          <xsl:call-template name="get.applicability.string"/>
+        </xsl:for-each>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="pmEntry" mode="lodm">
+    <xsl:apply-templates select="pmEntry|dmRef|dmodule" mode="lodm"/>
+  </xsl:template>
+
   <xsl:template name="gen.toc">
+    <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <para>
       <xsl:text>The listed documents are included in issue </xsl:text>
-      <xsl:value-of select="/publication/pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>
+      <xsl:value-of select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>
       <xsl:text>, dated </xsl:text>
-      <xsl:apply-templates select="/publication/pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>
+      <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>
       <xsl:text>, of this publication.</xsl:text>
     </para>
     <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
@@ -1598,12 +1654,12 @@
           </row>
         </thead>
         <tbody>
-          <xsl:if test="not(/publication/pm/content/pmEntry//dmRef)">
+          <xsl:if test="not($pm/content/pmEntry//dmRef|$pm/content/pmEntry//dmodule)">
             <row>
               <entry>None</entry>
             </row>
           </xsl:if>
-          <xsl:apply-templates select="/publication/pm/content/pmEntry" mode="toc"/>
+          <xsl:apply-templates select="$pm/content/pmEntry" mode="toc"/>
         </tbody>
       </tgroup>
     </informaltable>
@@ -1649,13 +1705,46 @@
     </xsl:for-each>
   </xsl:template>
 
+  <xsl:template match="dmodule" mode="toc">
+    <xsl:variable name="dm.code">
+      <xsl:call-template name="get.dmcode"/>
+    </xsl:variable>
+    <row>
+      <entry>
+        <xsl:apply-templates select="identAndStatusSection//dmTitle"/>
+      </entry>
+      <entry>
+        <link>
+          <xsl:attribute name="linkend">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+          </xsl:attribute>
+          <xsl:call-template name="get.dmcode"/>
+        </link>
+      </entry>
+      <entry>
+        <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
+      </entry>
+      <entry>
+        <para>
+          <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+        </para>
+      </entry>
+      <entry>
+        <xsl:for-each select="identAndStatusSection">
+          <xsl:call-template name="get.applicability.string"/>
+        </xsl:for-each>
+      </entry>
+    </row>
+  </xsl:template>
+
   <xsl:template match="pmEntry" mode="toc">
     <xsl:choose>
       <xsl:when test="$hierarchical.table.of.contents = 1">
         <xsl:apply-templates mode="toc"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates select="pmEntry|dmRef" mode="toc"/>
+        <xsl:apply-templates select="pmEntry|dmRef|dmodule" mode="toc"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
