@@ -587,18 +587,34 @@
       <xsl:apply-templates select="dmRefIdent/identExtension"/>
       <xsl:apply-templates select="dmRefIdent/dmCode"/>
     </xsl:variable>
+    <xsl:variable name="link.show" select="behavior/@linkShow"/>
+    <xsl:variable name="fragment" select="@referredFragment"/>
     <xsl:variable name="result">
       <xsl:for-each select="$all.dmodules">
         <xsl:variable name="dm.code">
           <xsl:call-template name="get.dmcode"/>
         </xsl:variable>
         <xsl:if test="$dm.ref.dm.code = $dm.code">
-          <xsl:element name="link">
-            <xsl:attribute name="linkend">
-              <xsl:value-of select="concat('ID_', $dm.ref.dm.code)"/>
-            </xsl:attribute>
-            <xsl:value-of select="$dm.ref.dm.code"/>
-          </xsl:element>
+          <xsl:choose>
+            <xsl:when test="$link.show = 'embedInContext'">
+              <xsl:choose>
+                <xsl:when test="$fragment">
+                  <xsl:apply-templates select=".//*[@id = $fragment]"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:apply-templates/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:element name="link">
+                <xsl:attribute name="linkend">
+                  <xsl:value-of select="concat('ID_', $dm.ref.dm.code)"/>
+                </xsl:attribute>
+                <xsl:value-of select="$dm.ref.dm.code"/>
+              </xsl:element>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:if>
       </xsl:for-each>
     </xsl:variable>
