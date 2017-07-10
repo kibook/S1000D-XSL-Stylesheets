@@ -1127,7 +1127,6 @@
   <xsl:template match="warning|caution|note">
     <xsl:call-template name="make.applic.annotation"/>
     <xsl:element name="{name()}">
-      <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
