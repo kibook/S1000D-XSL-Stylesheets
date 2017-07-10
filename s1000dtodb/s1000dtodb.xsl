@@ -741,7 +741,7 @@
         <bridgehead renderas="centerhead"><xsl:value-of select="title"/></bridgehead>
       </xsl:when>
       <xsl:otherwise>
-        <bridgehead renderas="centerhead">Common Information</bridgehead>
+        <bridgehead renderas="centerhead">Common information</bridgehead>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates select="figure|note|para|commonInfoDescrPara"/>
