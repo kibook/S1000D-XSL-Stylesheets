@@ -1798,8 +1798,8 @@
         <xsl:apply-templates select="$dataRestrictions/restrictionInfo"/>
         <xsl:call-template name="logo.and.company">
           <xsl:with-param name="title">Publisher:</xsl:with-param>
-          <xsl:with-param name="logo" select="publisherLogo"/>
-          <xsl:with-param name="company" select="responsiblePartnerCompany"/>
+          <xsl:with-param name="logo" select="$publisherLogo"/>
+          <xsl:with-param name="company" select="$responsiblePartnerCompany"/>
         </xsl:call-template>
       </fo:block>
     </fo:block>
@@ -1843,10 +1843,10 @@
       <xsl:with-param name="pmTitle" select="$pm//pmTitle"/>
       <xsl:with-param name="shortPmTitle" select="$pm//shortPmTitle"/>
       <xsl:with-param name="pmCode" select="$pm//pmCode"/>
-      <xsl:with-param name="issueInfo" select="$pm//issueInfo"/>
-      <xsl:with-param name="issueDate" select="$pm//issueDate"/>
-      <xsl:with-param name="dataRestrictions" select="$pm//dataRestrictions"/>
-      <xsl:with-param name="responsiblePartnerCompany" select="$pm//responsiblePartnerCompany"/>
+      <xsl:with-param name="issueInfo" select="$pm//pmIdent/issueInfo"/>
+      <xsl:with-param name="issueDate" select="$pm//pmAddressItems/issueDate"/>
+      <xsl:with-param name="dataRestrictions" select="$pm//pmStatus/dataRestrictions"/>
+      <xsl:with-param name="responsiblePartnerCompany" select="$pm//pmStatus/responsiblePartnerCompany"/>
     </xsl:call-template>
   </xsl:template>
 
