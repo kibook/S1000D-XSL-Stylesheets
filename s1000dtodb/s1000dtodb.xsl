@@ -79,6 +79,7 @@
   <xsl:include href="descript.xsl"/>
   <xsl:include href="fault.xsl"/>
   <xsl:include href="proced.xsl"/>
+  <xsl:include href="frontmatter.xsl"/>
 
   <xsl:include href="inlineSignificantData.xsl"/>
 
@@ -1225,10 +1226,11 @@
   </xsl:template>
 
   <xsl:template match="graphic">
+    <xsl:param name="show.icn" select="$show.graphic.icn"/>
     <mediaobject>
       <xsl:call-template name="make.imageobject"/>
     </mediaobject>
-    <xsl:if test="$show.graphic.icn = 1">
+    <xsl:if test="$show.icn = 1">
       <caption>
         <para><xsl:value-of select="@infoEntityIdent"/></para>
       </caption>
@@ -1761,22 +1763,95 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template name="gen.title.page">
-    <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
-    <fo:block font-weight="bold">
-      <xsl:apply-templates select="$pm//pmTitle" mode="title.page"/>
-      <xsl:apply-templates select="$pm//shortPmTitle" mode="title.page"/>
-      <xsl:apply-templates select="$pm//pmCode" mode="title.page"/>
-      <xsl:apply-templates select="$pm//issueInfo" mode="title.page"/>
-    </fo:block>
-    <fo:block space-before="16pt" font-size="8pt">
-      <xsl:apply-templates select="$pm//restrictionInfo"/>
-      <xsl:apply-templates select="$pm//responsiblePartnerCompany" mode="title.page"/>
+  <xsl:template name="title.page">
+    <xsl:param name="productIntroName" select="productIntroName"/>
+    <xsl:param name="pmTitle" select="pmTitle"/>
+    <xsl:param name="shortPmTitle" select="shortPmTitle"/>
+    <xsl:param name="pmCode" select="pmCode"/>
+    <xsl:param name="issueInfo" select="issueInfo"/>
+    <xsl:param name="issueDate" select="issueDate"/>
+    <xsl:param name="productAndModel" select="productAndModel"/>
+    <xsl:param name="dataRestrictions" select="dataRestrictions"/>
+    <xsl:param name="productIllustration" select="productIllustration"/>
+    <xsl:param name="responsiblePartnerCompany" select="responsiblePartnerCompany"/>
+    <xsl:param name="publisherLogo" select="publisherLogo"/>
+    <fo:block margin-left="-20mm">
+      <fo:block font-weight="bold">
+        <fo:block space-before="24pt">
+          <xsl:apply-templates select="$productIntroName"/>
+          <xsl:apply-templates select="$productAndModel"/>
+        </fo:block>
+        <xsl:apply-templates select="$pmTitle" mode="title.page"/>
+        <xsl:apply-templates select="$shortPmTitle" mode="title.page"/>
+        <xsl:apply-templates select="$pmCode" mode="title.page"/>
+        <xsl:call-template name="title.page.issue">
+          <xsl:with-param name="issueInfo" select="$issueInfo"/>
+          <xsl:with-param name="issueDate" select="$issueDate"/>
+        </xsl:call-template>
+      </fo:block>
+      <xsl:if test="$productIllustration">
+        <fo:block space-before="16pt">
+          <xsl:apply-templates select="$productIllustration"/>
+        </fo:block>
+      </xsl:if>
+      <fo:block space-before="16pt" font-size="8pt">
+        <xsl:apply-templates select="$dataRestrictions/restrictionInfo"/>
+        <xsl:call-template name="logo.and.company">
+          <xsl:with-param name="title">Publisher:</xsl:with-param>
+          <xsl:with-param name="logo" select="publisherLogo"/>
+          <xsl:with-param name="company" select="responsiblePartnerCompany"/>
+        </xsl:call-template>
+      </fo:block>
     </fo:block>
   </xsl:template>
 
+  <xsl:template name="logo.and.company">
+    <xsl:param name="title"/>
+    <xsl:param name="logo"/>
+    <xsl:param name="company"/>
+    <fo:block space-before="8pt">
+      <fo:block>
+        <xsl:value-of select="$title"/>
+      </fo:block>
+      <fo:block>
+        <xsl:if test="$logo">
+          <fo:inline padding-right="4mm">
+            <xsl:apply-templates select="$logo/symbol"/>
+          </fo:inline>
+        </xsl:if>
+        <fo:inline vertical-align="top">
+          <xsl:value-of select="$company/enterpriseName"/>
+        </fo:inline>
+      </fo:block>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template name="title.page.issue">
+    <xsl:param name="issueInfo"/>
+    <xsl:param name="issueDate"/>
+    <fo:block space-before="8pt" font-size="14pt">
+      <xsl:text>Issue No. </xsl:text>
+      <xsl:value-of select="$issueInfo/@issueNumber"/>
+      <xsl:text>, </xsl:text>
+      <xsl:apply-templates select="$issueDate"/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template name="gen.title.page">
+    <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
+    <xsl:call-template name="title.page">
+      <xsl:with-param name="pmTitle" select="$pm//pmTitle"/>
+      <xsl:with-param name="shortPmTitle" select="$pm//shortPmTitle"/>
+      <xsl:with-param name="pmCode" select="$pm//pmCode"/>
+      <xsl:with-param name="issueInfo" select="$pm//issueInfo"/>
+      <xsl:with-param name="issueDate" select="$pm//issueDate"/>
+      <xsl:with-param name="dataRestrictions" select="$pm//dataRestrictions"/>
+      <xsl:with-param name="responsiblePartnerCompany" select="$pm//responsiblePartnerCompany"/>
+    </xsl:call-template>
+  </xsl:template>
+
   <xsl:template match="pmTitle" mode="title.page">
-    <fo:block font-size="24pt" space-before="40pt">
+    <fo:block font-size="24pt" space-before="24pt">
       <xsl:apply-templates/>
     </fo:block>
   </xsl:template>
@@ -1793,15 +1868,6 @@
     </fo:block>
   </xsl:template>
 
-  <xsl:template match="issueInfo" mode="title.page">
-    <fo:block font-size="14pt" space-before="8pt">
-      <xsl:text>Issue No. </xsl:text>
-      <xsl:value-of select="@issueNumber"/>
-      <xsl:text>, </xsl:text>
-      <xsl:apply-templates select="ancestor::pm//issueDate"/>
-    </fo:block>
-  </xsl:template>
-
   <xsl:template match="restrictionInfo">
     <xsl:apply-templates/>
   </xsl:template>
@@ -1813,17 +1879,6 @@
   <xsl:template match="copyrightPara">
     <fo:block>
       <xsl:apply-templates/>
-    </fo:block>
-  </xsl:template>
-
-  <xsl:template match="responsiblePartnerCompany" mode="title.page">
-    <fo:block space-before="8pt">
-      <fo:block>
-        <xsl:text>Publisher:</xsl:text>
-      </fo:block>
-      <fo:block>
-        <xsl:value-of select="enterpriseName"/>
-      </fo:block>
     </fo:block>
   </xsl:template>
 
