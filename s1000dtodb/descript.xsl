@@ -26,9 +26,16 @@
       </xsl:variable>
       <xsl:apply-templates select="identAndStatusSection"/>
       <xsl:choose>
-        <xsl:when test="$info.code = '001'">
+        <xsl:when test="$info.code = '001' and $generate.title.page = 1">
           <!-- title page -->
-          <xsl:apply-templates select="content/description"/>
+          <xsl:choose>
+            <xsl:when test="$generate.title.page = 0">
+              <xsl:apply-templates select="content/description"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:call-template name="gen.title.page"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:when>
         <xsl:when test="$info.code = '009' and $generate.table.of.contents = 1">
           <xsl:call-template name="gen.toc"/>

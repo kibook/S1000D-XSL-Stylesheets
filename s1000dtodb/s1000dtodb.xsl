@@ -71,6 +71,8 @@
        bookmark outline structure. -->
   <xsl:param name="include.pmentry.bookmarks">0</xsl:param>
 
+  <xsl:param name="generate.title.page">1</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -938,9 +940,20 @@
   </xsl:template>
 
   <xsl:template match="identNumber">
-    <xsl:value-of select="manufacturerCode"/>
-    <xsl:text> </xsl:text>
+    <xsl:if test="manufacturerCode != ''">
+      <xsl:if test="partAndSerialNumber/partNumber">
+        <xsl:text>Part No. </xsl:text>
+      </xsl:if>
+      <xsl:value-of select="manufacturerCode"/>
+      <xsl:if test="partAndSerialNumber/partNumber">
+        <xsl:text>/</xsl:text>
+      </xsl:if>
+    </xsl:if>
     <xsl:value-of select="partAndSerialNumber/partNumber"/>
+  </xsl:template>
+
+  <xsl:template match="remarks">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="reqSupportEquips">
@@ -1746,6 +1759,72 @@
         <xsl:apply-templates select="pmEntry|dmRef|dmodule" mode="toc"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="gen.title.page">
+    <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
+    <fo:block font-weight="bold">
+      <xsl:apply-templates select="$pm//pmTitle" mode="title.page"/>
+      <xsl:apply-templates select="$pm//shortPmTitle" mode="title.page"/>
+      <xsl:apply-templates select="$pm//pmCode" mode="title.page"/>
+      <xsl:apply-templates select="$pm//issueInfo" mode="title.page"/>
+    </fo:block>
+    <fo:block space-before="16pt" font-size="8pt">
+      <xsl:apply-templates select="$pm//restrictionInfo"/>
+      <xsl:apply-templates select="$pm//responsiblePartnerCompany" mode="title.page"/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="pmTitle" mode="title.page">
+    <fo:block font-size="24pt" space-before="40pt">
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="shortPmTitle" mode="title.page">
+    <fo:block font-size="14pt">
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="pmCode" mode="title.page">
+    <fo:block font-size="14pt" space-before="32pt">
+      <xsl:apply-templates select="."/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="issueInfo" mode="title.page">
+    <fo:block font-size="14pt" space-before="8pt">
+      <xsl:text>Issue No. </xsl:text>
+      <xsl:value-of select="@issueNumber"/>
+      <xsl:text>, </xsl:text>
+      <xsl:apply-templates select="ancestor::pm//issueDate"/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="restrictionInfo">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="copyright">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="copyrightPara">
+    <fo:block>
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="responsiblePartnerCompany" mode="title.page">
+    <fo:block space-before="8pt">
+      <fo:block>
+        <xsl:text>Publisher:</xsl:text>
+      </fo:block>
+      <fo:block>
+        <xsl:value-of select="enterpriseName"/>
+      </fo:block>
+    </fo:block>
   </xsl:template>
 
   <xsl:template name="get.measurement.value">
