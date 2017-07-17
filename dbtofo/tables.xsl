@@ -30,7 +30,7 @@
     <xsl:variable name="start.indent">
       <xsl:choose>
         <xsl:when test="@pgwide=1">0pt</xsl:when>
-        <xsl:otherwise>$body.start.indent</xsl:otherwise>
+        <xsl:otherwise><xsl:value-of select="$body.start.indent"/></xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:choose>

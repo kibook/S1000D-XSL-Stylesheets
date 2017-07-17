@@ -1240,7 +1240,7 @@
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="symbol">
+  <xsl:template match="symbol|barCodeSymbol">
     <inlinemediaobject>
       <xsl:call-template name="make.imageobject"/>
     </inlinemediaobject>
@@ -1780,9 +1780,10 @@
     <xsl:param name="enterpriseSpec" select="enterpriseSpec"/>
     <xsl:param name="enterpriseLogo" select="enterpriseLogo"/>
     <xsl:param name="frontMatterInfo" select="frontMatterInfo"/>
+    <xsl:param name="barCode" select="barCode"/>
     <xsl:variable name="policyStatement" select="$dataRestrictions/policyStatement"/>
     <xsl:variable name="dataConds" select="$dataRestrictions/dataConds"/>
-    <fo:block margin-left="-20mm">
+    <fo:block start-indent="0pt">
       <fo:block font-weight="bold">
         <fo:block-container height="25mm">
           <fo:block font-size="18pt">
@@ -1821,24 +1822,39 @@
             <xsl:apply-templates select="$dataRestrictions/restrictionInfo/copyright"/>
           </fo:block>
         </fo:block-container>
-        <fo:block-container height="15mm">
-          <xsl:call-template name="logo.and.company">
-            <xsl:with-param name="title">Publisher:</xsl:with-param>
-            <xsl:with-param name="logo" select="$publisherLogo"/>
-            <xsl:with-param name="company" select="$responsiblePartnerCompany"/>
-          </xsl:call-template>
-        </fo:block-container>
-        <fo:block-container height="15mm">
-          <fo:block>
-            <xsl:if test="enterpriseSpec">
-              <xsl:call-template name="logo.and.company">
-                <xsl:with-param name="title">Manufacturer:</xsl:with-param>
-                <xsl:with-param name="logo" select="$enterpriseLogo"/>
-                <xsl:with-param name="company" select="$enterpriseSpec"/>
-              </xsl:call-template>
-            </xsl:if>
-          </fo:block>
-        </fo:block-container>
+        <fo:table table-layout="fixed" width="100%">
+          <fo:table-body>
+            <fo:table-row>
+              <fo:table-cell>
+                <fo:block-container height="15mm">
+                  <xsl:call-template name="logo.and.company">
+                    <xsl:with-param name="title">Publisher:</xsl:with-param>
+                    <xsl:with-param name="logo" select="$publisherLogo"/>
+                    <xsl:with-param name="company" select="$responsiblePartnerCompany"/>
+                  </xsl:call-template>
+                </fo:block-container>
+                <fo:block-container height="15mm">
+                  <fo:block>
+                    <xsl:if test="enterpriseSpec">
+                      <xsl:call-template name="logo.and.company">
+                        <xsl:with-param name="title">Manufacturer:</xsl:with-param>
+                        <xsl:with-param name="logo" select="$enterpriseLogo"/>
+                        <xsl:with-param name="company" select="$enterpriseSpec"/>
+                      </xsl:call-template>
+                    </xsl:if>
+                  </fo:block>
+                </fo:block-container>
+              </fo:table-cell>
+              <fo:table-cell>
+                <fo:block-container height="30mm" display-align="after">
+                  <fo:block text-align="right">
+                    <xsl:apply-templates select="$barCode/barCodeSymbol"/>
+                  </fo:block>
+                </fo:block-container>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-body>
+        </fo:table>
         <xsl:if test="$policyStatement or $dataConds or $frontMatterInfo">
           <fo:block page-break-before="always">
             <xsl:apply-templates select="$policyStatement"/>
