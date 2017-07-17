@@ -11,7 +11,15 @@
         <xsl:text>ID_</xsl:text>
         <xsl:call-template name="get.dmcode"/>
       </xsl:attribute>
-      <xsl:apply-templates select="identAndStatusSection"/>
+      <xsl:apply-templates select="identAndStatusSection">
+        <xsl:with-param name="show.producedby.blurb">
+          <xsl:choose>
+            <!-- Don't show "Produced by" blurb on title page since it's already displayed under Publisher -->
+            <xsl:when test="content/frontMatter/frontMatterTitlePage">no</xsl:when>
+            <xsl:otherwise><xsl:value-of select="$want.producedby.blurb"/></xsl:otherwise>
+          </xsl:choose>
+        </xsl:with-param>
+      </xsl:apply-templates>
       <xsl:apply-templates select="content/frontMatter/*"/>
     </chapter>
   </xsl:template>

@@ -57,11 +57,4 @@
     <xsl:apply-templates select="d:info/d:title/text()"/>
   </xsl:template>
 
-  <!-- Align figures to left image limit -->
-  <xsl:template match="d:figure">
-    <fo:block margin-left="-20mm">
-      <xsl:apply-imports/>
-    </fo:block>
-  </xsl:template>
-
 </xsl:stylesheet>

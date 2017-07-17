@@ -269,6 +269,7 @@
   </xsl:template>
 
   <xsl:template match="identAndStatusSection">
+    <xsl:param name="show.producedby.blurb" select="$want.producedby.blurb"/>
     <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <info>
       <xsl:variable name="info.code">
@@ -314,7 +315,7 @@
           </xsl:if>
         </bibliomisc>
       </xsl:if>
-      <xsl:if test="dmStatus/responsiblePartnerCompany/enterpriseName and $want.producedby.blurb = 'yes'">
+      <xsl:if test="dmStatus/responsiblePartnerCompany/enterpriseName and $show.producedby.blurb = 'yes'">
         <bibliomisc role="producedby.blurb">
           Produced by: <xsl:value-of select="dmStatus/responsiblePartnerCompany/enterpriseName"/>
         </bibliomisc>
@@ -1160,8 +1161,9 @@
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:attribute name="label">
-	<xsl:number level="any" from="dmodule"/>
+	      <xsl:number level="any" from="dmodule"/>
       </xsl:attribute>
+      <xsl:attribute name="pgwide">1</xsl:attribute>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
@@ -1661,7 +1663,7 @@
         <thead rowsep="1">
           <row>
             <entry>Document title</entry>
-            <entry>Data module code</entry>
+            <entry>Document identifier</entry>
             <entry>Issue date</entry>
             <entry>No. of pages</entry>
             <entry>Applicable to</entry>
@@ -1775,32 +1777,75 @@
     <xsl:param name="productIllustration" select="productIllustration"/>
     <xsl:param name="responsiblePartnerCompany" select="responsiblePartnerCompany"/>
     <xsl:param name="publisherLogo" select="publisherLogo"/>
+    <xsl:param name="enterpriseSpec" select="enterpriseSpec"/>
+    <xsl:param name="enterpriseLogo" select="enterpriseLogo"/>
+    <xsl:param name="frontMatterInfo" select="frontMatterInfo"/>
+    <xsl:variable name="policyStatement" select="$dataRestrictions/policyStatement"/>
+    <xsl:variable name="dataConds" select="$dataRestrictions/dataConds"/>
     <fo:block margin-left="-20mm">
       <fo:block font-weight="bold">
-        <fo:block space-before="24pt">
-          <xsl:apply-templates select="$productIntroName"/>
-          <xsl:apply-templates select="$productAndModel"/>
-        </fo:block>
-        <xsl:apply-templates select="$pmTitle" mode="title.page"/>
-        <xsl:apply-templates select="$shortPmTitle" mode="title.page"/>
-        <xsl:apply-templates select="$pmCode" mode="title.page"/>
-        <xsl:call-template name="title.page.issue">
-          <xsl:with-param name="issueInfo" select="$issueInfo"/>
-          <xsl:with-param name="issueDate" select="$issueDate"/>
-        </xsl:call-template>
+        <fo:block-container height="25mm">
+          <fo:block font-size="18pt">
+            <xsl:apply-templates select="$productIntroName"/>
+            <xsl:apply-templates select="$productAndModel"/>
+          </fo:block>
+        </fo:block-container>
+        <fo:block-container height="40mm">
+          <fo:block font-size="24pt">
+            <xsl:apply-templates select="$pmTitle"/>
+          </fo:block>
+          <fo:block font-size="14pt">
+            <xsl:apply-templates select="$shortPmTitle"/>
+          </fo:block>
+        </fo:block-container>
+        <fo:block-container height="21pt">
+          <fo:block font-size="14pt">
+            <xsl:apply-templates select="$pmCode"/>
+          </fo:block>
+        </fo:block-container>
+        <fo:block-container height="21pt">
+          <xsl:call-template name="title.page.issue">
+            <xsl:with-param name="issueInfo" select="$issueInfo"/>
+            <xsl:with-param name="issueDate" select="$issueDate"/>
+          </xsl:call-template>
+        </fo:block-container>
       </fo:block>
-      <xsl:if test="$productIllustration">
+      <fo:block-container height="60mm">
         <fo:block space-before="16pt">
           <xsl:apply-templates select="$productIllustration"/>
         </fo:block>
-      </xsl:if>
-      <fo:block space-before="16pt" font-size="8pt">
-        <xsl:apply-templates select="$dataRestrictions/restrictionInfo"/>
-        <xsl:call-template name="logo.and.company">
-          <xsl:with-param name="title">Publisher:</xsl:with-param>
-          <xsl:with-param name="logo" select="$publisherLogo"/>
-          <xsl:with-param name="company" select="$responsiblePartnerCompany"/>
-        </xsl:call-template>
+      </fo:block-container>
+      <fo:block font-size="8pt">
+        <fo:block-container height="35mm">
+          <fo:block>
+            <xsl:apply-templates select="$dataRestrictions/restrictionInfo/copyright"/>
+          </fo:block>
+        </fo:block-container>
+        <fo:block-container height="15mm">
+          <xsl:call-template name="logo.and.company">
+            <xsl:with-param name="title">Publisher:</xsl:with-param>
+            <xsl:with-param name="logo" select="$publisherLogo"/>
+            <xsl:with-param name="company" select="$responsiblePartnerCompany"/>
+          </xsl:call-template>
+        </fo:block-container>
+        <fo:block-container height="15mm">
+          <fo:block>
+            <xsl:if test="enterpriseSpec">
+              <xsl:call-template name="logo.and.company">
+                <xsl:with-param name="title">Manufacturer:</xsl:with-param>
+                <xsl:with-param name="logo" select="$enterpriseLogo"/>
+                <xsl:with-param name="company" select="$enterpriseSpec"/>
+              </xsl:call-template>
+            </xsl:if>
+          </fo:block>
+        </fo:block-container>
+        <xsl:if test="$policyStatement or $dataConds or $frontMatterInfo">
+          <fo:block page-break-before="always">
+            <xsl:apply-templates select="$policyStatement"/>
+            <xsl:apply-templates select="$dataConds"/>
+            <xsl:apply-templates select="$frontMatterInfo"/>
+          </fo:block>
+        </xsl:if>
       </fo:block>
     </fo:block>
   </xsl:template>
@@ -1809,7 +1854,7 @@
     <xsl:param name="title"/>
     <xsl:param name="logo"/>
     <xsl:param name="company"/>
-    <fo:block space-before="8pt">
+    <fo:block>
       <fo:block>
         <xsl:value-of select="$title"/>
       </fo:block>
@@ -1850,22 +1895,8 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="pmTitle" mode="title.page">
-    <fo:block font-size="24pt" space-before="24pt">
-      <xsl:apply-templates/>
-    </fo:block>
-  </xsl:template>
-
-  <xsl:template match="shortPmTitle" mode="title.page">
-    <fo:block font-size="14pt">
-      <xsl:apply-templates/>
-    </fo:block>
-  </xsl:template>
-
-  <xsl:template match="pmCode" mode="title.page">
-    <fo:block font-size="14pt" space-before="32pt">
-      <xsl:apply-templates select="."/>
-    </fo:block>
+  <xsl:template match="shortPmTitle">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="restrictionInfo">
@@ -1877,6 +1908,28 @@
   </xsl:template>
 
   <xsl:template match="copyrightPara">
+    <fo:block>
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="policyStatement">
+    <fo:block>
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="dataConds">
+    <fo:block>
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="frontMatterInfo">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="reducedPara">
     <fo:block>
       <xsl:apply-templates/>
     </fo:block>
@@ -2001,7 +2054,10 @@
   </xsl:template>
 
   <xsl:template match="name">
-    <xsl:apply-templates/>
+    <para>
+      <xsl:call-template name="revisionflag"/>
+      <xsl:apply-templates/>
+    </para>
   </xsl:template>
 
   <xsl:template match="shortName">
