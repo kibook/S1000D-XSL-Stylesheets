@@ -17,7 +17,7 @@
   xmlns:fox="http://xml.apache.org/fop/extensions"
   version="1.0">
 
-  <xsl:template match="d:part|d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section" mode="bookmark">
+  <xsl:template match="d:part|d:chapter|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5|d:section|d:*[@labeltitle]" mode="bookmark">
     <xsl:variable name="id">
       <xsl:choose>
         <!-- pmEntry (part) bookmarks link to first data module (chapter) -->

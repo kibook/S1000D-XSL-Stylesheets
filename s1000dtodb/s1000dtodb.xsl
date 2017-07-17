@@ -157,13 +157,13 @@
 
   <xsl:template match="pmEntry">
     <xsl:choose>
-      <xsl:when test="$include.pmentry.bookmarks = 1">
-        <part>
-          <xsl:apply-templates select="pmEntry|dmRef|dmodule"/>
-        </part>
+      <xsl:when test="$include.pmentry.bookmarks = 0">
+        <xsl:apply-templates select="pmEntry|dmRef|dmodule"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates select="pmEntry|dmRef|dmodule"/>
+        <part>
+          <xsl:apply-templates select="pmEntryTitle|pmEntry|dmRef|dmodule"/>
+        </part>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>

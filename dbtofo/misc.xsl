@@ -47,6 +47,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="d:*[@labeltitle]" mode="object.title.markup">
+    <xsl:value-of select="@labeltitle"/>
+  </xsl:template>
+
   <!-- Do not show parts -->
   <xsl:template match="d:part">
     <xsl:apply-templates/>
