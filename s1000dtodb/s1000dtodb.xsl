@@ -455,16 +455,16 @@
       <xsl:call-template name="revisionflag"/>
       <fo:list-block start-indent="0mm" provisional-distance-between-starts="{$body.start.indent}">
         <fo:list-item>
-	  <fo:list-item-label start-indent="0mm" end-indent="label-end()" text-align="start">
-	    <fo:block>
-	      <xsl:copy-of select="$label"/>
-	    </fo:block>
-	  </fo:list-item-label>
-	  <fo:list-item-body start-indent="body-start()">
-	    <fo:block>
-	      <xsl:copy-of select="$content"/>
-	    </fo:block>
-	  </fo:list-item-body>
+	        <fo:list-item-label start-indent="0mm" end-indent="label-end()" text-align="start">
+	          <fo:block>
+	            <xsl:copy-of select="$label"/>
+	          </fo:block>
+	        </fo:list-item-label>
+	        <fo:list-item-body start-indent="body-start()">
+	          <fo:block>
+	            <xsl:copy-of select="$content"/>
+	          </fo:block>
+	        </fo:list-item-body>
         </fo:list-item>
       </fo:list-block>
     </xsl:element>
