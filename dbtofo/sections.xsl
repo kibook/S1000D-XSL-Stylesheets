@@ -35,9 +35,11 @@
   </xsl:template>
 
   <xsl:template match="d:para[@labeltitle]">
-    <fo:block keep-with-next="always">
-      <xsl:attribute name="id"><xsl:call-template name="object.id"/></xsl:attribute>
-    </fo:block>
+    <xsl:if test="not(@id)">
+      <fo:block keep-with-next="always">
+        <xsl:attribute name="id"><xsl:call-template name="object.id"/></xsl:attribute>
+      </fo:block>
+    </xsl:if>
     <xsl:apply-imports/>
   </xsl:template>
   
