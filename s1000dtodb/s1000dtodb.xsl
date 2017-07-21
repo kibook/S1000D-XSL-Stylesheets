@@ -387,7 +387,7 @@
       <tgroup cols="2" align="left">
         <thead>
           <row>
-            <entry>Data Module/Technical publication</entry>
+            <entry>Data module/Technical publication</entry>
             <entry>Title</entry>
           </row>
         </thead>
