@@ -1658,8 +1658,11 @@
     </para>
     <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
       <tgroup cols="5" align="left">
-        <colspec colnum="3" colwidth="6em"/>
-        <colspec colnum="4" colwidth="4em"/>
+        <colspec colname="c1"/>
+        <colspec colname="c2"/>
+        <colspec colname="c3" colwidth="6em"/>
+        <colspec colname="c4" colwidth="4em"/>
+        <colspec colname="c5"/>
         <thead rowsep="1">
           <row>
             <entry>Document title</entry>
