@@ -1124,7 +1124,7 @@
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="2cm"</xsl:text>
     </xsl:processing-instruction>
-    <bridgehead renderas="sidehead0">Safety Conditions</bridgehead>
+    <bridgehead renderas="sidehead0">Safety conditions</bridgehead>
     <xsl:apply-templates/>
   </xsl:template>
 
