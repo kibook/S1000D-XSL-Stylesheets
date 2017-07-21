@@ -1820,7 +1820,7 @@
         </fo:block>
       </fo:block-container>
       <fo:block font-size="8pt">
-        <fo:block-container height="35mm">
+        <fo:block-container height="30mm">
           <fo:block>
             <xsl:apply-templates select="$dataRestrictions/restrictionInfo/copyright"/>
           </fo:block>
@@ -1829,7 +1829,7 @@
           <fo:table-body>
             <fo:table-row>
               <fo:table-cell>
-                <fo:block-container height="15mm">
+                <fo:block-container height="20mm">
                   <xsl:call-template name="logo.and.company">
                     <xsl:with-param name="title">Publisher:</xsl:with-param>
                     <xsl:with-param name="logo" select="$publisherLogo"/>
@@ -1849,7 +1849,7 @@
                 </fo:block-container>
               </fo:table-cell>
               <fo:table-cell>
-                <fo:block-container height="30mm" display-align="after">
+                <fo:block-container height="35mm" display-align="after">
                   <fo:block text-align="right">
                     <xsl:apply-templates select="$barCode/barCodeSymbol"/>
                   </fo:block>
