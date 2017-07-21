@@ -26,9 +26,22 @@
     <fo:block xsl:use-attribute-sets="section.title.level1.properties"
       space-before="1cm" space-before.conditionality="retain" space-after="12pt"
       font-size="{$font.size.heading}" font-weight="bold" start-indent="0pt">
-      <xsl:call-template name="gentext">
-        <xsl:with-param name="key" select="'TableofContents'"/>
-      </xsl:call-template>
+      <fo:table>
+        <fo:table-body>
+          <fo:table-row>
+            <fo:table-cell text-align="left">
+              <fo:block>
+                <xsl:call-template name="gentext">
+                  <xsl:with-param name="key" select="'TableofContents'"/>
+                </xsl:call-template>
+              </fo:block>
+            </fo:table-cell>
+            <fo:table-cell text-align="right">
+              <fo:block font-size="10pt" font-weight="normal">Page</fo:block>
+            </fo:table-cell>
+          </fo:table-row>
+        </fo:table-body>
+      </fo:table>
     </fo:block>
   </xsl:template>
 
