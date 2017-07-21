@@ -137,6 +137,9 @@
   
   <l:i18n xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0">
     <l:l10n language="en">
+      <l:gentext key="TableofContents" text="Table of contents"/>
+      <l:gentext key="ListofTables" text="List of tables"/>
+      <l:gentext key="ListofFigures" text="List of figures"/>
       <l:context name="title">
         <l:template name="appendix" text="Appendix %n %t"/>
         <l:template name="chapter" text="Chapter %n %t"/>
