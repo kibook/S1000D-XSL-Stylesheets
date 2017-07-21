@@ -86,11 +86,11 @@
               <fo:basic-link internal-destination="{$id}">
                 <xsl:apply-templates select="." mode="title.markup"/>
               </fo:basic-link>
-              <xsl:text> </xsl:text>
+              <!--<xsl:text> </xsl:text>-->
               <fo:inline keep-together.within-line="always">
                 <fo:leader leader-pattern="dots"
                   keep-with-next.within-line="always"/>
-                <xsl:text> </xsl:text>
+                <!--<xsl:text> </xsl:text>-->
                 <fo:basic-link internal-destination="{$id}">
                   <fo:page-number-citation ref-id="{$id}"/>
                 </fo:basic-link>
@@ -115,11 +115,11 @@
               <fo:basic-link internal-destination="{$id}">
                 <xsl:apply-templates select="." mode="title.markup"/>
               </fo:basic-link>
-              <xsl:text> </xsl:text>
+              <!--<xsl:text> </xsl:text>-->
               <fo:inline keep-together.within-line="always">
                 <fo:leader leader-pattern="dots"
                   keep-with-next.within-line="always"/>
-                <xsl:text> </xsl:text>
+                <!--<xsl:text> </xsl:text>-->
                 <fo:basic-link internal-destination="{$id}">
                   <fo:page-number-citation ref-id="{$id}"/>
                 </fo:basic-link>
