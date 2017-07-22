@@ -24,7 +24,16 @@
       <xsl:variable name="info.code">
         <xsl:call-template name="get.infocode"/>
       </xsl:variable>
-      <xsl:apply-templates select="identAndStatusSection"/>
+      <xsl:choose>
+        <xsl:when test="$info.code = '001'">
+          <xsl:apply-templates select="identAndStatusSection">
+            <xsl:with-param name="show.producedby.blurb">no</xsl:with-param>
+          </xsl:apply-templates>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:apply-templates select="identAndStatusSection"/>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:choose>
         <xsl:when test="$info.code = '001' and $generate.title.page = 1">
           <!-- title page -->
