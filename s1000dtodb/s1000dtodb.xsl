@@ -48,10 +48,19 @@
 
   <!-- When these variables = 1 and a project includes a data module
        with their associated info code, the contents are automatically generated. -->
+  <!-- 001 Title page -->
+  <xsl:param name="generate.title.page">1</xsl:param>
   <!-- 009 Table of contents -->
   <xsl:param name="generate.table.of.contents">1</xsl:param>
   <!-- 00S List of effective data modules -->
   <xsl:param name="generate.list.of.datamodules">1</xsl:param>
+
+  <!-- Include the issue date on the title page content, derived from the issue
+       date of the pub module (for auto-generated title page) or from the
+       issueDate element of the title page front matter schema (vs. the issue
+       date of the title page data module itself, which is displayed in the
+       footer). -->
+  <xsl:param name="title.page.issue.date">1</xsl:param>
 
   <!-- When hierarchical.table.of.contents = 1, pmEntryTitles are shown in the
        table of contents with indentation to reflect their level. -->
@@ -70,8 +79,6 @@
   <!-- When bookmarks are enabled, also include pmEntry elements in the
        bookmark outline structure. -->
   <xsl:param name="include.pmentry.bookmarks">0</xsl:param>
-
-  <xsl:param name="generate.title.page">1</xsl:param>
 
   <xsl:output indent="no" method="xml"/>
 
@@ -1896,8 +1903,10 @@
     <fo:block space-before="8pt" font-size="14pt">
       <xsl:text>Issue No. </xsl:text>
       <xsl:value-of select="$issueInfo/@issueNumber"/>
-      <xsl:text>, </xsl:text>
-      <xsl:apply-templates select="$issueDate"/>
+      <xsl:if test="$issueDate and $title.page.issue.date != 0">
+        <xsl:text>, </xsl:text>
+        <xsl:apply-templates select="$issueDate"/>
+      </xsl:if>
     </fo:block>
   </xsl:template>
 
