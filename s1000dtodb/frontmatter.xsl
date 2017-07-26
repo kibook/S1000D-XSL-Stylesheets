@@ -52,4 +52,8 @@
     </xsl:apply-templates>
   </xsl:template>
 
+  <xsl:template match="frontMatterTableOfContent">
+    <xsl:call-template name="table.of.content"/>
+  </xsl:template>
+
 </xsl:stylesheet>

@@ -80,6 +80,8 @@
        bookmark outline structure. -->
   <xsl:param name="include.pmentry.bookmarks">0</xsl:param>
 
+  <xsl:param name="part.no.prefix">1</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -950,7 +952,7 @@
 
   <xsl:template match="identNumber">
     <xsl:if test="manufacturerCode != ''">
-      <xsl:if test="partAndSerialNumber/partNumber">
+      <xsl:if test="$part.no.prefix != 0 and partAndSerialNumber/partNumber">
         <xsl:text>Part No. </xsl:text>
       </xsl:if>
       <xsl:value-of select="manufacturerCode"/>
@@ -1654,6 +1656,59 @@
     <xsl:apply-templates select="pmEntry|dmRef|dmodule" mode="lodm"/>
   </xsl:template>
 
+  <xsl:template name="table.of.content">
+    <xsl:choose>
+      <xsl:when test="reducedPara">
+        <xsl:apply-templates select="reducedPara"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <para>
+          <xsl:text>The listed documents are included in issue </xsl:text>
+          <xsl:value-of select="issueInfo/@issueNumber"/>
+          <xsl:text>, dated </xsl:text>
+          <xsl:apply-templates select="issueDate"/>
+          <xsl:text>, of this publication.</xsl:text>
+        </para>
+      </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates select="tocList"/>
+  </xsl:template>
+
+  <xsl:template match="tocList">
+    <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
+      <tgroup cols="5" align="left">
+        <colspec colname="c1"/>
+        <colspec colname="c2"/>
+        <colspec colname="c3" colwidth="6em"/>
+        <colspec colname="c4" colwidth="4em"/>
+        <colspec colname="c5"/>
+        <thead rowsep="1">
+          <row>
+            <entry>Document title</entry>
+            <entry>Document identifier</entry>
+            <entry>Issue date</entry>
+            <entry>No. of pages</entry>
+            <entry>Applicable to</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:apply-templates select="tocEntry" mode="toc"/>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template match="tocEntry" mode="toc">
+    <xsl:choose>
+      <xsl:when test="$hierarchical.table.of.contents = 1">
+        <xsl:apply-templates select="title|tocEntry|dmRef" mode="toc"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="tocEntry|dmRef" mode="toc"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template name="gen.toc">
     <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <para>
@@ -1958,9 +2013,9 @@
   </xsl:template>
 
   <xsl:template match="reducedPara">
-    <fo:block>
+    <para>
       <xsl:apply-templates/>
-    </fo:block>
+    </para>
   </xsl:template>
 
   <xsl:template name="get.measurement.value">
@@ -1973,7 +2028,7 @@
     <xsl:value-of select="translate($measurement, $number, '')"/>
   </xsl:template>
 
-  <xsl:template match="pmEntryTitle" mode="toc">
+  <xsl:template match="pmEntryTitle|title" mode="toc">
     <xsl:variable name="level" select="count(ancestor::pmEntry) - 1"/>
     
     <xsl:variable name="indent.value">
