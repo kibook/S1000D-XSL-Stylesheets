@@ -1679,9 +1679,9 @@
       <tgroup cols="5" align="left">
         <colspec colname="c1"/>
         <colspec colname="c2"/>
-        <colspec colname="c3" colwidth="6em"/>
+        <colspec colname="c3" colwidth="7em"/>
         <colspec colname="c4" colwidth="4em"/>
-        <colspec colname="c5"/>
+        <colspec colname="c5" colwidth="8em"/>
         <thead rowsep="1">
           <row>
             <entry>Document title</entry>
@@ -1722,9 +1722,9 @@
       <tgroup cols="5" align="left">
         <colspec colname="c1"/>
         <colspec colname="c2"/>
-        <colspec colname="c3" colwidth="6em"/>
+        <colspec colname="c3" colwidth="7em"/>
         <colspec colname="c4" colwidth="4em"/>
-        <colspec colname="c5"/>
+        <colspec colname="c5" colwidth="8em"/>
         <thead rowsep="1">
           <row>
             <entry>Document title</entry>
