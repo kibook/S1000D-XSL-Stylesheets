@@ -1891,7 +1891,7 @@
           <fo:table-body>
             <fo:table-row>
               <fo:table-cell>
-                <fo:block-container height="20mm">
+                <fo:block-container height="15mm">
                   <xsl:call-template name="logo.and.company">
                     <xsl:with-param name="title">Publisher:</xsl:with-param>
                     <xsl:with-param name="logo" select="$publisherLogo"/>
@@ -1901,11 +1901,13 @@
                 <fo:block-container height="15mm">
                   <fo:block>
                     <xsl:if test="enterpriseSpec">
-                      <xsl:call-template name="logo.and.company">
-                        <xsl:with-param name="title">Manufacturer:</xsl:with-param>
-                        <xsl:with-param name="logo" select="$enterpriseLogo"/>
-                        <xsl:with-param name="company" select="$enterpriseSpec"/>
-                      </xsl:call-template>
+                      <fo:block padding-top="5mm" border-top-style="solid" border-top-color="black" border-top-width="1px">
+                        <xsl:call-template name="logo.and.company">
+                          <xsl:with-param name="title">Manufacturer:</xsl:with-param>
+                          <xsl:with-param name="logo" select="$enterpriseLogo"/>
+                          <xsl:with-param name="company" select="$enterpriseSpec"/>
+                        </xsl:call-template>
+                      </fo:block>
                     </xsl:if>
                   </fo:block>
                 </fo:block-container>
