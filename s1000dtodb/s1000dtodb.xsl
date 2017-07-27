@@ -80,6 +80,7 @@
        bookmark outline structure. -->
   <xsl:param name="include.pmentry.bookmarks">0</xsl:param>
 
+  <!-- Include the "Part No." prefix on identNumber -->
   <xsl:param name="part.no.prefix">1</xsl:param>
 
   <xsl:output indent="no" method="xml"/>
