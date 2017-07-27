@@ -74,7 +74,7 @@
   <xsl:param name="show.unclassified">1</xsl:param>
 
   <!-- Show 'titled' labelled paras in the table of contents. -->
-  <xsl:param name="titled.labelled.para.toc">0</xsl:param>
+  <xsl:param name="titled.labelled.para.toc">1</xsl:param>
 
   <!-- When bookmarks are enabled, also include pmEntry elements in the
        bookmark outline structure. -->
