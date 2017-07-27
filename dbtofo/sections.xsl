@@ -45,7 +45,7 @@
   
   <!-- suppress space before first paragraph after section heading (and note) -->
   <!-- increase priority so that this template is used in preference to *[@revisionflag] -->
-  <xsl:template match="d:para[1]" priority="1">
+  <xsl:template match="d:para[1][not(@labeltitle)]" priority="1">
     <xsl:variable name="content">
       <xsl:choose>
         <xsl:when
