@@ -90,4 +90,50 @@
     <xsl:attribute name="padding-bottom">4pt</xsl:attribute>
   </xsl:attribute-set>
 
+
+  <!-- Fix bug in DocBook stylesheets regarding mediaobject/graphic in CALS tables -->
+  <xsl:template name="calsTable">
+    <xsl:apply-templates select="d:tgroup|d:mediaobject|d:graphic" mode="calsTable"/>
+    <xsl:apply-templates select="d:caption"/>
+  </xsl:template>
+
+  <xsl:template match="d:tgroup" mode="calsTable">
+    <xsl:variable name="keep.together">
+      <xsl:call-template name="pi.dbfo_keep-together"/>
+    </xsl:variable>
+    <fo:table xsl:use-attribute-sets="table.table.properties">
+      <xsl:if test="$keep.together != ''">
+        <xsl:attribute name="keep-together.within-column">
+          <xsl:value-of select="$keep.together"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:call-template name="table.frame"/>
+      <xsl:if test="following-sibling::d:tgroup">
+        <xsl:attribute name="border-bottom-width">0pt</xsl:attribute>
+        <xsl:attribute name="border-bottom-style">none</xsl:attribute>
+        <xsl:attribute name="padding-bottom">0pt</xsl:attribute>
+        <xsl:attribute name="margin-bottom">0pt</xsl:attribute>
+        <xsl:attribute name="space-after">0pt</xsl:attribute>
+        <xsl:attribute name="space-after.minimum">0pt</xsl:attribute>
+        <xsl:attribute name="space-after.optimum">0pt</xsl:attribute>
+        <xsl:attribute name="space-after.maximum">0pt</xsl:attribute>
+      </xsl:if>
+      <xsl:if test="preceding-sibling::d:tgroup">
+        <xsl:attribute name="border-top-width">0pt</xsl:attribute>
+        <xsl:attribute name="border-top-style">none</xsl:attribute>
+        <xsl:attribute name="padding-top">0pt</xsl:attribute>
+        <xsl:attribute name="margin-top">0pt</xsl:attribute>
+        <xsl:attribute name="space-before">0pt</xsl:attribute>
+        <xsl:attribute name="space-before.minimum">0pt</xsl:attribute>
+        <xsl:attribute name="space-before.optimum">0pt</xsl:attribute>
+        <xsl:attribute name="space-before.maximum">0pt</xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates select="."/>
+    </fo:table>
+  </xsl:template>
+
+  <xsl:template match="d:mediaobject|d:graphic" mode="calsTable">
+    <xsl:apply-templates select="."/>
+  </xsl:template>
+
 </xsl:stylesheet>
