@@ -1445,9 +1445,20 @@
 
   <xsl:template match="footnote">
     <xsl:element name="footnote">
+      <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="footnoteRef">
+    <xsl:variable name="linkend">
+      <xsl:text>ID_</xsl:text>
+      <xsl:call-template name="get.dmcode"/>
+      <xsl:text>-</xsl:text>
+      <xsl:value-of select="@internalRefId"/>
+    </xsl:variable>
+    <footnoteref linkend="{$linkend}"/>
   </xsl:template>
 
   <xsl:template match="subScript">
