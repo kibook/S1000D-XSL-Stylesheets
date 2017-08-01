@@ -32,7 +32,7 @@
     </fo:block>
   </xsl:template>-->
 
-  <xsl:template match="d:figure/d:caption">
+  <xsl:template match="d:figure/d:caption|d:table/d:caption">
     <fo:block>
       <xsl:attribute name="text-align">right</xsl:attribute>
       <xsl:apply-templates/>
