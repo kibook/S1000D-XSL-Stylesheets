@@ -53,6 +53,9 @@
           <!-- list of effective data modules -->
           <xsl:call-template name="gen.lodm"/>
         </xsl:when>
+        <xsl:when test="$info.code = '00U' and $generate.highlights = 1">
+          <xsl:call-template name="gen.high"/>
+        </xsl:when>
         <xsl:otherwise>
           <!-- normal data module -->
           <xsl:call-template name="content.refs"/>

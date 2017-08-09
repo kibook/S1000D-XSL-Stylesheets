@@ -46,7 +46,7 @@
        using the externalPubCode. -->
   <xsl:param name="external.pub.ref.inline">title</xsl:param>
 
-  <!-- When these variables = 1 and a project includes a data module
+  <!-- When these variables = 1 and a project includes a descriptive data module
        with their associated info code, the contents are automatically generated. -->
   <!-- 001 Title page -->
   <xsl:param name="generate.title.page">1</xsl:param>
@@ -54,6 +54,8 @@
   <xsl:param name="generate.table.of.contents">1</xsl:param>
   <!-- 00S List of effective data modules -->
   <xsl:param name="generate.list.of.datamodules">1</xsl:param>
+  <!-- 00U Highlights -->
+  <xsl:param name="generate.highlights">1</xsl:param>
 
   <!-- Include the issue date on the title page content, derived from the issue
        date of the pub module (for auto-generated title page) or from the
@@ -1514,7 +1516,7 @@
       </xsl:choose>
     </xsl:variable>
     <xsl:choose>
-      <xsl:when test="$info.code = '001' or $info.code = '009' or $info.code = '00S'">frontmatter</xsl:when>
+      <xsl:when test="$info.code = '001' or $info.code = '009' or $info.code = '00S' or $info.code = '00U'">frontmatter</xsl:when>
     </xsl:choose>
   </xsl:template>
 
@@ -1534,6 +1536,62 @@
       </xsl:if>
       <xsl:apply-templates select="infoName"/>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="gen.high">
+    <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
+    <para>
+      <xsl:text>The listed changes are introduced in issue </xsl:text>
+      <xsl:value-of select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>
+      <xsl:text>, dated </xsl:text>
+      <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>
+      <xsl:text>, of this publication.</xsl:text>
+    </para>
+    <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
+      <tgroup cols="2" align="left">
+        <thead rowsep="1">
+          <row>
+            <entry>Data module</entry>
+            <entry>Reason for update</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:choose>
+            <xsl:when test="not(//reasonForUpdate)">
+              <row>
+                <entry>None</entry>
+              </row>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates select="$all.dmodules" mode="highlights"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template match="dmodule" mode="highlights">
+    <xsl:apply-templates select="identAndStatusSection/dmStatus/reasonForUpdate" mode="highlights"/>
+  </xsl:template>
+
+  <xsl:template match="reasonForUpdate" mode="highlights">
+    <row>
+      <xsl:if test="position() = 1">
+        <entry morerows="{count(following-sibling::reasonForUpdate)}">
+          <link>
+            <xsl:attribute name="linkend">
+              <xsl:text>ID_</xsl:text>
+              <xsl:call-template name="get.dmcode"/>
+            </xsl:attribute>
+            <xsl:call-template name="get.dmcode"/>
+          </link>
+        </entry>
+      </xsl:if>
+      <entry>
+        <xsl:apply-templates/>
+      </entry>
+    </row>
   </xsl:template>
   
   <xsl:template name="gen.lodm">
