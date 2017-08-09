@@ -72,6 +72,7 @@
 
   <xsl:template name="toc.line">
     <xsl:param name="toc-context" select="NOTANODE"/>
+
     <xsl:variable name="id">
       <xsl:call-template name="object.id"/>
     </xsl:variable>
@@ -86,11 +87,12 @@
       <fo:table-body>
         <fo:table-row>
           <fo:table-cell start-indent="0pc">
-            <fo:block text-align="left">
+            <fo:block text-align="left" text-align-last="justify">
               <fo:basic-link internal-destination="{$id}">
                 <xsl:if test="$label != ''">
                   <xsl:copy-of select="$label"/>
                 </xsl:if>
+                <fo:leader leader-pattern="space"/>
               </fo:basic-link>
             </fo:block>
           </fo:table-cell>
@@ -98,16 +100,11 @@
             <fo:block text-align="left" text-align-last="justify" width="90%">
               <fo:basic-link internal-destination="{$id}">
                 <xsl:apply-templates select="." mode="title.markup"/>
-              </fo:basic-link>
-              <!--<xsl:text> </xsl:text>-->
-              <fo:inline keep-together.within-line="always">
-                <fo:leader leader-pattern="dots"
-                  keep-with-next.within-line="always"/>
-                <!--<xsl:text> </xsl:text>-->
-                <fo:basic-link internal-destination="{$id}">
+                <fo:inline keep-together.within-line="always">
+                  <fo:leader leader-pattern="dots" keep-with-next.within-line="always"/>
                   <fo:page-number-citation ref-id="{$id}"/>
-                </fo:basic-link>
-              </fo:inline>
+                </fo:inline>
+              </fo:basic-link>
             </fo:block>
           </fo:table-cell>
         </fo:table-row>
@@ -127,16 +124,11 @@
             <fo:block text-align="left" text-align-last="justify">
               <fo:basic-link internal-destination="{$id}">
                 <xsl:apply-templates select="." mode="title.markup"/>
-              </fo:basic-link>
-              <!--<xsl:text> </xsl:text>-->
-              <fo:inline keep-together.within-line="always">
-                <fo:leader leader-pattern="dots"
-                  keep-with-next.within-line="always"/>
-                <!--<xsl:text> </xsl:text>-->
-                <fo:basic-link internal-destination="{$id}">
+                <fo:inline keep-together.within-line="always">
+                  <fo:leader leader-pattern="dots" keep-with-next.within-line="always"/>
                   <fo:page-number-citation ref-id="{$id}"/>
-                </fo:basic-link>
-              </fo:inline>
+                </fo:inline>
+              </fo:basic-link>
             </fo:block>
           </fo:table-cell>
         </fo:table-row>
