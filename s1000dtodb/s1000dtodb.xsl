@@ -1551,7 +1551,7 @@
       <tgroup cols="2" align="left">
         <thead rowsep="1">
           <row>
-            <entry>Data module</entry>
+            <entry>Data module code</entry>
             <entry>Reason for update</entry>
           </row>
         </thead>
