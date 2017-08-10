@@ -101,7 +101,7 @@
     <xsl:variable name="keep.together">
       <xsl:call-template name="pi.dbfo_keep-together"/>
     </xsl:variable>
-    <fo:table xsl:use-attribute-sets="table.table.properties">
+    <fo:table xsl:use-attribute-sets="table.properties">
       <xsl:if test="$keep.together != ''">
         <xsl:attribute name="keep-together.within-column">
           <xsl:value-of select="$keep.together"/>
