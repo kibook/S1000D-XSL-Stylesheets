@@ -1524,7 +1524,11 @@
       </xsl:choose>
     </xsl:variable>
     <xsl:choose>
-      <xsl:when test="$info.code = '001' or $info.code = '009' or $info.code = '00S' or $info.code = '00U'">frontmatter</xsl:when>
+      <xsl:when test="$info.code = '001' or
+                      $info.code = '005' or
+                      $info.code = '009' or
+                      $info.code = '00S' or
+                      $info.code = '00U'">frontmatter</xsl:when>
     </xsl:choose>
   </xsl:template>
 

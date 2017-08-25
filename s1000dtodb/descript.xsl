@@ -57,9 +57,20 @@
           <xsl:call-template name="gen.high"/>
         </xsl:when>
         <xsl:otherwise>
-          <!-- normal data module -->
-          <xsl:call-template name="content.refs"/>
-          <xsl:apply-templates select="content/description"/>
+          <xsl:variable name="dm.type">
+            <xsl:call-template name="get.dm.type"/>
+          </xsl:variable>
+          <xsl:choose>
+            <xsl:when test="$dm.type = 'frontmatter'">
+              <!-- Authored front-matter data module using descriptive schema -->
+              <xsl:apply-templates select="content/description/*"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <!-- normal data module -->
+              <xsl:call-template name="content.refs"/>
+              <xsl:apply-templates select="content/description"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:element>    
