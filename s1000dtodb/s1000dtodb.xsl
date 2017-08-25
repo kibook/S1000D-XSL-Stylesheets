@@ -1297,10 +1297,10 @@
   </xsl:template>
 
   <xsl:template match="definitionList">
-    <xsl:element name="variablelist">
+    <variablelist termlength="35mm">
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
-    </xsl:element>
+    </variablelist>
   </xsl:template>
   
   <xsl:template match="definitionListHeader|definitionListItem">
