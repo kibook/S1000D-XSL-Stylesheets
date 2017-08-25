@@ -85,6 +85,14 @@
   <!-- Include the "Part No." prefix on identNumber -->
   <xsl:param name="part.no.prefix">1</xsl:param>
 
+  <!-- Include the acronymDefinition with an acronym (e.g.,
+
+          All data modules have a DMC (Data Module Code)
+                                      ^^^^^^^^^^^^^^^^^^
+
+          Otherwise, only the acronymTerm is displayed. -->
+  <xsl:param name="auto.expand.acronyms">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -2252,6 +2260,23 @@
     <xsl:call-template name="apply.delimited.id.refs">
       <xsl:with-param name="refs" select="."/>
     </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="acronym">
+    <xsl:apply-templates select="acronymTerm"/>
+    <xsl:if test="$auto.expand.acronyms != 0">
+      <xsl:apply-templates select="acronymDefinition"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="acronymTerm">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="acronymDefinition">
+    <xsl:text> (</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>)</xsl:text>
   </xsl:template>
 
 </xsl:stylesheet>
