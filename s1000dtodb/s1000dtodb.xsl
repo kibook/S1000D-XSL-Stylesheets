@@ -52,10 +52,14 @@
   <xsl:param name="generate.title.page">1</xsl:param>
   <!-- 009 Table of contents -->
   <xsl:param name="generate.table.of.contents">1</xsl:param>
+  <!-- 00A List of illustrations -->
+  <xsl:param name="generate.list.of.illustrations">1</xsl:param>
   <!-- 00S List of effective data modules -->
   <xsl:param name="generate.list.of.datamodules">1</xsl:param>
   <!-- 00U Highlights -->
   <xsl:param name="generate.highlights">1</xsl:param>
+  <!-- 00Z List of tables -->
+  <xsl:param name="generate.list.of.tables">1</xsl:param>
 
   <!-- Include the issue date on the title page content, derived from the issue
        date of the pub module (for auto-generated title page) or from the
@@ -1528,8 +1532,10 @@
       <xsl:when test="$info.code = '001' or
                       $info.code = '005' or
                       $info.code = '009' or
+                      $info.code = '00A' or
                       $info.code = '00S' or
-                      $info.code = '00U'">frontmatter</xsl:when>
+                      $info.code = '00U' or
+                      $info.code = '00Z'">frontmatter</xsl:when>
     </xsl:choose>
   </xsl:template>
 
@@ -1549,6 +1555,76 @@
       </xsl:if>
       <xsl:apply-templates select="infoName"/>
     </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="gen.lot">
+    <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
+      <tgroup cols="2" align="left">
+        <thead rowsep="1">
+          <row>
+            <entry>Title</entry>
+            <entry>Data module code</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:apply-templates select="$all.dmodules//table[title]" mode="lot"/>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template match="table" mode="lot">
+    <row>
+      <entry>
+        <xsl:value-of select="title"/>
+      </entry>
+      <entry>
+        <link>
+          <xsl:attribute name="linkend">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+          </xsl:attribute>
+          <xsl:call-template name="get.dmcode"/>
+        </link>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template name="gen.loi">
+    <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
+      <tgroup cols="3" align="left">
+        <thead rowsep="1">
+          <row>
+            <entry>Title</entry>
+            <entry>ICN</entry>
+            <entry>Data module code</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:apply-templates select="$all.dmodules//figure/graphic" mode="loi"/>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template match="graphic" mode="loi">
+    <row>
+      <entry>
+        <xsl:value-of select="parent::figure/title"/>
+      </entry>
+      <entry>
+        <xsl:apply-templates select="@infoEntityIdent"/>
+      </entry>
+      <entry>
+        <link>
+          <xsl:attribute name="linkend">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+          </xsl:attribute>
+          <xsl:call-template name="get.dmcode"/>
+        </link>
+      </entry>
+    </row>
   </xsl:template>
 
   <xsl:template name="gen.high">

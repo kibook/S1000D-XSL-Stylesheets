@@ -47,14 +47,24 @@
           </xsl:choose>
         </xsl:when>
         <xsl:when test="$info.code = '009' and $generate.table.of.contents = 1">
+          <!-- table of contents -->
           <xsl:call-template name="gen.toc"/>
+        </xsl:when>
+        <xsl:when test="$info.code = '00A' and $generate.list.of.illustrations = 1"> 
+          <!-- list of illustrations -->
+          <xsl:call-template name="gen.loi"/>
         </xsl:when>
         <xsl:when test="$info.code = '00S' and $generate.list.of.datamodules = 1">
           <!-- list of effective data modules -->
           <xsl:call-template name="gen.lodm"/>
         </xsl:when>
         <xsl:when test="$info.code = '00U' and $generate.highlights = 1">
+          <!-- highlights -->
           <xsl:call-template name="gen.high"/>
+        </xsl:when>
+        <xsl:when test="$info.code = '00Z' and $generate.list.of.tables = 1">
+          <!-- list of tables -->
+          <xsl:call-template name="gen.lot"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="dm.type">
