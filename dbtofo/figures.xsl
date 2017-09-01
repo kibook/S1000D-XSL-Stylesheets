@@ -38,4 +38,53 @@
       <xsl:apply-templates/>
     </fo:block>
   </xsl:template>
+
+  <xsl:template name="image.content.width">
+    <xsl:param name="scalefit" select="0"/>
+    <xsl:param name="scale" select="'1.0'"/>
+
+    <xsl:choose>
+      <xsl:when test="$ignore.image.scaling != 0">auto</xsl:when>
+      <xsl:when test="contains(@contentwidth,'%')">
+        <xsl:value-of select="@contentwidth"/>
+      </xsl:when>
+      <xsl:when test="@contentwidth">
+        <xsl:call-template name="length-spec">
+          <xsl:with-param name="length" select="@contentwidth"/>
+          <xsl:with-param name="default.units" select="'px'"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="number($scale) != 1.0">
+        <xsl:value-of select="$scale * 100"/>
+        <xsl:text>%</xsl:text>
+      </xsl:when>
+      <xsl:when test="$scalefit = 1">scale-down-to-fit</xsl:when>
+      <xsl:otherwise>auto</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="image.content.height">
+    <xsl:param name="scalefit" select="0"/>
+    <xsl:param name="scale" select="0"/>
+
+    <xsl:choose>
+      <xsl:when test="$ignore.image.scaling != 0">auto</xsl:when>
+      <xsl:when test="contains(@contentdepth,'%')">
+        <xsl:value-of select="@contentdepth"/>
+      </xsl:when>
+      <xsl:when test="@contentdepth">
+        <xsl:call-template name="length-spec">
+          <xsl:with-param name="length" select="@contentdepth"/>
+          <xsl:with-param name="default.units" select="'px'"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="number($scale) != 1.0">
+        <xsl:value-of select="$scale * 100"/>
+        <xsl:text>%</xsl:text>
+      </xsl:when>
+      <xsl:when test="$scalefit = 1">scale-down-to-fit</xsl:when>
+      <xsl:otherwise>auto</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>
