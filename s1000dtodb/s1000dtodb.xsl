@@ -1245,7 +1245,9 @@
           </xsl:attribute>
         </xsl:if>
         <xsl:if test="not(@reproductionWidth) and not(@reproductionHeight) and not(@reproductionScale)">
-          <xsl:attribute name="width">100%</xsl:attribute>
+          <xsl:if test="self::graphic">
+            <xsl:attribute name="width">100%</xsl:attribute>
+          </xsl:if>
           <xsl:attribute name="scalefit">1</xsl:attribute>
         </xsl:if>
       </xsl:element>

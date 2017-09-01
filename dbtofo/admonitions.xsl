@@ -22,7 +22,12 @@
     <xsl:attribute name="font-size">12pt</xsl:attribute>
     <xsl:attribute name="text-align">center</xsl:attribute>
     <xsl:attribute name="font-weight">bold</xsl:attribute>
-    <xsl:attribute name="text-decoration">underline</xsl:attribute>
+    <xsl:attribute name="text-decoration">
+      <xsl:choose>
+        <xsl:when test="self::d:caution">none</xsl:when>
+        <xsl:otherwise>underline</xsl:otherwise>
+      </xsl:choose>
+    </xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="admonition.properties">
