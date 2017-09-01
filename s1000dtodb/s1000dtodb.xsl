@@ -1531,6 +1531,8 @@
     <xsl:choose>
       <xsl:when test="$info.code = '001' or
                       $info.code = '005' or
+                      $info.code = '006' or
+                      $info.code = '007' or
                       $info.code = '009' or
                       $info.code = '00A' or
                       $info.code = '00S' or
