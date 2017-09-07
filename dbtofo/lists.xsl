@@ -78,4 +78,10 @@
       <xsl:apply-templates/>
     </fo:block>
   </xsl:template>
+
+  <xsl:template match="d:variablelist/d:title" mode="list.title.mode">
+    <fo:block text-align="left" font-style="italic" space-before="8pt">
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
 </xsl:stylesheet>

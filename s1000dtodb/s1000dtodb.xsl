@@ -1188,8 +1188,13 @@
 	      <xsl:number level="any" from="dmodule"/>
       </xsl:attribute>
       <xsl:attribute name="pgwide">1</xsl:attribute>
-      <xsl:apply-templates/>
+      <xsl:apply-templates select="title|graphic"/>
     </xsl:element>
+    <xsl:apply-templates select="legend"/>
+  </xsl:template>
+
+  <xsl:template match="legend">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="title">
@@ -1308,6 +1313,78 @@
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </variablelist>
+  </xsl:template>
+
+  <!--<xsl:template match="legend/definitionList">
+    <variablelist termlength="7mm">
+      <xsl:call-template name="revisionflag"/>
+      <title>
+        <xsl:text>Legend to Fig </xsl:text>
+        <xsl:apply-templates select="ancestor::figure" mode="number"/>
+        <xsl:text>:</xsl:text>
+      </title>
+      <xsl:apply-templates/>
+    </variablelist>
+  </xsl:template>-->
+
+  <xsl:template match="legend/definitionList">
+    <xsl:variable name="items" select="definitionListItem"/>
+    <xsl:variable name="count" select="count($items)"/>
+    <xsl:variable name="num.cols">
+      <xsl:choose>
+        <xsl:when test="$count &gt; 1">4</xsl:when>
+        <xsl:otherwise>2</xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="half" select="ceiling($count div 2)"/>
+    <fo:block keep-together.within-column="1" text-align="left">
+    <fo:block font-style="italic">
+      <xsl:text>Legend to Fig </xsl:text>
+      <xsl:apply-templates select="ancestor::figure" mode="number"/>
+      <xsl:text>:</xsl:text>
+    </fo:block>
+    <informaltable colsep="0" rowsep="0" frame="none">
+      <tgroup cols="{$num.cols}">
+        <colspec colnum="1" colwidth="7mm"/>
+        <colspec colnum="2" colwidth="68mm"/>
+        <xsl:if test="$num.cols = 4">
+          <colspec colnum="3" colwidth="7mm"/>
+          <colspec colnum="4" colwidth="68mm"/>
+        </xsl:if>
+        <tbody>
+          <xsl:for-each select="$items[position() &lt;= $half]">
+            <xsl:variable name="i" select="position()"/>
+            <row>
+              <entry>
+                <xsl:value-of select="listItemTerm"/>
+              </entry>
+              <entry>
+                <xsl:apply-templates select="listItemDefinition/para"/>
+              </entry>
+              <xsl:if test="$num.cols = 4">
+                <entry>
+                  <xsl:value-of select="$items[$i + $half]/listItemTerm"/>
+                </entry>
+                <entry>
+                  <xsl:apply-templates select="$items[$i + $half]/listItemDefinition/para"/>
+                </entry>
+              </xsl:if>
+            </row>
+          </xsl:for-each>
+        </tbody>
+      </tgroup>
+    </informaltable>
+    </fo:block>
+  </xsl:template>
+
+  <xsl:template match="legend/definitionList/definitionListItem/listItemTerm">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="legend/definitionList/definitionListItem/listItemDefinition/para">
+    <fo:block>
+      <xsl:apply-templates/>
+    </fo:block>
   </xsl:template>
   
   <xsl:template match="definitionListHeader|definitionListItem">
