@@ -24,6 +24,8 @@
   <!-- Params & attribute sets *********************************************************** -->
 
   <xsl:param name="end.of.data.module.position">footer</xsl:param>
+
+  <xsl:param name="include.title.in.toc">1</xsl:param>
   
   <xsl:param name="s1000d.xsl.version"/>
   

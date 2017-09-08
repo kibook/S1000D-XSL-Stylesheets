@@ -136,6 +136,37 @@
     </fo:table>
   </xsl:template>
 
+  <xsl:template match="d:chapter" mode="toc">
+    <xsl:variable name="id">
+      <xsl:call-template name="object.id"/>
+    </xsl:variable>
+    <fo:table width="100%" table-layout="fixed">
+      <fo:table-column column-width="proportional-column-width(1)"/>
+      <fo:table-body>
+        <fo:table-row>
+          <fo:table-cell start-indent="0pc">
+            <fo:block text-align="left" text-align-last="justify">
+              <fo:basic-link internal-destination="{$id}">
+                <xsl:choose>
+                  <xsl:when test="d:info/d:subtitle != ''">
+                    <xsl:apply-templates select="." mode="subtitle.markup"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:apply-templates select="." mode="title.markup"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <fo:inline keep-together.within-line="always">
+                  <fo:leader leader-pattern="dots" keep-with-next.within-line="always"/>
+                  <fo:page-number-citation ref-id="{$id}"/>
+                </fo:inline>
+              </fo:basic-link>
+            </fo:block>
+          </fo:table-cell>
+        </fo:table-row>
+      </fo:table-body>
+    </fo:table>
+  </xsl:template>
+
   <xsl:template name="component.toc">
     <xsl:param name="toc-context" select="."/>
     <xsl:param name="toc.title.p" select="true()"/>
@@ -161,6 +192,9 @@
         <xsl:if test="$toc.title.p">
           <xsl:call-template name="table.of.contents.titlepage"/>
         </xsl:if>
+        <xsl:if test="$include.title.in.toc != 0">
+          <xsl:apply-templates select="ancestor-or-self::d:chapter" mode="toc"/>
+        </xsl:if>
         <xsl:apply-templates select="$nodes" mode="toc">
           <xsl:with-param name="toc-context" select="$toc-context"/>
         </xsl:apply-templates>
@@ -180,4 +214,5 @@
       <xsl:with-param name="toc-context" select="$toc-context"/>
     </xsl:call-template>
   </xsl:template>
+
 </xsl:stylesheet>
