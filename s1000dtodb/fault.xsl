@@ -140,19 +140,28 @@
     <xsl:param name="number"/>
     <xsl:param name="question"/>
     <xsl:variable name="next.action.ref.id" select="@nextActionRefId"/>
+    <xsl:variable name="next.elem" select="ancestor-or-self::dmodule//*[@id=$next.action.ref.id]"/>
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
       	<xsl:value-of select="$number"/>
       </xsl:with-param>
       <xsl:with-param name="content">
         <xsl:value-of select="$question"/>
-        <xsl:text>: Go to </xsl:text>
-        <xsl:for-each select="ancestor-or-self::dmodule//*[@id=$next.action.ref.id]">
-	  <xsl:variable name="num">
-	    <xsl:call-template name="isolation.item.number"/>
-	  </xsl:variable>
-	  <xsl:value-of select="$num + 1"/>
-        </xsl:for-each>
+        <xsl:text>: </xsl:text>
+        <xsl:choose>
+          <xsl:when test="name($next.elem) = 'closeRqmts'">
+            <emphasis role="bold">Go to Requirements after job completion</emphasis>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>Go to </xsl:text>
+            <xsl:for-each select="ancestor-or-self::dmodule//*[@id=$next.action.ref.id]">
+              <xsl:variable name="num">
+                <xsl:call-template name="isolation.item.number"/>
+              </xsl:variable>
+              <xsl:value-of select="$num + 1"/>
+            </xsl:for-each>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:with-param>
     </xsl:call-template>
   </xsl:template>
