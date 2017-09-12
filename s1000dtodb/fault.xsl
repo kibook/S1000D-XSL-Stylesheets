@@ -90,7 +90,7 @@
 
   <xsl:template match="isolationProcedureEnd">
     <xsl:apply-templates/>
-    <para><emphasis role="bold">Goto Requirements after job completion</emphasis></para>
+    <para><emphasis role="bold">Go to Requirements after job completion</emphasis></para>
   </xsl:template>
 
   <xsl:template name="isolation.item.number">
