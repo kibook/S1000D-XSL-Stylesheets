@@ -833,6 +833,10 @@
     <xsl:call-template name="required.conditions"/>
   </xsl:template>
 
+  <xsl:template match="closeRqmts/reqCondGroup">
+    <xsl:call-template name="required.conditions"/>
+  </xsl:template>
+
   <xsl:template match="reqCondNoRef">
     <entry><xsl:apply-templates/></entry>
     <entry></entry>
