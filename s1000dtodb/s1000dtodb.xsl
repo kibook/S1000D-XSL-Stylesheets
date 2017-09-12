@@ -833,7 +833,7 @@
     <xsl:call-template name="required.conditions"/>
   </xsl:template>
 
-  <xsl:template match="closeRqmts/reqCondGroup">
+  <xsl:template match="procedure/closeRqmts/reqCondGroup">
     <xsl:call-template name="required.conditions"/>
   </xsl:template>
 

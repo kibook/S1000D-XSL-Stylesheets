@@ -13,6 +13,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns="http://docbook.org/ns/docbook"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:fo="http://www.w3.org/1999/XSL/Format"
   version="1.0">
 
   <xsl:template match="dmodule[contains(@xsi:noNamespaceSchemaLocation, 'fault.xsd')]">
@@ -76,6 +77,17 @@
     <para><xsl:text>None.</xsl:text></para>
   </xsl:template>
 
+  <xsl:template match="isolationProcedure/closeRqmts/reqCondGroup/*">
+    <xsl:call-template name="labelled.para">
+      <xsl:with-param name="label">
+        <xsl:call-template name="isolation.item.number"/>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
   <xsl:template match="isolationMainProcedure">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="2cm"</xsl:text>
@@ -85,16 +97,28 @@
   </xsl:template>
 
   <xsl:template match="isolationStep">
+    <fo:block keep-with-next="always">
+      <xsl:call-template name="copy.id"/>
+    </fo:block>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="isolationProcedureEnd">
+    <fo:block keep-with-next="always">
+      <xsl:call-template name="copy.id"/>
+    </fo:block>
     <xsl:apply-templates/>
-    <para><emphasis role="bold">Go to Requirements after job completion</emphasis></para>
+    <para><emphasis role="bold">Go to Requirements after job completion.</emphasis></para>
   </xsl:template>
 
   <xsl:template name="isolation.item.number">
-    <xsl:number count="action|isolationStepQuestion" from="isolationProcedure" level="any"/>
+    <xsl:number count="action|
+                       isolationStepQuestion|
+                       closeRqmts/reqCondGroup/reqCondNoRef|
+                       closeRqmts/reqCondGroup/reqCondDm|
+                       closeRqmts/reqCondGroup/reqCondPm|
+                       closeRqmts/reqCondGroup/reqCondExternalPub"
+                from="isolationProcedure" level="any"/>
   </xsl:template>
   
   <xsl:template match="action">
@@ -141,6 +165,12 @@
     <xsl:param name="question"/>
     <xsl:variable name="next.action.ref.id" select="@nextActionRefId"/>
     <xsl:variable name="next.elem" select="ancestor-or-self::dmodule//*[@id=$next.action.ref.id]"/>
+    <xsl:variable name="next.id">
+      <xsl:text>ID_</xsl:text>
+      <xsl:call-template name="get.dmcode"/>
+      <xsl:text>-</xsl:text>
+      <xsl:value-of select="$next.action.ref.id"/>
+    </xsl:variable>
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
       	<xsl:value-of select="$number"/>
@@ -150,16 +180,20 @@
         <xsl:text>: </xsl:text>
         <xsl:choose>
           <xsl:when test="name($next.elem) = 'closeRqmts'">
-            <emphasis role="bold">Go to Requirements after job completion</emphasis>
+            <emphasis role="bold">Go to Requirements after job completion.</emphasis>
           </xsl:when>
           <xsl:otherwise>
             <xsl:text>Go to </xsl:text>
-            <xsl:for-each select="ancestor-or-self::dmodule//*[@id=$next.action.ref.id]">
-              <xsl:variable name="num">
-                <xsl:call-template name="isolation.item.number"/>
-              </xsl:variable>
-              <xsl:value-of select="$num + 1"/>
-            </xsl:for-each>
+            <link linkend="{$next.id}">
+              <xsl:text>Step </xsl:text>
+              <xsl:for-each select="ancestor-or-self::dmodule//*[@id=$next.action.ref.id]">
+                <xsl:variable name="num">
+                  <xsl:call-template name="isolation.item.number"/>
+                </xsl:variable>
+                <xsl:value-of select="$num + 1"/>
+              </xsl:for-each>
+            </link>
+            <xsl:text>.</xsl:text>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:with-param>
