@@ -68,11 +68,16 @@
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="dm.type">
-            <xsl:call-template name="get.dm.type"/>
+            <xsl:call-template name="data.module.type">
+              <xsl:with-param name="info.code">
+                <xsl:call-template name="get.infocode"/>
+              </xsl:with-param>
+            </xsl:call-template>
           </xsl:variable>
           <xsl:choose>
-            <xsl:when test="$dm.type = 'frontmatter'">
-              <!-- Authored front-matter data module using descriptive schema -->
+            <xsl:when test="$dm.type = 'frontmatter' or $dm.type = 'tabular'">
+              <!-- Authored front-matter data module using descriptive schema
+                   and tabular data modules. -->
               <xsl:apply-templates select="content/description/*"/>
             </xsl:when>
             <xsl:otherwise>

@@ -5,6 +5,10 @@
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
   version="1.0">
 
+  <!-- By default, no style is applied to inlineSignificantData.
+
+       Override/add templates to customise per project. -->
+
   <xsl:template match="inlineSignificantData">
     <xsl:apply-templates/>
   </xsl:template>

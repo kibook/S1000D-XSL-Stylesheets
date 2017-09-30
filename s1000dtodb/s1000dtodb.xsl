@@ -106,6 +106,7 @@
   <xsl:include href="frontmatter.xsl"/>
 
   <xsl:include href="inlineSignificantData.xsl"/>
+  <xsl:include href="data-module-type.xsl"/>
 
   <xsl:variable name="lower">abcdefghijklmnopqrstuvwxyz</xsl:variable>
   <xsl:variable name="upper">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
@@ -243,13 +244,15 @@
   </xsl:template>
 
   <xsl:template name="get.infocode">
-    <xsl:for-each select="ancestor-or-self::dmodule">
-      <xsl:apply-templates select="identAndStatusSection/dmAddress/dmIdent/dmCode/@infoCode"/>
-    </xsl:for-each>
-  </xsl:template>
-
-  <xsl:template name="get.dmref.infocode">
-    <xsl:apply-templates select="ancestor-or-self::dmRef/dmRefIdent/dmCode/@infoCode"/>
+    <xsl:choose>
+      <!-- if this is inside a dmRef, we want the info code of the referenced dm -->
+      <xsl:when test="ancestor-or-self::dmRef">
+        <xsl:apply-templates select="ancestor-or-self::dmRef/dmRefIdent/dmCode/@infoCode"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="ancestor-or-self::dmodule/identAndStatusSection/dmAddress/dmIdent/dmCode/@infoCode"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="copy.id">
@@ -300,7 +303,11 @@
         <xsl:call-template name="get.infocode"/>
       </xsl:variable>
       <xsl:variable name="dm.type">
-        <xsl:call-template name="get.dm.type"/>
+        <xsl:call-template name="data.module.type">
+          <xsl:with-param name="info.code">
+            <xsl:call-template name="get.infocode"/>
+          </xsl:with-param>
+        </xsl:call-template>
       </xsl:variable>
       <title>
         <xsl:choose>
@@ -1503,6 +1510,7 @@
         </xsl:choose>
       </xsl:for-each>
       <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
@@ -1598,36 +1606,14 @@
     </xsl:element>
   </xsl:template>
 
-  <!-- Associate certain info codes with 'types' of data modules -->
-  <xsl:template name="get.dm.type">
-    <xsl:variable name="info.code">
-      <xsl:choose>
-        <!-- if this is inside a dmRef, we want the info code of the referenced dm -->
-        <xsl:when test="ancestor-or-self::dmRef">
-          <xsl:call-template name="get.dmref.infocode"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:call-template name="get.infocode"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:choose>
-      <xsl:when test="$info.code = '001' or
-                      $info.code = '005' or
-                      $info.code = '006' or
-                      $info.code = '007' or
-                      $info.code = '009' or
-                      $info.code = '00A' or
-                      $info.code = '00S' or
-                      $info.code = '00U' or
-                      $info.code = '00Z'">frontmatter</xsl:when>
-    </xsl:choose>
-  </xsl:template>
-
   <xsl:template match="dmTitle">
     <!-- present only infoname as title for frontmatter data modules -->
     <xsl:variable name="dm.type">
-      <xsl:call-template name="get.dm.type"/>
+      <xsl:call-template name="data.module.type">
+        <xsl:with-param name="info.code">
+          <xsl:call-template name="get.infocode"/>
+        </xsl:with-param>
+      </xsl:call-template>
     </xsl:variable>
 
     <xsl:if test="not($dm.type = 'frontmatter')">
