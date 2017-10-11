@@ -714,6 +714,11 @@
     <xsl:value-of select="./@infoCodeVariant"/>
     <xsl:text>-</xsl:text>
     <xsl:value-of select="./@itemLocationCode"/>
+    <xsl:if test="./@learnCode">
+      <xsl:text>-</xsl:text>
+      <xsl:value-of select="./@learnCode"/>
+      <xsl:value-of select="./@learnEventCode"/>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="pmCode">
