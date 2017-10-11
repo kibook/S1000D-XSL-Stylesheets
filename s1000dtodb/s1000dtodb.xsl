@@ -1302,12 +1302,38 @@
   <xsl:template match="randomList|attentionRandomList">
     <xsl:element name="itemizedlist">
       <xsl:call-template name="revisionflag"/>
-      <xsl:if test="@listItemPrefix = 'pf01'">
-        <!-- "simple list" -->
-        <xsl:attribute name="mark">
-	  <xsl:text>none</xsl:text>
-        </xsl:attribute>
-      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="@listItemPrefix = 'pf01'">
+          <xsl:attribute name="mark">
+            <xsl:text>none</xsl:text>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@listItemPrefix = 'pf03'">
+          <xsl:attribute name="mark">
+            <xsl:text>dash</xsl:text>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@listItemPrefix = 'pf04'">
+          <xsl:attribute name="mark">
+            <xsl:text>disc</xsl:text>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@listItemPrefix = 'pf05'">
+          <xsl:attribute name="mark">
+            <xsl:text>circle</xsl:text>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@listItemPrefix = 'pf06'">
+          <xsl:attribute name="mark">
+            <xsl:text>whitesquare</xsl:text>
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:when test="@listItemPrefix = 'pf07'">
+          <xsl:attribute name="mark">
+            <xsl:text>bullet</xsl:text>
+          </xsl:attribute>
+        </xsl:when>
+      </xsl:choose>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>

@@ -27,6 +27,33 @@
       <xsl:otherwise>endash</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+  <xsl:template name="itemizedlist.label.markup">
+    <xsl:param name="itemsymbol" select="'disc'"/>
+
+    <xsl:choose>
+      <xsl:when test="$itemsymbol='none'"></xsl:when>
+      <xsl:when test="$itemsymbol='disc'">&#x2022;</xsl:when>
+      <xsl:when test="$itemsymbol='bullet'">&#x2022;</xsl:when>
+      <xsl:when test="$itemsymbol='endash'">&#x2013;</xsl:when>
+      <xsl:when test="$itemsymbol='emdash'">&#x2014;</xsl:when>
+      <xsl:when test="$itemsymbol='square'">&#x25A0;</xsl:when>
+      <xsl:when test="$itemsymbol='box'">&#x25A0;</xsl:when>
+      <xsl:when test="$itemsymbol='smallblacksquare'">&#x25AA;</xsl:when>
+      <xsl:when test="$itemsymbol='circle'">&#x25CB;</xsl:when>
+      <xsl:when test="$itemsymbol='opencircle'">&#x25CB;</xsl:when>
+      <xsl:when test="$itemsymbol='whitesquare'">&#x25A1;</xsl:when>
+      <xsl:when test="$itemsymbol='smallwhitesquare'">&#x25AB;</xsl:when>
+      <xsl:when test="$itemsymbol='round'">&#x25CF;</xsl:when>
+      <xsl:when test="$itemsymbol='blackcircle'">&#x25CF;</xsl:when>
+      <xsl:when test="$itemsymbol='whitebullet'">&#x25E6;</xsl:when>
+      <xsl:when test="$itemsymbol='triangle'">&#x2023;</xsl:when>
+      <xsl:when test="$itemsymbol='point'">&#x203A;</xsl:when>
+      <xsl:when test="$itemsymbol='hand'"><fo:inline 
+                           font-family="Wingdings 2">A</fo:inline></xsl:when>
+      <xsl:otherwise>&#x2022;</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   
   <xsl:template name="next.numeration">
     <xsl:param name="numeration" select="'default'"/>
