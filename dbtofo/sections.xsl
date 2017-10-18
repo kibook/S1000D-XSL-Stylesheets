@@ -18,7 +18,7 @@
   
   <!-- Sections ***************************************************************** -->
   
-  <xsl:template match="d:section|d:sect1|d:sect2|d:sect3|d:sect4">
+  <xsl:template match="d:section|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5">
     <xsl:choose>
       <xsl:when test="./preceding-sibling::*[position() = 1 and name() = 'title']">
         <!-- don't add space if preceding sibling is a title -->
@@ -49,7 +49,7 @@
     <xsl:variable name="content">
       <xsl:choose>
         <xsl:when
-	  test="parent::d:section|parent::d:sect1|parent::d:sect2|parent::d:sect3|parent::d:sect4|parent::d:note">
+	  test="parent::d:section|parent::d:sect1|parent::d:sect2|parent::d:sect3|parent::d:sect4|parent::d:sect5|parent::d:note">
 	  <xsl:variable name="keep.together">
 	    <xsl:call-template name="pi.dbfo_keep-together"/>
 	  </xsl:variable>

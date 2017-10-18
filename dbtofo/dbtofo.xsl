@@ -87,7 +87,7 @@
   <xsl:param name="headers.on.blank.pages">0</xsl:param>
   <xsl:param name="footers.on.blank.pages">0</xsl:param>
   
-  <xsl:param name="toc.section.depth">4</xsl:param>
+  <xsl:param name="toc.section.depth">5</xsl:param>
   <xsl:param name="bridgehead.in.toc">1</xsl:param>
   
   <xsl:param name="chapter.autolabel" select="0"/>

@@ -41,6 +41,7 @@
   <xsl:attribute-set name="section.title.level5.properties">
     <xsl:attribute name="font-size">10pt</xsl:attribute>
     <xsl:attribute name="font-weight">normal</xsl:attribute>
+    <xsl:attribute name="font-style">italic</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="component.title.properties">
@@ -177,6 +178,12 @@
           use-attribute-sets="section.title.level4.properties">
           <xsl:call-template name="s1000d.titlepage.recto"/>
         </xsl:element>
+      </xsl:when>
+      <xsl:when test="$level = 5">
+        <xsl:element name="fo:{$section.container.element}"
+          use-attribute-sets="section.title.level5.properties">
+            <xsl:call-template name="s1000d.titlepage.recto"/>
+          </xsl:element>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
