@@ -82,7 +82,7 @@
     </xsl:variable>
 
     <fo:table width="100%" table-layout="fixed">
-      <fo:table-column column-width="10%"/>
+      <fo:table-column column-width="{$toc.section.width}"/>
       <fo:table-column column-width="proportional-column-width(1)"/>
       <fo:table-body>
         <fo:table-row>
