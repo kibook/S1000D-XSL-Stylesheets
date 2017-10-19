@@ -1785,6 +1785,7 @@
   </xsl:template>
 
   <xsl:template name="gen.lot">
+    <xsl:variable name="all.tables" select="$all.dmodules//table[title]"/>
     <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
       <tgroup cols="2" align="left">
         <thead rowsep="1">
@@ -1794,7 +1795,16 @@
           </row>
         </thead>
         <tbody>
-          <xsl:apply-templates select="$all.dmodules//table[title]" mode="lot"/>
+          <xsl:choose>
+            <xsl:when test="not($all.tables)">
+              <row>
+                <entry>None</entry>
+              </row>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates select="$all.tables" mode="lot"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </tbody>
       </tgroup>
     </informaltable>
@@ -1818,6 +1828,7 @@
   </xsl:template>
 
   <xsl:template name="gen.loi">
+    <xsl:variable name="all.graphics" select="$all.dmodules//figure/graphic"/>
     <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
       <tgroup cols="3" align="left">
         <thead rowsep="1">
@@ -1828,7 +1839,16 @@
           </row>
         </thead>
         <tbody>
-          <xsl:apply-templates select="$all.dmodules//figure/graphic" mode="loi"/>
+          <xsl:choose>
+            <xsl:when test="not($all.graphics)">
+              <row>
+                <entry>None</entry>
+              </row>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates select="$all.graphics" mode="loi"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </tbody>
       </tgroup>
     </informaltable>
