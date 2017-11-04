@@ -775,127 +775,21 @@
   <!-- Experimental: Handle levelledParas the same as proceduralSteps.
 
        Allows for levelledPara's without titles to be displayed properly? -->
-  <!--<xsl:attribute-set name="sidehead1.properties">
-    <xsl:attribute name="font-size">14pt</xsl:attribute>
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
-  </xsl:attribute-set>
-  <xsl:attribute-set name="sidehead2.properties">
-    <xsl:attribute name="font-size">12pt</xsl:attribute>
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
-  </xsl:attribute-set>
-  <xsl:attribute-set name="sidehead3.properties">
-    <xsl:attribute name="font-size">10pt</xsl:attribute>
-    <xsl:attribute name="font-weight">bold</xsl:attribute>
-  </xsl:attribute-set>
-  <xsl:attribute-set name="sidehead4.properties">
-    <xsl:attribute name="font-size">10pt</xsl:attribute>
-  </xsl:attribute-set>
-  <xsl:attribute-set name="sidehead5.properties">
-    <xsl:attribute name="font-size">10pt</xsl:attribute>
-    <xsl:attribute name="font-style">italic</xsl:attribute>
-  </xsl:attribute-set>
 
-  <xsl:template match="levelledPara/title|commonInfoDescrPara/title">
-    <xsl:variable name="level" select="count(ancestor::levelledPara|ancestor::commonInfoDescrPara)"/>
-    <xsl:choose>
-      <xsl:when test="$level = 1">
-        <fo:block xsl:use-attribute-sets="sidehead1.properties">
-          <xsl:apply-templates/>
-        </fo:block>
-      </xsl:when>
-      <xsl:when test="$level = 2">
-        <fo:block xsl:use-attribute-sets="sidehead2.properties">
-          <xsl:apply-templates/>
-        </fo:block>
-      </xsl:when>
-      <xsl:when test="$level = 3">
-        <fo:block xsl:use-attribute-sets="sidehead3.properties">
-          <xsl:apply-templates/>
-        </fo:block>
-      </xsl:when>
-      <xsl:when test="$level = 4">
-        <fo:block xsl:use-attribute-sets="sidehead4.properties">
-          <xsl:apply-templates/>
-        </fo:block>
-      </xsl:when>
-      <xsl:otherwise>
-        <fo:block xsl:use-attribute-sets="sidehead5.properties">
-          <xsl:apply-templates/>
-        </fo:block>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-  <xsl:template match="levelledPara|commonInfoDescrPara" mode="label">
-    <xsl:variable name="level" select="count(ancestor::levelledPara|ancestor::commonInfoDescrPara) + 1"/>
-    <xsl:choose>
-      <xsl:when test="$level = 1">
-        <fo:block xsl:use-attribute-sets="sidehead1.properties">
-          <xsl:apply-templates select="." mode="number"/>
-        </fo:block>
-      </xsl:when>
-      <xsl:when test="$level = 2">
-        <fo:block xsl:use-attribute-sets="sidehead2.properties">
-          <xsl:apply-templates select="." mode="number"/>
-        </fo:block>
-      </xsl:when>
-      <xsl:when test="$level = 3">
-        <fo:block xsl:use-attribute-sets="sidehead3.properties">
-          <xsl:apply-templates select="." mode="number"/>
-        </fo:block>
-      </xsl:when>
-      <xsl:when test="$level = 4">
-        <fo:block xsl:use-attribute-sets="sidehead4.properties">
-          <xsl:apply-templates select="." mode="number"/>
-        </fo:block>
-      </xsl:when>
-      <xsl:otherwise>
-        <fo:block xsl:use-attribute-sets="sidehead5.properties">
-          <xsl:apply-templates select="." mode="number"/>
-        </fo:block>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-  <xsl:template match="levelledPara|commonInfoDescrPara">
+  <xsl:template match="levelledPara[not(title)]|commonInfoDescrPara[not(title)]">
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
-        <xsl:choose>
-          <xsl:when test="title">
-            <xsl:apply-templates select="." mode="label"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:apply-templates select="." mode="number"/>
-          </xsl:otherwise>
-        </xsl:choose>
+        <xsl:apply-templates select="." mode="number"/>
       </xsl:with-param>
       <xsl:with-param name="content">
-        <fo:block keep-with-next="always">
-          <xsl:apply-templates select="title"/>
-        </fo:block>
         <fo:block>
           <xsl:call-template name="make.applic.annotation"/>
           <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
-          <xsl:apply-templates select="*[not(self::levelledPara or self::commonInfoDescrPara or self::title)]"/>
+          <xsl:apply-templates/>
         </fo:block>
       </xsl:with-param>
-      <xsl:with-param name="title" select="title"/>
     </xsl:call-template>
-    <xsl:apply-templates select="levelledPara|commonInfoDescrPara"/>
   </xsl:template>
-
-  <xsl:template match="levelledPara/para|commonInfoDescrPara/para">
-    <xsl:choose>
-      <xsl:when test="position() = 1">
-        <xsl:apply-templates/>
-      </xsl:when>
-      <xsl:otherwise>
-        <para>
-          <xsl:apply-templates/>
-        </para>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>-->
 
   <xsl:template match="commonInfo">
     <xsl:processing-instruction name="dbfo-need">
