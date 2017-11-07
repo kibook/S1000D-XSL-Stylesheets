@@ -26,8 +26,8 @@
        rather than maintaining the data module. -->
   <xsl:param name="producedby.blurb"/>
 
-  <!-- Include the "Produced by:" blurb on the title page. -->
-  <xsl:param name="producedby.blurb.on.titlepage">0</xsl:param>
+  <!-- Include the "Produced by" blurb on the title page. -->
+  <xsl:param name="producedby.blurb.on.titlepage">1</xsl:param>
 
   <!-- Text before "Produced by" blurb -->
   <xsl:param name="producedby.blurb.before">Produced by: </xsl:param>
