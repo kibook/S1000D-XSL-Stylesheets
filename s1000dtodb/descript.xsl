@@ -27,7 +27,12 @@
       <xsl:choose>
         <xsl:when test="$info.code = '001'">
           <xsl:apply-templates select="identAndStatusSection">
-            <xsl:with-param name="show.producedby.blurb">no</xsl:with-param>
+            <xsl:with-param name="show.producedby.blurb">
+              <xsl:choose>
+                <xsl:when test="$producedby.blurb.on.titlepage != 0">yes</xsl:when>
+                <xsl:otherwise>no</xsl:otherwise>
+              </xsl:choose>
+            </xsl:with-param>
           </xsl:apply-templates>
         </xsl:when>
         <xsl:otherwise>

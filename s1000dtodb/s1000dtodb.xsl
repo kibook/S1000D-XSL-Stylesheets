@@ -19,6 +19,24 @@
   <xsl:param name="date.time"/>
   
   <xsl:param name="want.producedby.blurb">yes</xsl:param>
+
+  <!-- Set the "Produced by" blurb for the whole publication rather than
+       deriving it invididually from each data module, when the blurb is used
+       to indicate the entity responsible for printing the page-oriented output
+       rather than maintaining the data module. -->
+  <xsl:param name="producedby.blurb"/>
+
+  <!-- Include the "Produced by:" blurb on the title page. -->
+  <xsl:param name="producedby.blurb.on.titlepage">0</xsl:param>
+
+  <!-- Text before "Produced by" blurb -->
+  <xsl:param name="producedby.blurb.before">Produced by: </xsl:param>
+
+  <!-- Optional country where the page-oriented output was printed. -->
+  <xsl:param name="printedin.blurb"/>
+
+  <!-- Text before "Printed in" blurb -->
+  <xsl:param name="printedin.blurb.before">. Printed in </xsl:param>
   
   <xsl:param name="want.inwork.blurb">yes</xsl:param>
   
@@ -346,9 +364,21 @@
           </xsl:if>
         </bibliomisc>
       </xsl:if>
-      <xsl:if test="dmStatus/responsiblePartnerCompany/enterpriseName and $show.producedby.blurb = 'yes'">
+      <xsl:if test="$show.producedby.blurb = 'yes'">
         <bibliomisc role="producedby.blurb">
-          Produced by: <xsl:value-of select="dmStatus/responsiblePartnerCompany/enterpriseName"/>
+          <xsl:value-of select="$producedby.blurb.before"/>
+          <xsl:choose>
+            <xsl:when test="$producedby.blurb != ''">
+              <xsl:value-of select="$producedby.blurb"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="dmStatus/responsiblePartnerCompany/enterpriseName"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:if test="$printedin.blurb != ''">
+            <xsl:value-of select="$printedin.blurb.before"/>
+            <xsl:value-of select="$printedin.blurb"/>
+          </xsl:if>
         </bibliomisc>
       </xsl:if>
       <xsl:if test="$info.code = '001'">
