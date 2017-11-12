@@ -786,17 +786,17 @@
   </xsl:template>
 
   <xsl:template name="levelled.para.content">
-    <xsl:call-template name="make.applic.annotation"/>
     <xsl:call-template name="copy.id"/>
     <xsl:call-template name="revisionflag"/>
+    <xsl:call-template name="make.applic.annotation"/>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="levelledPara|commonInfoDescrPara">
     <section>
-      <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
       <xsl:apply-templates/>
     </section>
@@ -813,8 +813,8 @@
       </xsl:with-param>
       <xsl:with-param name="content">
         <fo:block>
-          <xsl:call-template name="make.applic.annotation"/>
           <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+          <xsl:call-template name="make.applic.annotation"/>
           <xsl:apply-templates/>
         </fo:block>
       </xsl:with-param>
@@ -1238,9 +1238,9 @@
 
   <xsl:template match="para|warningAndCautionPara|notePara|simplePara|attentionListItemPara">
     <xsl:element name="para">
-      <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
@@ -1516,8 +1516,8 @@
 
   <xsl:template match="listItem|listItemDefinition|attentionSequentialListItem|attentionRandomListItem">
     <xsl:element name="listitem">
-      <xsl:call-template name="make.applic.annotation"/>
       <xsl:call-template name="revisionflag"/>
+      <xsl:call-template name="make.applic.annotation"/>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
