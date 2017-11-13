@@ -1400,8 +1400,14 @@
   </xsl:template>
 
   <xsl:template match="definitionList">
-    <variablelist termlength="35mm">
-      <xsl:call-template name="revisionflag"/>
+    <variablelist termlength="50mm">
+      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
+        <xsl:call-template name="revisionflag">
+          <xsl:with-param name="change.mark">1</xsl:with-param>
+          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
+          <xsl:with-param name="change.type">modify</xsl:with-param>
+        </xsl:call-template>
+      </xsl:if>
       <xsl:apply-templates/>
     </variablelist>
   </xsl:template>
