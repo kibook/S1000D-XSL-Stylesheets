@@ -115,6 +115,9 @@
           Otherwise, only the acronymTerm is displayed. -->
   <xsl:param name="auto.expand.acronyms">0</xsl:param>
 
+  <!-- Width of the term column in a definition list. -->
+  <xsl:param name="definition.list.term.width">50mm</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -1400,7 +1403,7 @@
   </xsl:template>
 
   <xsl:template match="definitionList">
-    <variablelist termlength="50mm">
+    <variablelist termlength="{$definition.list.term.width}">
       <xsl:if test="descendant-or-self::*[@changeMark = '1']">
         <xsl:call-template name="revisionflag">
           <xsl:with-param name="change.mark">1</xsl:with-param>
