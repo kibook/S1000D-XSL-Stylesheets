@@ -1575,7 +1575,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="tgroup|thead|colspec|row|entry">
+  <xsl:template match="tgroup|thead|colspec|spanspec|row|entry">
     <xsl:element name="{name()}">
       <xsl:call-template name="copy.id"/>
       <xsl:if test="name(.) = 'thead' and not(@rowsep|ancestor::table/@rowsep)">
