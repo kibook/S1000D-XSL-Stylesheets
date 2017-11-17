@@ -35,7 +35,20 @@
     <xsl:attribute name="text-align">left</xsl:attribute>
   </xsl:attribute-set>
 
+
   <xsl:template match="d:important|d:warning|d:caution|d:tip">
+    <xsl:call-template name="make.warning.caution"/>
+  </xsl:template>
+
+  <xsl:template match="d:important[@revisionflag]|d:warning[@revisionflag]|d:caution[@revisionflag]|d:tip[@revisionflag]">
+    <xsl:call-template name="make.change.bar">
+      <xsl:with-param name="content">
+        <xsl:call-template name="make.warning.caution"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="make.warning.caution">
     <xsl:variable name="id">
       <xsl:call-template name="object.id"/>
     </xsl:variable>
@@ -58,8 +71,8 @@
       </fo:block>
     </fo:block>
   </xsl:template>
-  
-  <xsl:template match="d:note">
+
+  <xsl:template name="make.note">
     <xsl:variable name="id">
       <xsl:call-template name="object.id"/>
     </xsl:variable>
@@ -80,5 +93,17 @@
         <xsl:apply-templates/>
       </fo:block>
     </fo:block>
+  </xsl:template>
+
+  <xsl:template match="d:note">
+    <xsl:call-template name="make.note"/>
+  </xsl:template>
+
+  <xsl:template match="d:note[@revisionflag]">
+    <xsl:call-template name="make.change.bar">
+      <xsl:with-param name="content">
+        <xsl:call-template name="make.note"/>
+      </xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 </xsl:stylesheet>
