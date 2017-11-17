@@ -360,10 +360,15 @@
       </bibliomisc>
       <xsl:if test="number(dmAddress/dmIdent/issueInfo/@inWork) != 0 and $want.inwork.blurb = 'yes'">
         <bibliomisc role="inwork.blurb">
-          This is a draft copy of issue <xsl:value-of select="dmAddress/dmIdent/issueInfo/@issueNumber"/>-<xsl:value-of
-          select="dmAddress/dmIdent/issueInfo/@inWork"/>.
+          <xsl:text>This is a draft copy of issue </xsl:text>
+          <xsl:value-of select="dmAddress/dmIdent/issueInfo/@issueNumber"/>
+          <xsl:text>-</xsl:text>
+          <xsl:value-of select="dmAddress/dmIdent/issueInfo/@inWork"/>
+          <xsl:text>.</xsl:text>
           <xsl:if test="$date.time != ''">
-            Printed <xsl:value-of select="$date.time"/>.
+            <xsl:text> Printed </xsl:text>
+            <xsl:value-of select="$date.time"/>
+            <xsl:text>.</xsl:text>
           </xsl:if>
         </bibliomisc>
       </xsl:if>
