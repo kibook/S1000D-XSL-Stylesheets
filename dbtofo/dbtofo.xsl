@@ -42,6 +42,7 @@
   
   <xsl:param name="font.family">Helvetica</xsl:param>
   <xsl:param name="title.fontset"><xsl:value-of select="$font.family"/></xsl:param>
+  <xsl:param name="body.fontset"><xsl:value-of select="$font.family"/></xsl:param>
   
   <xsl:param name="page.margin.top">11mm</xsl:param>
   <xsl:param name="region.before.extent">15mm</xsl:param>
