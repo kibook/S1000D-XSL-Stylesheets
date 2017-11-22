@@ -187,13 +187,26 @@
       |d:qandaset[$qanda.in.toc != 0]
       |d:appendix|d:index|d:bridgehead[@renderas='centerhead']
       |d:para[@labeltitle]"/>
-    <xsl:if test="$nodes">
+
+    <xsl:variable name="chapter" select="ancestor-or-self::d:chapter"/>
+
+    <!-- Don't show TOC on authored "frontmatter" data modules even if they
+         contain the nodes specified above.
+
+         Currently these are (crudely) identified by their lack of centerheads
+         and only the descriptive schema is really supported for authoring them.
+
+         TODO: Find more robust way of determining "frontmatter" vs "normal"
+               data modules.
+
+         TODO: Hide LOF and LOTBL on frontmatter data modules too. -->
+    <xsl:if test="$nodes and $chapter//d:bridgehead[@renderas='centerhead']">
       <fo:block id="toc...{$id}" xsl:use-attribute-sets="toc.margin.properties">
         <xsl:if test="$toc.title.p">
           <xsl:call-template name="table.of.contents.titlepage"/>
         </xsl:if>
         <xsl:if test="$include.title.in.toc != 0">
-          <xsl:apply-templates select="ancestor-or-self::d:chapter" mode="toc"/>
+          <xsl:apply-templates select="$chapter" mode="toc"/>
         </xsl:if>
         <xsl:apply-templates select="$nodes" mode="toc">
           <xsl:with-param name="toc-context" select="$toc-context"/>
