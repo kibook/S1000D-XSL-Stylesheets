@@ -80,7 +80,7 @@
             </xsl:call-template>
           </xsl:variable>
           <xsl:choose>
-            <xsl:when test="$dm.type = 'frontmatter' or $dm.type = 'tabular'">
+            <xsl:when test="$dm.type = 'frontmatter' or $dm.type = 'simple'">
               <!-- Authored front-matter data module using descriptive schema
                    and tabular data modules. -->
               <xsl:apply-templates select="content/description/*"/>

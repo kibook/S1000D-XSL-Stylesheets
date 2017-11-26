@@ -118,6 +118,16 @@
   <!-- Width of the term column in a definition list. -->
   <xsl:param name="definition.list.term.width">50mm</xsl:param>
 
+  <!-- Descriptive data modules with these info codes are presented as front matter, meaning
+         - Only the infoName is presented
+         - No TOC, LOF, LOTBL, or References
+         - No centerhead 'Description' -->
+  <xsl:param name="front.matter.info.codes">001 005 006 007 009 00A 00S 00U 00Z</xsl:param>
+  <!-- Descriptive data modules with these info codes are presented as "simple"/"tabular", meaning
+         - No TOC, LOF, LOTBL, or References
+         - No centerhead 'Description' -->
+  <xsl:param name="simple.info.codes"/>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -127,7 +137,6 @@
   <xsl:include href="frontmatter.xsl"/>
 
   <xsl:include href="inlineSignificantData.xsl"/>
-  <xsl:include href="data-module-type.xsl"/>
 
   <xsl:variable name="lower">abcdefghijklmnopqrstuvwxyz</xsl:variable>
   <xsl:variable name="upper">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
@@ -2543,6 +2552,14 @@
     <xsl:text> (</xsl:text>
     <xsl:apply-templates/>
     <xsl:text>)</xsl:text>
+  </xsl:template>
+
+  <xsl:template name="data.module.type">
+    <xsl:param name="info.code"/>
+    <xsl:choose>
+      <xsl:when test="contains($front.matter.info.codes, $info.code)">frontmatter</xsl:when>
+      <xsl:when test="contains($simple.info.codes, $info.code)">simple</xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
