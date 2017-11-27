@@ -23,9 +23,23 @@
 
   <!-- Params & attribute sets *********************************************************** -->
 
+  <!-- Where to show the 'End of ...' text:
+
+       - footer: Display in the page footer (default)
+       - body: Display in the body text -->
   <xsl:param name="end.of.data.module.position">footer</xsl:param>
 
+  <!-- What kind of 'End of ...' text to use:
+
+       - datamodule: 'End of data module'
+       - title: 'End of <infoName>' (or <techName> if there is no infoName)
+       - dmtitle: 'End if <techName> - <infoName>' -->
+  <xsl:param name="end.of.text">datamodule</xsl:param>
+
+  <!-- Whether or not to include the "title" in the data module TOC. The "title"
+       is the infoName, or techName if there is no infoName. -->
   <xsl:param name="include.title.in.toc">1</xsl:param>
+
   
   <xsl:param name="s1000d.xsl.version"/>
   

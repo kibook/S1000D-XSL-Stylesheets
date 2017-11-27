@@ -159,17 +159,50 @@
             <fo:block id="{$id}-end" text-align-last="center"
               xsl:use-attribute-sets="root.properties" font-weight="bold"
               font-size="11pt" margin-top="10pt" start-indent="0pt">
-              <fo:inline>End of data module</fo:inline>
+              <fo:inline>
+                <xsl:call-template name="end.of.dm.text"/>
+              </fo:inline>
             </fo:block>
           </xsl:when>
           <xsl:when test="$end.of.data.module.position = 'footer'">
             <fo:block id="{$id}-end">
-              <fo:marker marker-class-name="end.of.data.module">End of data module</fo:marker>
+              <fo:marker marker-class-name="end.of.data.module">
+                <xsl:call-template name="end.of.dm.text"/>
+              </fo:marker>
             </fo:block>
           </xsl:when>
         </xsl:choose>
       </fo:flow>
     </fo:page-sequence>
+  </xsl:template>
+
+  <xsl:template name="end.of.dm.text">
+    <xsl:text>End of </xsl:text>
+    <xsl:choose>
+      <xsl:when test="$end.of.text = 'datamodule'">data module</xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="chapter" select="ancestor-or-self::d:chapter"/>
+        <xsl:choose>
+          <xsl:when test="$end.of.text = 'title'">
+            <xsl:choose>
+              <xsl:when test="$chapter/d:info/d:subtitle != ''">
+                <xsl:apply-templates select="$chapter" mode="subtitle.markup"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:apply-templates select="$chapter" mode="title.markup"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:when>
+          <xsl:when test="$end.of.text = 'dmtitle'">
+            <xsl:apply-templates select="$chapter" mode="title.markup"/>
+            <xsl:if test="$chapter/d:info/d:subtitle != ''">
+              <xsl:text> - </xsl:text>
+              <xsl:apply-templates select="$chapter" mode="subtitle.markup"/>
+            </xsl:if>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
