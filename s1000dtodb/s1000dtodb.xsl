@@ -14,6 +14,7 @@
   xmlns="http://docbook.org/ns/docbook"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML"
   version="1.0">
   
   <xsl:param name="date.time"/>
@@ -2560,6 +2561,32 @@
       <xsl:when test="contains($front.matter.info.codes, $info.code)">frontmatter</xsl:when>
       <xsl:when test="contains($simple.info.codes, $info.code)">simple</xsl:when>
     </xsl:choose>
+  </xsl:template>
+
+  <!-- Pass through MathML -->
+  <xsl:template match="mml:*">
+    <xsl:copy>
+      <xsl:copy-of select="@*"/>
+      <xsl:apply-templates/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="mml:math">
+    <inlineequation>
+      <xsl:copy>
+        <xsl:copy-of select="@*"/>
+        <xsl:apply-templates/>
+      </xsl:copy>
+    </inlineequation>
+  </xsl:template>
+
+  <xsl:template match="mml:math[@display = 'block']">
+    <informalequation>
+      <xsl:copy>
+        <xsl:copy-of select="@*"/>
+        <xsl:apply-templates/>
+      </xsl:copy>
+    </informalequation>
   </xsl:template>
 
 </xsl:stylesheet>
