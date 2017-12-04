@@ -18,7 +18,12 @@
   
   <!-- Headers/Footers ***************************************************************** -->
 
-  <xsl:template name="initial.page.number">1</xsl:template>
+  <xsl:template name="initial.page.number">
+    <xsl:choose>
+      <xsl:when test="$running.pagination = 0">1</xsl:when>
+      <xsl:otherwise>auto</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 
   <xsl:template name="header.content">
     <xsl:param name="pageclass" select="''"/>

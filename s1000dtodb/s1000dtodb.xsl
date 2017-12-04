@@ -129,6 +129,21 @@
          - No centerhead 'Description' -->
   <xsl:param name="simple.info.codes"/>
 
+  <!-- Determines whether normal pagination (page number is reset to 1 for each
+       data module) or running pagination will be used.
+
+       This does not set the actual method of pagination, which is handled by
+       the DocBook stylesheets. See the equivalent parameter in dbtofo.xsl.
+       This parameter sets how page numbers are handled in the generated table
+       of contents.
+
+       When 0, the heading for the page number will be "No. of pages" and the
+       entry will contain the total page count for that data module.
+
+       When 1, the heading for the page number will be "Page" and the entry
+       will contain page number on which the data module begins. -->
+  <xsl:param name="running.pagination">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -1897,7 +1912,12 @@
             <entry>Data module code</entry>
             <entry></entry>
             <entry>Issue date</entry>
-            <entry>No. of pages</entry>
+            <entry>
+              <xsl:choose>
+                <xsl:when test="$running.pagination = 0">No. of pages</xsl:when>
+                <xsl:otherwise>Page</xsl:otherwise>
+              </xsl:choose>
+            </entry>
             <entry>Applicable to</entry>
           </row>
         </thead>
@@ -2041,7 +2061,12 @@
             <entry>Document title</entry>
             <entry>Document identifier</entry>
             <entry>Issue date</entry>
-            <entry>No. of pages</entry>
+            <entry>
+              <xsl:choose>
+                <xsl:when test="$running.pagination = 0">No. of pages</xsl:when>
+                <xsl:otherwise>Page</xsl:otherwise>
+              </xsl:choose>
+            </entry>
             <entry>Applicable to</entry>
           </row>
         </thead>
@@ -2084,7 +2109,12 @@
             <entry>Document title</entry>
             <entry>Document identifier</entry>
             <entry>Issue date</entry>
-            <entry>No. of pages</entry>
+            <entry>
+              <xsl:choose>
+                <xsl:when test="$running.pagination = 0">No. of pages</xsl:when>
+                <xsl:otherwise>Page</xsl:otherwise>
+              </xsl:choose>
+            </entry>
             <entry>Applicable to</entry>
           </row>
         </thead>
@@ -2127,7 +2157,14 @@
           </entry>
           <entry>
             <para>
-              <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+              <xsl:choose>
+                <xsl:when test="$running.pagination = 0">
+                  <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <fo:page-number-citation ref-id="ID_{$dm.code}"/>
+                </xsl:otherwise>
+              </xsl:choose>
             </para>
           </entry>
           <entry>
@@ -2162,7 +2199,14 @@
       </entry>
       <entry>
         <para>
-          <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+          <xsl:choose>
+            <xsl:when test="$running.pagination = 0">
+              <fo:page-number-citation-last ref-id="ID_{$dm.code}-end"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <fo:page-number-citation ref-id="ID_{$dm.code}"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </para>
       </entry>
       <entry>
