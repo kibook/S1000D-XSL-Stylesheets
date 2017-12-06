@@ -97,7 +97,7 @@
     <xsl:attribute name="space-before.maximum">12pt</xsl:attribute>
   </xsl:attribute-set>
   
-  <xsl:param name="double.sided">1</xsl:param>
+  <xsl:param name="double.sided">0</xsl:param>
 
   <xsl:param name="headers.on.blank.pages">0</xsl:param>
   <xsl:param name="footers.on.blank.pages">0</xsl:param>
