@@ -2514,30 +2514,48 @@
 
   <xsl:template name="make.applic.annotation">
     <xsl:variable name="this.applic" select="@applicRefId"/>
-    <xsl:variable name="parent.applic" select="ancestor::*[@applicRefId][1]/@applicRefId"/>
-    <xsl:variable name="preced.applic" select="preceding::*[@applicRefId][1]/@applicRefId"/>
-
-    <xsl:variable name="dm.applic" select="ancestor::dmodule/identAndStatusSection/dmStatus/applic"/>
-
     <xsl:choose>
-      <!-- If this element has an applic annotation, show it. -->
+      <!-- If this element has an applic statement, show it. -->
       <xsl:when test="$this.applic">
         <xsl:apply-templates select="$this.applic"/>
       </xsl:when>
-      <!-- If this element has no applic annotation, and there is some
-           preceding applic annotation, and the preceding sibling or its
-           children would not already have done this, show the whole DM applic
-           annotation. -->
-      <xsl:when test="$preced.applic and preceding-sibling::*[1]/descendant-or-self::*[@applicRefId]">
-        <xsl:choose>
-          <xsl:when test="$parent.applic">
-            <xsl:apply-templates select="$parent.applic"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:apply-templates select="$dm.applic"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:when>
+      <!-- If this element has no applic statement, check if there is a
+           preceding applicability statement. -->
+      <xsl:otherwise>
+        <xsl:variable name="this" select="."/>
+        <xsl:variable name="preced.applic" select="preceding::*[@applicRefId][1]/@applicRefId"/>
+        <!-- If there is a preceding applicability statement, a statement must
+             be placed on this element to disambiguate its applicability. The
+             statement will be inherited from either an ancestor element or the
+             applicability of the whole data module. -->
+        <xsl:if test="$preced.applic">
+          <!-- Use the Kayessian XPath formula to obtain all elements between
+               the preceding applicability statement and the current element. -->
+          <xsl:variable
+            name="between"
+            select="$preced.applic/following::*[
+              count(.|$this/preceding::*) = count($this/preceding::*)]"/>
+          <!-- If there are no elements between the last applicability statement
+               and the current element, then this element will carry the
+               inherited applicability statement. -->
+          <xsl:if test="not($between)">
+            <!-- Find any ancestor element with applicability. -->
+            <xsl:variable name="parent.applic" select="ancestor::*[@applicRefId][1]/@applicRefId"/>
+            <xsl:choose>
+              <!-- If there is an ancestor element with applicability, inherit
+                   from that. -->
+              <xsl:when test="$parent.applic">
+                <xsl:apply-templates select="$parent.applic"/>
+              </xsl:when>
+              <!-- If there is no parent element with applicability, inherit
+                   from the data module's applicability. -->
+              <xsl:otherwise>
+                <xsl:apply-templates select="ancestor::dmodule/identAndStatusSection/dmStatus/applic"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:if>
+        </xsl:if>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
