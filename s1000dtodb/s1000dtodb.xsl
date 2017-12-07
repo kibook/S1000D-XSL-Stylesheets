@@ -466,16 +466,19 @@
     <xsl:variable name="content" select="content/description|content/procedure"/>
 
     <xsl:variable name="auth.dm.refs" select="content/refs/dmRef"/>
+    <xsl:variable name="auth.pm.refs" select="content/refs/pmRef"/>
     <xsl:variable name="auth.ep.refs" select="content/refs/externalPubRef"/>
 
     <xsl:variable name="auto.dm.refs" select="$content//dmRef"/>
+    <xsl:variable name="auto.pm.refs" select="$content//pmRef"/>
     <xsl:variable name="auto.ep.refs" select="$content//externalPubRef"/>
 
     <xsl:variable name="gen" select="$generate.references.table"/>
 
     <xsl:variable name="dm.refs" select="$auth.dm.refs[$gen=0]|$auto.dm.refs[$gen=1]"/>
+    <xsl:variable name="pm.refs" select="$auth.pm.refs[$gen=0]|$auto.pm.refs[$gen=1]"/>
     <xsl:variable name="ep.refs" select="$auth.ep.refs[$gen=0]|$auto.ep.refs[$gen=1]"/>
-    <xsl:variable name="refs" select="$dm.refs|$ep.refs"/>
+    <xsl:variable name="refs" select="$dm.refs|$pm.refs|$ep.refs"/>
 
     <bridgehead renderas="centerhead">References</bridgehead>
     <table pgwide="1" frame="topbot" colsep="0">
@@ -496,19 +499,32 @@
 	        </xsl:if>
 	        <xsl:for-each select="$dm.refs">
 	          <row>
-	            <entry><xsl:apply-templates select="."/></entry>
 	            <entry>
-	              <xsl:if test="dmRefAddressItems/dmTitle">
-                  <xsl:apply-templates select="dmRefAddressItems/dmTitle"/>
-		              <!--<xsl:apply-templates select="dmRefAddressItems/dmTitle/techName"/>
-		              <xsl:if test="dmRefAddressItems/dmTitle/infoName">
-		                <xsl:text> - </xsl:text>
-		                <xsl:apply-templates select="dmRefAddressItems/dmTitle/infoName"/>
-		              </xsl:if>-->
-	              </xsl:if>
+                <xsl:apply-templates select="."/>
+                <xsl:if test="dmRefIdent/issueInfo">
+                  <xsl:text> Issue </xsl:text>
+                  <xsl:apply-templates select="dmRefIdent/issueInfo"/>
+                </xsl:if>
+              </entry>
+	            <entry>
+                <xsl:apply-templates select="dmRefAddressItems/dmTitle"/>
 	            </entry>
 	          </row>
 	        </xsl:for-each>
+          <xsl:for-each select="$pm.refs">
+            <row>
+              <entry>
+                <xsl:apply-templates select="."/>
+              </entry>
+              <entry>
+                <xsl:apply-templates select="pmRefAddressItems/pmTitle"/>
+                <xsl:if test="pmRefAddressItems/issueDate">
+                  <xsl:text> </xsl:text>
+                  <xsl:apply-templates select="pmRefAddressItems/issueDate"/>
+                </xsl:if>
+              </entry>
+            </row>
+          </xsl:for-each>
 	        <xsl:for-each select="$ep.refs">
 	          <row>
 	            <entry>
@@ -521,9 +537,7 @@
 	              </xsl:if>
 	            </entry>
 	            <entry>
-	              <xsl:if test="externalPubRefIdent/externalPubTitle">
-		              <xsl:value-of select="externalPubRefIdent/externalPubTitle"/>
-	              </xsl:if>
+                <xsl:value-of select="externalPubRefIdent/externalPubTitle"/>
 	            </entry>
 	          </row>
 	        </xsl:for-each>
@@ -820,6 +834,14 @@
     <xsl:value-of select="@day"/>
   </xsl:template>
 
+  <xsl:template match="issueInfo">
+    <xsl:value-of select="@issueNumber"/>
+    <xsl:if test="@inWork != '00'">
+      <xsl:text>-</xsl:text>
+      <xsl:value-of select="@inWork"/>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template name="levelled.para.content">
     <xsl:call-template name="copy.id"/>
     <xsl:call-template name="revisionflag"/>
@@ -951,7 +973,15 @@
   <xsl:template match="reqCond">
     <xsl:apply-templates/>
   </xsl:template>
-  
+
+  <xsl:template match="pmRef">
+    <xsl:apply-templates select="pmRefIdent"/>
+  </xsl:template>
+
+  <xsl:template match="pmRefIdent">
+    <xsl:apply-templates select="pmCode"/>
+  </xsl:template>
+
   <xsl:template match="externalPubRef">
     <xsl:choose>
       <xsl:when test="@xlink:href" xmlns:xlink="http://www.w3.org/1999/xlink">
