@@ -165,7 +165,7 @@
             </fo:block>
           </xsl:when>
           <xsl:when test="$end.of.data.module.position = 'footer'">
-            <fo:block id="{$id}-end">
+            <fo:block id="{$id}-end" page-break-before="avoid">
               <fo:marker marker-class-name="end.of.data.module">
                 <xsl:call-template name="end.of.dm.text"/>
               </fo:marker>
