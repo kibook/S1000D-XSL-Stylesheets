@@ -44,35 +44,43 @@
   </xsl:template>
   
   <!-- suppress space before first paragraph after section heading (and note) -->
+  <!-- (and labelled paras, which are nested within fo:* elements) -->
   <!-- increase priority so that this template is used in preference to *[@revisionflag] -->
   <xsl:template match="d:para[1][not(@labeltitle)]" priority="1">
     <xsl:variable name="content">
       <xsl:choose>
-        <xsl:when
-	  test="parent::d:section|parent::d:sect1|parent::d:sect2|parent::d:sect3|parent::d:sect4|parent::d:sect5|parent::d:note">
-	  <xsl:variable name="keep.together">
-	    <xsl:call-template name="pi.dbfo_keep-together"/>
-	  </xsl:variable>
-	  <fo:block>
-	    <xsl:if test="$keep.together != ''">
-	      <xsl:attribute name="keep-together.within-column"><xsl:value-of
-		  select="$keep.together"/></xsl:attribute>
-	    </xsl:if>
-	    <xsl:call-template name="anchor"/>
-	    <xsl:apply-templates/>
-	  </fo:block>
+        <xsl:when test="parent::d:section|
+                        parent::d:sect1|
+                        parent::d:sect2|
+                        parent::d:sect3|
+                        parent::d:sect4|
+                        parent::d:sect5|
+                        parent::d:note|
+                        ancestor::d:*[1][self::d:para and @label]">
+	        <xsl:variable name="keep.together">
+	          <xsl:call-template name="pi.dbfo_keep-together"/>
+	        </xsl:variable>
+	        <fo:block>
+	          <xsl:if test="$keep.together != ''">
+	            <xsl:attribute name="keep-together.within-column">
+                <xsl:value-of select="$keep.together"/>
+              </xsl:attribute>
+	          </xsl:if>
+	          <xsl:call-template name="anchor"/>
+	          <xsl:apply-templates/>
+	        </fo:block>
         </xsl:when>
         <xsl:otherwise>
-	  <xsl:apply-imports/>
+	        <xsl:apply-imports/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     <xsl:choose>
       <xsl:when test="@revisionflag">
         <xsl:call-template name="make.change.bar">
-	  <xsl:with-param name="content">
-	    <xsl:copy-of select="$content"/>
-	  </xsl:with-param>
+	        <xsl:with-param name="content">
+	          <xsl:copy-of select="$content"/>
+	        </xsl:with-param>
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>

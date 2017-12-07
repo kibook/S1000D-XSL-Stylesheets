@@ -2529,7 +2529,14 @@
            children would not already have done this, show the whole DM applic
            annotation. -->
       <xsl:when test="$preced.applic and preceding-sibling::*[1]/descendant-or-self::*[@applicRefId]">
-        <xsl:apply-templates select="$dm.applic"/>
+        <xsl:choose>
+          <xsl:when test="$parent.applic">
+            <xsl:apply-templates select="$parent.applic"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="$dm.applic"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
     </xsl:choose>
   </xsl:template>
