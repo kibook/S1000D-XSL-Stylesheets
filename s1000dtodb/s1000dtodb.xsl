@@ -144,6 +144,8 @@
        will contain page number on which the data module begins. -->
   <xsl:param name="running.pagination">0</xsl:param>
 
+  <xsl:param name="highlight.applic">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -1279,14 +1281,15 @@
   </xsl:template>
 
   <xsl:template match="figure">
-    <xsl:element name="figure">
+    <xsl:element name="informalfigure">
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:attribute name="label">
 	      <xsl:number level="any" from="dmodule"/>
       </xsl:attribute>
       <xsl:attribute name="pgwide">1</xsl:attribute>
-      <xsl:apply-templates select="title|graphic"/>
+      <xsl:call-template name="make.applic.annotation"/>
+      <xsl:apply-templates select="graphic"/>
     </xsl:element>
     <xsl:apply-templates select="legend"/>
   </xsl:template>
@@ -1359,14 +1362,29 @@
 
   <xsl:template match="graphic">
     <xsl:param name="show.icn" select="$show.graphic.icn"/>
+    <xsl:call-template name="make.applic.annotation"/>
     <mediaobject>
       <xsl:call-template name="make.imageobject"/>
-    </mediaobject>
-    <xsl:if test="$show.icn = 1">
-      <caption>
-        <para><xsl:value-of select="@infoEntityIdent"/></para>
+      <xsl:if test="$show.icn != 0">
+        <caption role="icn">
+          <para><xsl:value-of select="@infoEntityIdent"/></para>
+        </caption>
+      </xsl:if>
+      <caption role="title">
+        <para>
+          <xsl:text>Fig </xsl:text>
+          <xsl:number count="figure" level="any" from="dmodule"/>
+          <xsl:variable name="graphic.count" select="count(parent::figure/graphic)"/>
+          <xsl:if test="$graphic.count &gt; 1">
+            <xsl:text> (Sheet </xsl:text>
+            <xsl:number count="graphic" level="single" from="figure"/>
+            <xsl:text> of </xsl:text>
+            <xsl:value-of select="count(parent::figure/graphic)"/>
+            <xsl:text>)</xsl:text>
+          </xsl:if>
+        </para>
       </caption>
-    </xsl:if>
+    </mediaobject>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -2460,7 +2478,10 @@
   </xsl:template>
 
   <xsl:template match="applic">
-    <fo:block font-weight="bold" font-size="10pt">
+    <fo:block font-weight="bold" font-size="10pt" keep-with-next="always">
+      <xsl:if test="$highlight.applic != 0">
+        <xsl:attribute name="color">blue</xsl:attribute>
+      </xsl:if>
       <xsl:text>Applicable to: </xsl:text>
       <xsl:choose>
         <xsl:when test="displayText">
@@ -2494,25 +2515,23 @@
   <xsl:template name="make.applic.annotation">
     <xsl:variable name="this.applic" select="@applicRefId"/>
     <xsl:variable name="parent.applic" select="ancestor::*[@applicRefId][1]/@applicRefId"/>
-    <xsl:variable name="preced.applic" select="preceding-sibling::*[@applicRefId][1]/@applicRefId"/>
+    <xsl:variable name="preced.applic" select="preceding::*[@applicRefId][1]/@applicRefId"/>
 
     <xsl:variable name="dm.applic" select="ancestor::dmodule/identAndStatusSection/dmStatus/applic"/>
 
-    <!-- If this element has no applic annotation and its preceding sibling has different applic than both elements' parent,
-         show the parent's applic annotation to clarify the applicability -->
-    <xsl:if test="not($this.applic) and $preced.applic">
-      <xsl:if test="not($parent.applic)">
-        <xsl:if test="preceding-sibling::*[1]/descendant-or-self::*[@applicRefId]">
-          <xsl:apply-templates select="$dm.applic"/>
-        </xsl:if>
-      </xsl:if>
-      <xsl:apply-templates select="$parent.applic"/>
-    </xsl:if>
-
-    <!-- If the applic of the preceding sibling is the same, don't repeat the applicability annotation -->
-    <xsl:if test="not($preced.applic) or $preced.applic != $this.applic">
-      <xsl:apply-templates select="$this.applic"/>
-    </xsl:if>
+    <xsl:choose>
+      <!-- If this element has an applic annotation, show it. -->
+      <xsl:when test="$this.applic">
+        <xsl:apply-templates select="$this.applic"/>
+      </xsl:when>
+      <!-- If this element has no applic annotation, and there is some
+           preceding applic annotation, and the preceding sibling or its
+           children would not already have done this, show the whole DM applic
+           annotation. -->
+      <xsl:when test="$preced.applic and preceding-sibling::*[1]/descendant-or-self::*[@applicRefId]">
+        <xsl:apply-templates select="$dm.applic"/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="levelledParaAlts|proceduralStepAlts|figureAlts">

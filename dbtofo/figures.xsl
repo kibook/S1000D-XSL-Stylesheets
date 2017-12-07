@@ -32,9 +32,17 @@
     </fo:block>
   </xsl:template>-->
 
-  <xsl:template match="d:figure/d:caption|d:table/d:caption">
+  <xsl:template match="d:mediaobject/d:caption">
     <fo:block keep-with-previous="always">
-      <xsl:attribute name="text-align">right</xsl:attribute>
+      <xsl:choose>
+        <xsl:when test="@role = 'title'">
+          <xsl:attribute name="text-align">center</xsl:attribute>
+          <xsl:attribute name="font-style">italic</xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="text-align">right</xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:apply-templates/>
     </fo:block>
   </xsl:template>
