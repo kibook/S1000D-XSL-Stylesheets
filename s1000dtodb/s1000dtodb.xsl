@@ -1404,12 +1404,14 @@
         <para>
           <xsl:text>Fig </xsl:text>
           <xsl:number count="figure" level="any" from="dmodule"/>
+          <xsl:text>&#160;&#160;</xsl:text>
+          <xsl:apply-templates select="parent::figure/title/node()"/>
           <xsl:variable name="graphic.count" select="count(parent::figure/graphic)"/>
           <xsl:if test="$graphic.count &gt; 1">
             <xsl:text> (Sheet </xsl:text>
             <xsl:number count="graphic" level="single" from="figure"/>
             <xsl:text> of </xsl:text>
-            <xsl:value-of select="count(parent::figure/graphic)"/>
+            <xsl:value-of select="$graphic.count"/>
             <xsl:text>)</xsl:text>
           </xsl:if>
         </para>
