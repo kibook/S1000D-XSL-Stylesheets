@@ -91,4 +91,37 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- caption: color
+
+       "co00"         None
+       "co01"         Green
+       "co02"         Amber
+       "co03"         Yellow
+       "co04"         Red
+       "co07"         White
+       "co08"         Grey
+       "co09"         Clear (default)
+       "co10"         Black
+       "co51"-"co99"  Available for projects -->
+  <xsl:template match="@color">
+    <xsl:choose>
+      <xsl:when test=". = 'co01'">#00FF00</xsl:when>
+      <xsl:when test=". = 'co02'">#FF9900</xsl:when>
+      <xsl:when test=". = 'co03'">#FFFF00</xsl:when>
+      <xsl:when test=". = 'co04'">#FF0000</xsl:when>
+      <xsl:when test=". = 'co07'">#FFFFFF</xsl:when>
+      <xsl:when test=". = 'co08'">#CCCCCC</xsl:when>
+      <xsl:when test=". = 'co10'">#000000</xsl:when>
+      <xsl:otherwise>inherit</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="@color" mode="text.color">
+    <xsl:choose>
+      <xsl:when test=". = 'co04'">#FFFFFF</xsl:when>
+      <xsl:when test=". = 'co10'">#FFFFFF</xsl:when>
+      <xsl:otherwise>inherit</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>

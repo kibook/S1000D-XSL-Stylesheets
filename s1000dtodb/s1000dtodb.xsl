@@ -2676,4 +2676,20 @@
     </informalequation>
   </xsl:template>
 
+  <xsl:template match="caption">
+    <fo:inline border="solid 1px black">
+      <xsl:attribute name="background-color">
+        <xsl:apply-templates select="@color"/>
+      </xsl:attribute>
+      <xsl:attribute name="color">
+        <xsl:apply-templates select="@color" mode="text.color"/>
+      </xsl:attribute>
+      <xsl:apply-templates select="captionLine"/>
+    </fo:inline>
+  </xsl:template>
+
+  <xsl:template match="captionLine">
+    <xsl:apply-templates/>
+  </xsl:template>
+
 </xsl:stylesheet>
