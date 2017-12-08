@@ -154,7 +154,8 @@
   <xsl:include href="proced.xsl"/>
   <xsl:include href="frontmatter.xsl"/>
 
-  <xsl:include href="inlineSignificantData.xsl"/>
+  <!-- Project configurable attribute values -->
+  <xsl:include href="configurable.xsl"/>
 
   <xsl:variable name="lower">abcdefghijklmnopqrstuvwxyz</xsl:variable>
   <xsl:variable name="upper">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
@@ -1682,40 +1683,6 @@
       <xsl:call-template name="make.applic.annotation"/>
       <xsl:apply-templates/>
     </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="emphasis">
-    <xsl:element name="emphasis">
-      <xsl:attribute name="role">
-        <xsl:choose>
-          <xsl:when test="@emphasisType = 'em02'">italic</xsl:when>
-          <xsl:when test="@emphasisType = 'em03'">underline</xsl:when>
-          <xsl:when test="@emphasisType = 'em05'">strikethrough</xsl:when>
-          <xsl:otherwise>bold</xsl:otherwise>
-        </xsl:choose>
-      </xsl:attribute>
-      <xsl:apply-templates/>
-    </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="verbatimText">
-    <xsl:choose>
-      <xsl:when test="not(@verbatimStyle)">
-        <literal><xsl:apply-templates/></literal>
-      </xsl:when>
-      <xsl:when test="@verbatimStyle = 'vs11'">
-        <programlisting><xsl:apply-templates/></programlisting>
-      </xsl:when>
-      <xsl:when test="@verbatimStyle = 'vs23'">
-        <screen><xsl:apply-templates/></screen>
-      </xsl:when>
-      <xsl:when test="@verbatimStyle = 'vs24'">
-        <programlisting><xsl:apply-templates/></programlisting>
-      </xsl:when>
-      <xsl:otherwise>
-        <literal><xsl:apply-templates/></literal>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="footnote">

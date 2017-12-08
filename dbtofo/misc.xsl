@@ -19,7 +19,7 @@
   
   <!-- misc elements ***************************************************** -->
 
-  <xsl:template match="emphasis[@role='overline']">
+  <xsl:template match="d:emphasis[@role='overline']">
     <fo:inline text-decoration="overline" xsl:exclude-result-prefixes="d l rx">
       <xsl:call-template name="inline.charseq"/>
     </fo:inline>
