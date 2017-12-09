@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-2/xml_schema_flat/descript.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="00" subSystemCode="0" subSubSystemCode="0" assyCode="02" disassyCode="00" disassyCodeVariant="A" infoCode="000" infoCodeVariant="A" itemLocationCode="A"/>
+        <language languageIsoCode="en" countryIsoCode="GB"/>
+        <issueInfo issueNumber="000" inWork="01"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2017" month="12" day="08"/>
+        <dmTitle>
+          <techName>Quantities test</techName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany/>
+      <originator/>
+      <applic>
+        <displayText>
+          <simplePara>All</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="F" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <description>
+      <levelledPara>
+        <title>General</title>
+        <para>This data module contains the examples from Chap 3.9.6.2.1.10 of the S1000D Issue 4.2 specification, and is used for testing the display of quantities.</para>
+      </levelledPara>
+      <levelledPara>
+        <title>Examples</title>
+        <para><emphasis>Example 1:</emphasis> Quantity group and is a simple quantity with value and unit of measure:</para>
+        <para>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<para>The windshield assembly weighs approximately
+<quantity>
+<quantityGroup quantityGroupType="nominal">
+<quantityValue quantityUnitOfMeasure="kg">40</quantityValue>
+</quantityGroup>
+</quantity>
+and requires two persons ...
+</para>]]></verbatimText>
+        </para>
+        <para>The display of this markup can be as follows:</para>
+        <para>"The windshield assembly weighs approximately <quantity><quantityGroup quantityGroupType="nominal"><quantityValue quantityUnitOfMeasure="kg">40</quantityValue></quantityGroup></quantity> and requires two persons ..."</para>
+        <para><emphasis>Example 2:</emphasis> Quantity where value and tolerance have the same unit of measure:</para>
+        <para>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<para>If hole tolerance of
+<quantity>
+<quantityGroup quantityGroupType="nominal"
+quantityUnitOfMeasure="mm">
+<quantityValue>0.700</quantityValue>
+<quantityTolerance
+quantityToleranceType="plus">0.010</quantityTolerance>
+<quantityTolerance
+quantityToleranceType="minus">0.000</quantityTolerance>
+</quantityGroup>
+</quantity>
+has been exceeded ...
+</para>]]></verbatimText>
+        </para>
+        <para>The display of this markup can be as follows:</para>
+        <para>"If hole tolerance of <quantity><quantityGroup quantityGroupType="nominal" quantityUnitOfMeasure="mm"><quantityValue>0.700</quantityValue><quantityTolerance quantityToleranceType="plus">0.010</quantityTolerance><quantityTolerance quantityToleranceType="minus">0.000</quantityTolerance></quantityGroup></quantity> has been exceeded ..."</para>
+        <para><emphasis>Example 3:</emphasis> Quantity with minimum/maximum values:</para>
+        <para>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<para>Tighten fasteners
+<quantity quantityType="qty05">
+<quantityGroup quantityGroupType="minimum">
+<quantityValue quantityUnitOfMeasure="N.m">18.0</quantityValue>
+</quantityGroup>
+<quantityGroup quantityGroupType="maximum">
+<quantityValue quantityUnitOfMeasure="N.m">22.0</quantityValue>
+</quantityGroup>
+</quantity>
+using torque wrench ...
+</para>]]></verbatimText>
+        </para>
+        <para>The display of this markup can be as follows:</para>
+        <para>"Tighten fasteners <quantity quantityType="qty05"><quantityGroup quantityGroupType="minimum"><quantityValue quantityUnitOfMeasure="N.m">18.0</quantityValue></quantityGroup><quantityGroup quantityGroupType="maximum"><quantityValue quantityUnitOfMeasure="N.m">22.0</quantityValue></quantityGroup></quantity> using torque wrench ..."</para>
+        <para><emphasis>Example 4:</emphasis> Quantity with type, value, tolerance, and unit of measure:</para>
+        <para>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<para>Holding nut, torque bolt to
+<quantity quantityType="qty05">
+<quantityGroup quantityGroupType="nominal" quantityUnitOfMeasure="N.m">
+<quantityValue>20</quantityValue>
+<quantityTolerance
+quantityToleranceType="plusorminus">2</quantityTolerance>
+</quantityGroup>
+</quantity>
+.</para>]]></verbatimText>
+        </para>
+        <para>The display of this markup can be as follows:</para>
+        <para>"Holding nut, torque bolt to <quantity quantityType="qty05"><quantityGroup quantityGroupType="nominal" quantityUnitOfMeasure="N.m"><quantityValue>20</quantityValue><quantityTolerance quantityToleranceType="plusorminus">2</quantityTolerance></quantityGroup></quantity>."</para>
+        <para><emphasis>Example 5:</emphasis> Quantity with multiple value groups and value and tolerance with different units:</para>
+        <para>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<para>Chamfer both sides of rib
+<quantity>
+<quantityGroup quantityGroupType="nominal">
+<quantityValue>0.153</quantityValue>
+<quantityTolerance
+quantityToleranceType="plusorminus">0.005</quantityTolerance>
+</quantityGroup>
+x
+<quantityGroup quantityGroupType="nominal">
+<quantityValue quantityUnitOfMeasure="dega">45</quantityValue>
+<quantityTolerance quantityToleranceType="plusorminus"
+quantityUnitOfMeasure="mina">30
+</quantityTolerance>
+</quantityGroup>
+</quantity>
+.</para>]]></verbatimText>
+        </para>
+        <para>The display of this markup can be as follows:</para>
+        <para>"Chamfer both sides of rib <quantity><quantityGroup quantityGroupType="nominal"><quantityValue>0.153</quantityValue><quantityTolerance quantityToleranceType="plusorminus">0.005</quantityTolerance></quantityGroup> x <quantityGroup quantityGroupType="nominal"><quantityValue quantityUnitOfMeasure="dega">45</quantityValue><quantityTolerance quantityToleranceType="plusorminus" quantityUnitOfMeasure="mina">30</quantityTolerance></quantityGroup>
+      </quantity>."</para>
+        <para><emphasis>Example 6:</emphasis> Quantity with tolerance only:</para>
+        <para>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<para>Make sure that spacing is within
+<quantity>
+<quantityGroup quantityGroupType="nominal">
+<quantityTolerance
+quantityToleranceType="plusorminus">0.030</quantityTolerance>
+</quantityGroup>
+</quantity>
+on each side ...
+</para>]]></verbatimText>
+        </para>
+        <para>The display of this markup can be as follows:</para>
+        <para>"Make sure that spacing is within <quantity><quantityGroup quantityGroupType="nominal"><quantityTolerance quantityToleranceType="plusorminus">0.030</quantityTolerance></quantityGroup></quantity> on each side ..."</para>
+      </levelledPara>
+    </description>
+  </content>
+</dmodule>

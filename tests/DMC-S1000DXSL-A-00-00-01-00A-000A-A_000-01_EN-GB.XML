@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-2/xml_schema_flat/proced.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="00" subSystemCode="0" subSubSystemCode="0" assyCode="01" disassyCode="00" disassyCodeVariant="A" infoCode="000" infoCodeVariant="A" itemLocationCode="A"/>
+        <language languageIsoCode="en" countryIsoCode="GB"/>
+        <issueInfo issueNumber="000" inWork="01"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2017" month="12" day="07"/>
+        <dmTitle>
+          <techName>Applicability statements test</techName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany/>
+      <originator/>
+      <applic>
+        <displayText>
+          <simplePara>1-100</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="F" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <refs>
+      <dmRef>
+        <dmRefIdent>
+          <dmCode modelIdentCode="S1000D" systemDiffCode="A" systemCode="06" subSystemCode="0" subSubSystemCode="2" assyCode="0200" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
+          <issueInfo issueNumber="009" inWork="00"/>
+        </dmRefIdent>
+        <dmRefAddressItems>
+          <dmTitle>
+            <techName>Chap 6.2.2</techName>
+            <infoName>Page-oriented publications - Typography and layout elements</infoName>
+          </dmTitle>
+        </dmRefAddressItems>
+      </dmRef>
+    </refs>
+    <referencedApplicGroup>
+      <applic id="ap1-50">
+        <displayText>
+          <simplePara>1-50</simplePara>
+        </displayText>
+      </applic>
+      <applic id="ap11-20">
+        <displayText>
+          <simplePara>11-20</simplePara>
+        </displayText>
+      </applic>
+      <applic id="ap1-10">
+        <displayText>
+          <simplePara>1-10</simplePara>
+        </displayText>
+      </applic>
+      <applic id="ap21-100">
+        <displayText>
+          <simplePara>21-100</simplePara>
+        </displayText>
+      </applic>
+    </referencedApplicGroup>
+    <procedure>
+      <commonInfo>
+        <para>This data module includes the example from <dmRef><dmRefIdent><dmCode modelIdentCode="S1000D" systemDiffCode="A" systemCode="06" subSystemCode="0" subSubSystemCode="2" assyCode="0200" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/><issueInfo issueNumber="009" inWork="00"/></dmRefIdent><dmRefAddressItems><dmTitle><techName>Chap 6.2.2</techName><infoName>Page-oriented publications - Typography and layout elements</infoName></dmTitle></dmRefAddressItems></dmRef>, S1000D Issue 4.2, Chap 6.2.2, Para 2.17.2, and provides a sample of applicability statement presentation.</para>
+      </commonInfo>
+      <preliminaryRqmts>
+        <reqCondGroup>
+          <noConds/>
+        </reqCondGroup>
+        <reqSupportEquips>
+          <noSupportEquips/>
+        </reqSupportEquips>
+        <reqSupplies>
+          <noSupplies/>
+        </reqSupplies>
+        <reqSpares>
+          <noSpares/>
+        </reqSpares>
+        <reqSafety>
+          <noSafety/>
+        </reqSafety>
+      </preliminaryRqmts>
+      <mainProcedure>
+        <proceduralStep applicRefId="ap1-50">
+          <para>This step called A is applicable to SN: 1-50</para>
+          <proceduralStep>
+            <para>This step called B is applicable to SN: 1-50</para>
+            <proceduralStep applicRefId="ap1-10">
+              <para>This step called C is applicable to SN: 1-10</para>
+            </proceduralStep>
+            <proceduralStep applicRefId="ap11-20">
+              <para>This step called D is applicable to SN: 11-20</para>
+              <proceduralStep>
+                <para>This step called E is applicable to SN: 11-20</para>
+              </proceduralStep>
+              <proceduralStep>
+                <para>This step called F is applicable to SN: 11-20</para>
+              </proceduralStep>
+              <proceduralStep>
+                <para>This step called G is applicable to SN: 11-20</para>
+              </proceduralStep>
+              <proceduralStep>
+                <para>This step called H is applicable to SN: 11-20</para>
+              </proceduralStep>
+              <proceduralStep>
+                <para>This step called I is applicable to SN: 11-20</para>
+              </proceduralStep>
+            </proceduralStep>
+          </proceduralStep>
+          <proceduralStep applicRefId="ap1-50">
+            <para>This step called J is applicable to SN: 1-50</para>
+          </proceduralStep>
+        </proceduralStep>
+        <proceduralStep>
+          <para>This step called K is applicable to SN: 1-100</para>
+          <proceduralStep>
+            <para>This step called L is applicable to SN: 1-100</para>
+            <proceduralStep applicRefId="ap1-10">
+              <para>This step called M is applicable to SN: 1-10</para>
+            </proceduralStep>
+            <proceduralStep applicRefId="ap11-20">
+              <para>This step called N is applicable to SN: 11-20</para>
+              <proceduralStep>
+                <para>This step called P is applicable to SN: 11-20</para>
+              </proceduralStep>
+              <proceduralStep>
+                <para>This step called Q is applicable to SN: 11-20</para>
+              </proceduralStep>
+            </proceduralStep>
+            <proceduralStep applicRefId="ap21-100">
+              <para>This step called R is applicable to SN: 21-100</para>
+            </proceduralStep>
+          </proceduralStep>
+          <proceduralStep>
+            <para>This step called S is applicable to SN: 1-100</para>
+          </proceduralStep>
+        </proceduralStep>
+        <proceduralStep>
+          <para>This step called T is applicable to SN: 1-100</para>
+        </proceduralStep>
+      </mainProcedure>
+      <closeRqmts>
+        <reqCondGroup>
+          <noConds/>
+        </reqCondGroup>
+      </closeRqmts>
+    </procedure>
+  </content>
+</dmodule>
