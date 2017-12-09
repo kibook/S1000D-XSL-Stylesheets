@@ -144,7 +144,19 @@
        will contain page number on which the data module begins. -->
   <xsl:param name="running.pagination">0</xsl:param>
 
+  <!-- Highlight applicability statements with blue -->
   <xsl:param name="highlight.applic">0</xsl:param>
+
+  <!-- The format for displaying quantity values and tolerances.
+
+       Allowable values:
+
+       SI         Système International d'Unites (SI)
+                  - Uses comma [,] as the decimal separator
+
+       imperial   Imperial
+                  - Uses period [.] as the decimal separator -->
+  <xsl:param name="quantity.format">SI</xsl:param>
 
   <xsl:output indent="no" method="xml"/>
 
@@ -2690,6 +2702,61 @@
 
   <xsl:template match="captionLine">
     <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="quantity">
+    <xsl:apply-templates/>
+    <xsl:if test="@quantityTypeSpecifics">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="@quantityTypeSpecifics"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="quantityGroup">
+    <xsl:choose>
+      <xsl:when test="@quantityGroupType = 'minimum'">from </xsl:when>
+      <xsl:when test="@quantityGroupType = 'maximum'"> to </xsl:when>
+    </xsl:choose>
+    <xsl:apply-templates select="quantityValue"/>
+    <xsl:for-each select="quantityTolerance">
+      <xsl:text> </xsl:text>
+      <xsl:apply-templates select="."/>
+    </xsl:for-each>
+    <xsl:apply-templates select="@quantityUnitOfMeasure"/>
+  </xsl:template>
+
+  <!-- Quantity values/tolerances are encoded as xs:decimal values, which always
+       use . as the decimal separator, so they must be reformatted when using SI
+       formatting. -->
+  <xsl:template name="format.quantity.value">
+    <xsl:param name="value" select="."/>
+    <xsl:choose>
+      <xsl:when test="$quantity.format = 'SI'">
+        <xsl:value-of select="translate($value, '.', ',')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$value"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="quantityValue">
+    <xsl:call-template name="format.quantity.value"/>
+    <xsl:apply-templates select="@quantityUnitOfMeasure"/>
+  </xsl:template>
+
+  <xsl:template match="quantityTolerance">
+    <xsl:apply-templates select="@quantityToleranceType"/>
+    <xsl:call-template name="format.quantity.value"/>
+    <xsl:apply-templates select="@quantityUnitOfMeasure"/>
+  </xsl:template>
+
+  <xsl:template match="@quantityToleranceType">
+    <xsl:choose>
+      <xsl:when test=". = 'plus'">+</xsl:when>
+      <xsl:when test=". = 'minus'">-</xsl:when>
+      <xsl:when test=". = 'plusorminus'">± </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

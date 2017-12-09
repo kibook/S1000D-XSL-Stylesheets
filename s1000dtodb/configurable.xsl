@@ -124,4 +124,34 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- quantityUnitOfMeasure
+
+       Determines the display of each of the standard UoM.
+
+       "um51"-"um99" are also available for projects. -->
+
+  <xsl:template match="@quantityUnitOfMeasure">
+    <xsl:choose>
+      <xsl:when test=". = '%'">%</xsl:when>
+      <xsl:when test=". = 'dega'">°</xsl:when>
+      <xsl:when test=". = 'degC'"> °C</xsl:when>
+      <xsl:when test=". = 'degF'"> °F</xsl:when>
+      <xsl:when test=". = 'degR'"> °R</xsl:when>
+      <xsl:when test=". = 'h'">h</xsl:when>
+      <xsl:when test=". = 'in2'"> in<superscript>2</superscript></xsl:when>
+      <xsl:when test=". = 'in3'"> in<superscript>3</superscript></xsl:when>
+      <xsl:when test=". = 'in4'"> in<superscript>4</superscript></xsl:when>
+      <xsl:when test=". = 'km2'"> km<superscript>2</superscript></xsl:when>
+      <xsl:when test=". = 'km3'"> km<superscript>3</superscript></xsl:when>
+      <xsl:when test=". = 'm2'"> m<superscript>2</superscript></xsl:when>
+      <xsl:when test=". = 'm3'"> m<superscript>3</superscript></xsl:when>
+      <xsl:when test=". = 'mina'">′</xsl:when>
+      <xsl:when test=". = 'N.m'"> Nm</xsl:when>
+      <xsl:otherwise>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>
