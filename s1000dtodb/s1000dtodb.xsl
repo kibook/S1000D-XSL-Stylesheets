@@ -2577,16 +2577,37 @@
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="functionalItemRef">
+  <xsl:template match="functionalItemRef|controlIndicatorRef|accessPointRef|zoneRef">
     <xsl:choose>
       <xsl:when test="shortName">
-        <xsl:apply-templates select="shortName"/>
+        <xsl:value-of select="shortName"/>
       </xsl:when>
       <xsl:when test="name">
-        <xsl:apply-templates select="name"/>
+        <xsl:value-of select="name"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="@functionalItemNumber"/>
+        <xsl:choose>
+          <xsl:when test="self::functionalItemRef">
+            <xsl:text>Functional item </xsl:text>
+            <xsl:value-of select="@functionalItemNumber"/>
+          </xsl:when>
+          <xsl:when test="self::controlIndicatorRef">
+            <xsl:text>Control/indicator </xsl:text>
+            <xsl:value-of select="@controlIndicatorNumber"/>
+          </xsl:when>
+          <xsl:when test="self::accessPointRef">
+            <xsl:text>Access </xsl:text>
+            <xsl:if test="@accessPointType">
+              <xsl:apply-templates select="@accessPointType"/>
+              <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:value-of select="@accessPointNumber"/>
+          </xsl:when>
+          <xsl:when test="self::zoneRef">
+            <xsl:text>Zone </xsl:text>
+            <xsl:value-of select="@zoneNumber"/>
+          </xsl:when>
+        </xsl:choose>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
