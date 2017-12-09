@@ -2759,4 +2759,8 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="indexFlag">
+    <xsl:apply-templates/>
+  </xsl:template>
+
 </xsl:stylesheet>
