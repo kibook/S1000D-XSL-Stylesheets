@@ -129,7 +129,6 @@
        Determines the display of each of the standard UoM.
 
        "um51"-"um99" are also available for projects. -->
-
   <xsl:template match="@quantityUnitOfMeasure">
     <xsl:choose>
       <xsl:when test=". = '%'">%</xsl:when>
@@ -151,6 +150,17 @@
         <xsl:text> </xsl:text>
         <xsl:value-of select="."/>
       </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- accessPointType -->
+  <xsl:template match="@accessPointType">
+    <xsl:choose>
+      <xsl:when test=". = 'accpnl01'">door</xsl:when>
+      <xsl:when test=". = 'accpnl02'">panel</xsl:when>
+      <xsl:when test=". = 'accpnl03'">electrical panel</xsl:when>
+      <xsl:when test=". = 'accpnl04'">hatch</xsl:when>
+      <xsl:when test=". = 'accpnl05'">fillet</xsl:when>
     </xsl:choose>
   </xsl:template>
 
