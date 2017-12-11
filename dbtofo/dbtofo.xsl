@@ -170,11 +170,11 @@
         <l:template name="chapter" text="Chapter %n %t"/>
         <l:template name="equation" text="Equation %n %t"/>
         <l:template name="example" text="Example %n %t"/>
-        <l:template name="figure" text="Fig %n %t"/>
+        <l:template name="figure" text="Fig %n  %t"/>
         <l:template name="part" text="Part %n %t"/>
         <l:template name="procedure.formal" text="Procedure %n %t"/>
         <l:template name="productionset.formal" text="Production %n"/>
-        <l:template name="table" text="Table %n %t"/>
+        <l:template name="table" text="Table %n  %t"/>
       </l:context>
       <l:context name="xref-number">
         <l:template name="figure" text="Fig %n"/>
