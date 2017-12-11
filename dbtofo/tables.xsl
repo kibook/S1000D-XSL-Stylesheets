@@ -136,4 +136,33 @@
     <xsl:apply-templates select="."/>
   </xsl:template>
 
+  <!-- Don't set width on block container for landscape tables, this makes the
+       table only as tall as the page is wide. -->
+  <xsl:template name="table.container">
+    <xsl:param name="table.block"/>
+    <xsl:choose>
+      <xsl:when test="@orient='land' and
+                      $fop.extensions = 0" >
+        <fo:block-container reference-orientation="90"
+              padding="6pt"
+              xsl:use-attribute-sets="list.block.spacing">
+          <!--<xsl:attribute name="width">
+            <xsl:call-template name="table.width"/>
+          </xsl:attribute>-->
+          <fo:block start-indent="0pt" end-indent="0pt">
+            <xsl:copy-of select="$table.block"/>
+          </fo:block>
+        </fo:block-container>
+      </xsl:when>
+      <xsl:when test="@pgwide = 1">
+        <fo:block xsl:use-attribute-sets="pgwide.properties">
+          <xsl:copy-of select="$table.block"/>
+        </fo:block>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="$table.block"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>
