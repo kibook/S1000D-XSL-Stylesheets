@@ -145,6 +145,7 @@
                       $fop.extensions = 0" >
         <fo:block-container reference-orientation="90"
               padding="6pt"
+              start-indent="0pt" end-indent="0pt"
               xsl:use-attribute-sets="list.block.spacing">
           <!--<xsl:attribute name="width">
             <xsl:call-template name="table.width"/>
