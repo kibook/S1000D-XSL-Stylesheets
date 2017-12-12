@@ -71,6 +71,10 @@
           <!-- list of tables -->
           <xsl:call-template name="gen.lot"/>
         </xsl:when>
+        <xsl:when test="$info.code = '014' and $generate.index = 1">
+          <!-- alphabetical index -->
+          <xsl:call-template name="gen.index"/>
+        </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="dm.type">
             <xsl:call-template name="data.module.type">

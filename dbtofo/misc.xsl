@@ -61,4 +61,11 @@
     <xsl:apply-templates select="d:info/d:title/text()"/>
   </xsl:template>
 
+  <!-- No "Index" title on generated index (the dmTitle should cover this) -->
+  <xsl:template name="index.titlepage"/>
+
+  <xsl:attribute-set name="index.div.title.properties">
+    <xsl:attribute name="margin-left">-20mm</xsl:attribute>
+  </xsl:attribute-set>
+
 </xsl:stylesheet>

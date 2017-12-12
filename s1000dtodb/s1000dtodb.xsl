@@ -79,6 +79,11 @@
   <xsl:param name="generate.highlights">1</xsl:param>
   <!-- 00Z List of tables -->
   <xsl:param name="generate.list.of.tables">1</xsl:param>
+  <!-- Alphabetical index -->
+  <xsl:param name="generate.index">1</xsl:param>
+
+  <!-- Include an index section for each data module -->
+  <xsl:param name="data.module.index">0</xsl:param>
 
   <!-- Include the issue date on the title page content, derived from the issue
        date of the pub module (for auto-generated title page) or from the
@@ -150,7 +155,7 @@
   <!-- Controls whether and how quantities are reformatted for presentation.
 
        custom   Completely reformat quantities using the formats specified below
-                and the format-numbers() function. All quantities will be
+                and the format-number() function. All quantities will be
                 presented in the same format regardless of how they are
                 authored.
 
@@ -514,6 +519,15 @@
   </xsl:template>
 
   <xsl:template name="content.refs">
+    <xsl:if test="$data.module.index != 0">
+      <bridgehead>Index</bridgehead>
+      <index>
+        <xsl:attribute name="type">
+          <xsl:call-template name="get.dmcode"/>
+        </xsl:attribute>
+      </index>
+    </xsl:if>
+
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="2cm"</xsl:text>
     </xsl:processing-instruction>
@@ -2825,7 +2839,45 @@
   </xsl:template>
 
   <xsl:template match="indexFlag">
-    <xsl:apply-templates/>
+    <indexterm>
+      <xsl:if test="$data.module.index != 0">
+        <xsl:attribute name="type">
+          <xsl:call-template name="get.dmcode"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:apply-templates select="@indexLevelOne|@indexLevelTwo|@indexLevelThree|@indexLevelFour"/>
+    </indexterm>
+  </xsl:template>
+
+  <xsl:template match="@indexLevelOne">
+    <primary>
+      <xsl:value-of select="."/>
+    </primary>
+  </xsl:template>
+
+  <xsl:template match="@indexLevelTwo">
+    <xsl:if test="not(parent::indexFlag/@indexLevelOne)">
+      <xsl:apply-templates select="preceding::*[@indexLevelOne]/@indexLevelOne"/>
+    </xsl:if>
+    <secondary>
+      <xsl:value-of select="."/>
+    </secondary>
+  </xsl:template>
+
+  <xsl:template match="@indexLevelThree">
+    <xsl:if test="not(parent::indexFlag/@indexLevelOne)">
+      <xsl:apply-templates select="preceding::*[@indexLevelOne]/@indexLevelOne"/>
+    </xsl:if>
+    <xsl:if test="not(parent::indexFlag/@indexLevelTwo)">
+      <xsl:apply-templates select="preceding::*[@indexLevelTwo]/@indexLevelTwo"/>
+    </xsl:if>
+    <tertiary>
+      <xsl:value-of select="."/>
+    </tertiary>
+  </xsl:template>
+
+  <xsl:template name="gen.index">
+    <index/>
   </xsl:template>
 
 </xsl:stylesheet>
