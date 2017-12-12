@@ -79,8 +79,16 @@
   <xsl:param name="generate.highlights">1</xsl:param>
   <!-- 00Z List of tables -->
   <xsl:param name="generate.list.of.tables">1</xsl:param>
-  <!-- Alphabetical index -->
+  <!-- 014 Alphabetical and alphanumeric index -->
   <xsl:param name="generate.index">1</xsl:param>
+
+  <!-- The type of index to generate.
+
+       table    Creates a tabular index with data module references.
+
+       docbook  Uses the built-in DocBook index generator with page number
+                references. -->
+  <xsl:param name="index.type">table</xsl:param>
 
   <!-- Include an index section for each data module -->
   <xsl:param name="data.module.index">0</xsl:param>
@@ -2877,7 +2885,196 @@
   </xsl:template>
 
   <xsl:template name="gen.index">
-    <index/>
+    <xsl:choose>
+      <xsl:when test="$index.type = 'docbook'">
+        <index/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="gen.index.table"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Get the last occurence of preceding index flag levels -->
+  <xsl:template name="index.level">
+    <xsl:param name="level"/>
+    <xsl:choose>
+      <xsl:when test="parent::indexFlag/@*[name() = $level]">
+        <xsl:value-of select="parent::indexFlag/@*[name() = $level]"/>
+      </xsl:when>
+      <xsl:when
+        test="(name() = 'indexLevelTwo' and
+                ($level = 'indexLevelOne')) or
+              (name()='indexLevelThree' and
+                ($level='indexLevelOne' or
+                 $level='indexLevelTwo')) or
+              (name()='indexLevelFour' and
+                ($level='indexLevelOne' or
+                 $level='indexLevelTwo' or
+                 $level='indexLevelThree'))">
+        <xsl:value-of select="preceding::indexFlag[@*[name() = $level]]/@*[name() = $level]"/>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="dm.ref.link">
+    <xsl:param name="dmcode">
+      <xsl:call-template name="get.dmcode"/>
+    </xsl:param>
+    <link>
+      <xsl:attribute name="linkend">
+        <xsl:text>ID_</xsl:text>
+        <xsl:value-of select="$dmcode"/>
+      </xsl:attribute>
+      <xsl:value-of select="$dmcode"/>
+    </link>
+  </xsl:template>
+
+  <!-- List each unique dmCode where each unique flag occurs only once.
+       
+       Each unique flag is identified by the values of all four index levels
+       together.
+       
+       If an index flag does not include preceding level, e.g.
+
+          <indexFlag indexLevelThree="example"/>
+
+       then the preceding levels are determined from other preceding indexFlag
+       elements. -->
+  <xsl:template match="@indexLevelOne|@indexLevelTwo|@indexLevelThree|@indexLevelFour" mode="gen.index.refs">
+    <xsl:variable name="name" select="name()"/>
+    <xsl:variable name="this" select="."/>
+    <xsl:variable name="this.dmcode">
+      <xsl:call-template name="get.dmcode"/>
+    </xsl:variable>
+    <xsl:variable name="this.level1">
+      <xsl:call-template name="index.level">
+        <xsl:with-param name="level">indexLevelOne</xsl:with-param>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="this.level2">
+      <xsl:call-template name="index.level">
+        <xsl:with-param name="level">indexLevelTwo</xsl:with-param>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="this.level3">
+      <xsl:call-template name="index.level">
+        <xsl:with-param name="level">indexLevelThree</xsl:with-param>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="this.level4">
+      <xsl:call-template name="index.level">
+        <xsl:with-param name="level">indexLevelFour</xsl:with-param>
+      </xsl:call-template>
+    </xsl:variable>
+    <para>
+      <xsl:call-template name="dm.ref.link">
+        <xsl:with-param name="dmcode" select="$this.dmcode"/>
+      </xsl:call-template>
+    </para>
+    <xsl:for-each select="$all.dmodules//indexFlag/@*[name() = $name and . = $this]">
+      <xsl:variable name="cur.dmcode">
+        <xsl:call-template name="get.dmcode"/>
+      </xsl:variable>
+      <xsl:variable name="cur.level1">
+        <xsl:call-template name="index.level">
+          <xsl:with-param name="level">indexLevelOne</xsl:with-param>
+        </xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="cur.level2">
+        <xsl:call-template name="index.level">
+          <xsl:with-param name="level">indexLevelTwo</xsl:with-param>
+        </xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="cur.level3">
+        <xsl:call-template name="index.level">
+          <xsl:with-param name="level">indexLevelThree</xsl:with-param>
+        </xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="cur.level4">
+        <xsl:call-template name="index.level">
+          <xsl:with-param name="level">indexLevelFour</xsl:with-param>
+        </xsl:call-template>
+      </xsl:variable>
+      <xsl:if test="(not($this.level1 or $cur.level1) or $this.level1 = $cur.level1) and
+                    (not($this.level2 or $cur.level2) or $this.level2 = $cur.level2) and
+                    (not($this.level3 or $cur.level3) or $this.level3 = $cur.level3) and
+                    (not($this.level4 or $cur.level4) or $this.level4 = $cur.level4) and
+                    ($this.dmcode != $cur.dmcode)">
+        <para>
+          <xsl:call-template name="dm.ref.link">
+            <xsl:with-param name="dmcode" select="$cur.dmcode"/>
+          </xsl:call-template>
+        </para>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template match="@indexLevelOne|@indexLevelTwo|@indexLevelThree|@indexLevelFour" mode="gen.index">
+    <xsl:variable name="this" select="."/>
+    <xsl:variable name="name" select="name()"/>
+    <xsl:if test="not(preceding::indexFlag[@*[name() = $name and . = $this]])">
+      <xsl:variable name="next">
+        <xsl:choose>
+          <xsl:when test="$name = 'indexLevelOne'">indexLevelTwo</xsl:when>
+          <xsl:when test="$name = 'indexLevelTwo'">indexLevelThree</xsl:when>
+          <xsl:when test="$name = 'indexLevelThree'">indexLevelFour</xsl:when>
+        </xsl:choose>
+      </xsl:variable>
+      <row>
+        <!-- Empty entries to pad for each level -->
+        <xsl:choose>
+          <xsl:when test="$name = 'indexLevelTwo'">
+            <entry/>
+          </xsl:when>
+          <xsl:when test="$name = 'indexLevelThree'">
+            <entry/>
+            <entry/>
+          </xsl:when>
+          <xsl:when test="$name = 'indexLevelFour'">
+            <entry/>
+            <entry/>
+            <entry/>
+          </xsl:when>
+        </xsl:choose>
+        <entry spanname="{$name}">
+          <xsl:value-of select="$this"/>
+        </entry>
+        <entry>
+          <xsl:apply-templates select="." mode="gen.index.refs"/>
+        </entry>
+      </row>
+      <xsl:apply-templates select="//@*[name() = $next and (parent::indexFlag[@*[name() = $name and . = $this]] or preceding::indexFlag[@*[name() = $name and . = $this]])]" mode="gen.index">
+        <xsl:sort/>
+      </xsl:apply-templates>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="gen.index.table">
+    <informaltable pgwide="1" frame="topbot" rowsep="0" colsep="0">
+      <tgroup cols="5">
+        <colspec colname="c1" colwidth="1*"/>
+        <colspec colname="c2" colwidth="1*"/>
+        <colspec colname="c3" colwidth="1*"/>
+        <colspec colname="c4" colwidth="2*"/>
+        <colspec colname="c5" colwidth="5*"/>
+        <spanspec spanname="indexLevelOne" namest="c1" nameend="c4"/>
+        <spanspec spanname="indexLevelTwo" namest="c2" nameend="c4"/>
+        <spanspec spanname="indexLevelThree" namest="c3" nameend="c4"/>
+        <spanspec spanname="indexLevelFour" namest="c4" nameend="c4"/>
+        <thead>
+          <row rowsep="1">
+            <entry spanname="indexLevelOne">Term</entry>
+            <entry>Data module code</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:apply-templates select="//@indexLevelOne" mode="gen.index">
+            <xsl:sort/>
+          </xsl:apply-templates>
+        </tbody>
+      </tgroup>
+    </informaltable>
   </xsl:template>
 
 </xsl:stylesheet>
