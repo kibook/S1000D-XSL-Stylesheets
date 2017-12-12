@@ -147,16 +147,59 @@
   <!-- Highlight applicability statements with blue -->
   <xsl:param name="highlight.applic">0</xsl:param>
 
-  <!-- The format for displaying quantity values and tolerances.
+  <!-- Controls whether and how quantities are reformatted for presentation.
+
+       custom   Completely reformat quantities using the formats specified below
+                and the format-numbers() function. All quantities will be
+                presented in the same format regardless of how they are
+                authored.
+
+                For example, 0.030 and 0.3 are both valid xs:decimal numbers.
+                With this formatting option, both would be presented the same
+                way (either both as 0.030 or both as 0.3).
+
+                The quantity.decimal.format and quantity.format options
+                actually determine the formatting.
+
+                This is the most consistent option, but isn't suitable if the
+                project uses varying formats (for example, different numbers of
+                leading/trailing zeroes to indicate different scales.
+
+       basic    Do simple translation of xs:decimal to the format indicated in
+                quantity.decimal.format, but keep other formatting (such as
+                leading/trailing zeroes) as-is.
+
+       none     Present the xs:decimal value exactly as authored. -->
+  <xsl:param name="reformat.quantities">basic</xsl:param>
+
+  <xsl:decimal-format name="SI" decimal-separator="," grouping-separator=" "/>
+  <xsl:decimal-format name="imperial" decimal-separator="." grouping-separator=","/>
+
+  <!-- The rules for specifying a format for displaying quantity values and
+       tolerances.
 
        Allowable values:
 
        SI         Système International d'Unites (SI)
                   - Uses comma [,] as the decimal separator
+                  - Uses space [ ] as the grouping separator
+                    (currently only when reformat.quantities = custom)
 
        imperial   Imperial
-                  - Uses period [.] as the decimal separator -->
-  <xsl:param name="quantity.format">SI</xsl:param>
+                  - Uses period [.] as the decimal separator
+                  - Uses comma [,] as the grouping separator
+                    (currently only when reformat.quantities = custom) -->
+  <xsl:param name="quantity.decimal.format">SI</xsl:param>
+  
+  <!-- The actual format of a quantity value/threshold when
+       reformat.quantities = custom, conforming to the chosen rules. This is
+       the picture string passed to format-number(). -->
+  <xsl:param name="quantity.format">
+    <xsl:choose>
+      <xsl:when test="$quantity.decimal.format = 'SI'">### ##0,#####</xsl:when>
+      <xsl:when test="$quantity.decimal.format = 'imperial'">###,##0.#####</xsl:when>
+    </xsl:choose>
+  </xsl:param>
 
   <xsl:output indent="no" method="xml"/>
 
@@ -2746,13 +2789,14 @@
     <xsl:apply-templates select="@quantityUnitOfMeasure"/>
   </xsl:template>
 
-  <!-- Quantity values/tolerances are encoded as xs:decimal values, which always
-       use . as the decimal separator, so they must be reformatted when using SI
-       formatting. -->
+  <!-- Format xs:decimal value appropriately -->
   <xsl:template name="format.quantity.value">
     <xsl:param name="value" select="."/>
     <xsl:choose>
-      <xsl:when test="$quantity.format = 'SI'">
+      <xsl:when test="$reformat.quantities = 'custom'">
+        <xsl:value-of select="format-number($value, $quantity.format, $quantity.decimal.format)"/>
+      </xsl:when>
+      <xsl:when test="$reformat.quantities = 'basic' and $quantity.decimal.format = 'SI'">
         <xsl:value-of select="translate($value, '.', ',')"/>
       </xsl:when>
       <xsl:otherwise>
