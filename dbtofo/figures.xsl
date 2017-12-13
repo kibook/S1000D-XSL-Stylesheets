@@ -95,4 +95,27 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template name="formal.object.heading">
+    <xsl:param name="object" select="."/>
+    <xsl:param name="placement" select="'before'"/>
+
+    <xsl:if test="not($object/self::d:figure)">
+      <fo:block xsl:use-attribute-sets="formal.title.properties">
+        <xsl:choose>
+          <xsl:when test="$placement = 'before'">
+            <xsl:attribute
+                   name="keep-with-next.within-column">always</xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute
+                   name="keep-with-previous.within-column">always</xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:apply-templates select="$object" mode="object.title.markup">
+          <xsl:with-param name="allow-anchors" select="1"/>
+        </xsl:apply-templates>
+      </fo:block>
+    </xsl:if>
+  </xsl:template>
+
 </xsl:stylesheet>

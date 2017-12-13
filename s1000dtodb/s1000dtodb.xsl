@@ -1397,7 +1397,7 @@
   </xsl:template>
 
   <xsl:template match="figure">
-    <xsl:element name="informalfigure">
+    <figure>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:attribute name="label">
@@ -1405,8 +1405,8 @@
       </xsl:attribute>
       <xsl:attribute name="pgwide">1</xsl:attribute>
       <xsl:call-template name="applic.annotation"/>
-      <xsl:apply-templates select="graphic"/>
-    </xsl:element>
+      <xsl:apply-templates select="title|graphic"/>
+    </figure>
     <xsl:apply-templates select="legend"/>
   </xsl:template>
 
