@@ -46,7 +46,7 @@
   <!-- suppress space before first paragraph after section heading (and note) -->
   <!-- (and labelled paras, which are nested within fo:* elements) -->
   <!-- increase priority so that this template is used in preference to *[@revisionflag] -->
-  <xsl:template match="d:para[1][not(@labeltitle)]" priority="1">
+  <xsl:template match="d:para[not(preceding-sibling::d:para)][not(@labeltitle)]" priority="1">
     <xsl:variable name="content">
       <xsl:choose>
         <xsl:when test="parent::d:section|
