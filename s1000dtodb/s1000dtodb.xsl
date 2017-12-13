@@ -2618,9 +2618,9 @@
                     applicability. -->
         <xsl:otherwise>
           <xsl:variable name="this" select="."/>
-          <xsl:variable name="this.preced" select="$this/preceding::*"/>
+          <xsl:variable name="this.preced" select="$this/preceding-sibling::*/descendant-or-self::*"/>
           <xsl:variable name="this.preced.count" select="count($this.preced)"/>
-          <xsl:variable name="preced.applic" select="$this/preceding::*[@applicRefId][1]"/>
+          <xsl:variable name="preced.applic" select="$this/preceding-sibling::*/descendant-or-self::*[@applicRefId][position()=last()]/@applicRefId"/>
           <!-- If there is a preceding applicability statement, a statement must
                be placed on this element to disambiguate its applicability. The
                statement will be inherited from either an ancestor element or the
