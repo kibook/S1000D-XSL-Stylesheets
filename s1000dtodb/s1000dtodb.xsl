@@ -80,7 +80,7 @@
   <!-- 00Z List of tables -->
   <xsl:param name="generate.list.of.tables">1</xsl:param>
   <!-- 014 Alphabetical and alphanumeric index -->
-  <xsl:param name="generate.index">1</xsl:param>
+  <xsl:param name="generate.index">0</xsl:param>
 
   <!-- The type of index to generate.
 
