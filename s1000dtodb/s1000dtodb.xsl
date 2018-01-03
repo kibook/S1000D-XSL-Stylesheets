@@ -2697,6 +2697,17 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="toolRef">
+    <xsl:if test="$part.no.prefix != 0">
+      <xsl:text>Part No. </xsl:text>
+    </xsl:if>
+    <xsl:if test="@manufacturerCodeValue">
+      <xsl:value-of select="@manufacturerCodeValue"/>
+      <xsl:text>/</xsl:text>
+    </xsl:if>
+    <xsl:value-of select="@toolNumber"/>
+  </xsl:template>
+
   <xsl:template match="name">
     <para>
       <xsl:call-template name="revisionflag"/>
