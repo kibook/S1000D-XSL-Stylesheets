@@ -721,6 +721,12 @@
       <xsl:value-of select="$id"/>
     </xsl:variable>
     <xsl:choose>
+      <!-- When internalRef contains textual content, always display that -->
+      <xsl:when test=". != ''">
+        <link linkend="{$linkend}">
+          <xsl:apply-templates/>
+        </link>
+      </xsl:when>
       <!-- 
         special case tables because the numbering of the authored tables doesn't
         start at 1 and we leave it up to the xref processing to work out the correct
