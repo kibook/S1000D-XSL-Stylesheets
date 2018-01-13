@@ -102,7 +102,9 @@
 
   <xsl:template match="description">
     <xsl:processing-instruction name="dbfo-need">
-      <xsl:text>height="2cm"</xsl:text>
+      <xsl:text>height="</xsl:text>
+      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="centerhead">Description</bridgehead>
     <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
