@@ -164,4 +164,20 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="security">
+    <xsl:choose>
+      <xsl:when test="@securityClassification = '01'">
+        <xsl:choose>
+          <xsl:when test="$show.unclassified != 0">
+            <xsl:text>UNCLASSIFIED</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>&#160;</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>CLASSIFIED: <xsl:value-of select="@securityClassification"/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>

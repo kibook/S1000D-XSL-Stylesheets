@@ -513,22 +513,7 @@
         </xsl:choose>
       </bibliomisc>
       <bibliomisc role="classification">
-        <xsl:choose>
-          <xsl:when test="*/security/@securityClassification = '01'">
-            <xsl:choose>
-              <xsl:when test="$show.unclassified != 0">
-                <xsl:text>Unclassified</xsl:text>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:text>&#160;</xsl:text>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:text>Classified: </xsl:text>
-            <xsl:value-of select="*/security/@securityClassification"/>
-          </xsl:otherwise>
-        </xsl:choose>
+        <xsl:apply-templates select="*/security"/>
       </bibliomisc>
       <bibliomisc role="applicability">
         <xsl:call-template name="get.applicability.string"/>
