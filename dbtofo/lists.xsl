@@ -111,4 +111,17 @@
       <xsl:apply-templates/>
     </fo:block>
   </xsl:template>
+
+  <xsl:attribute-set name="list.item.spacing">
+    <xsl:attribute name="space-before.optimum">
+      <xsl:value-of select="$list.item.spacing.optimum"/>
+    </xsl:attribute>
+    <xsl:attribute name="space-before.minimum">
+      <xsl:value-of select="$list.item.spacing.minimum"/>
+    </xsl:attribute>
+    <xsl:attribute name="space-before.maximum">
+      <xsl:value-of select="$list.item.spacing.maximum"/>
+    </xsl:attribute>
+  </xsl:attribute-set>
+
 </xsl:stylesheet>

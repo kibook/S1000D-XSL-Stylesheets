@@ -158,6 +158,11 @@
        document. -->
   <xsl:param name="running.pagination">0</xsl:param>
 
+  <!-- Spacing between list items -->
+  <xsl:param name="list.item.spacing.optimum">0.5em</xsl:param>
+  <xsl:param name="list.item.spacing.minimum">0.4em</xsl:param>
+  <xsl:param name="list.item.spacing.maximum">0.6em</xsl:param>
+
   <xsl:param name="local.l10n.xml" select="document('')"/>
   
   <l:i18n xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0">
