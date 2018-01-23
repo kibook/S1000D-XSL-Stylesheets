@@ -217,6 +217,8 @@
   <!-- How applicability is shown.
        
        none       Never show applicability statements.
+
+       simple     Only show statements on elements with @applicRefId.
        
        standard   Show applicability statements as described in Chap 6 of the
                   specification. -->
@@ -2629,7 +2631,7 @@
                     constantly looking backwards in the document with
                     preceding::* and ancestor::* even when there is very little
                     applicability. -->
-        <xsl:otherwise>
+        <xsl:when test="$show.applicability = 'standard'">
           <xsl:variable name="this" select="."/>
           <xsl:variable name="this.preced" select="$this/preceding::*"/>
           <xsl:variable name="this.preced.count" select="count($this.preced)"/>
@@ -2664,7 +2666,7 @@
               </xsl:choose>
             </xsl:if>
           </xsl:if>
-        </xsl:otherwise>
+        </xsl:when>
       </xsl:choose>
   </xsl:template>
 

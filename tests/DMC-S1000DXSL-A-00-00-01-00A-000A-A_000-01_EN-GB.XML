@@ -121,7 +121,7 @@
               </proceduralStep>
             </proceduralStep>
           </proceduralStep>
-          <proceduralStep applicRefId="ap1-50">
+          <proceduralStep>
             <para>This step called J is applicable to SN: 1-50</para>
           </proceduralStep>
         </proceduralStep>
