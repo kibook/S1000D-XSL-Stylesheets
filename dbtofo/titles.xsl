@@ -94,6 +94,7 @@
     <xsl:attribute name="space-after.minimum">0.4em</xsl:attribute>
     <xsl:attribute name="space-after.optimum">0.6em</xsl:attribute>
     <xsl:attribute name="space-after.maximum">0.8em</xsl:attribute>
+    <xsl:attribute name="keep-with-next">always</xsl:attribute>
   </xsl:attribute-set>
   
   <xsl:template match="d:bridgehead">
