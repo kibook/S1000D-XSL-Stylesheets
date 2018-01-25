@@ -91,7 +91,7 @@
   <xsl:template match="isolationMainProcedure">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$centerhead2.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="centerhead">Fault isolation procedure</bridgehead>

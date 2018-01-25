@@ -224,7 +224,8 @@
                   specification. -->
   <xsl:param name="show.applicability">standard</xsl:param>
 
-  <xsl:param name="bridgehead.need">2cm</xsl:param>
+  <xsl:param name="sidehead0.need">2cm</xsl:param>
+  <xsl:param name="centerhead2.need">5cm</xsl:param>
 
   <xsl:output indent="no" method="xml"/>
 
@@ -535,7 +536,7 @@
 
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
 
@@ -964,7 +965,7 @@
   <xsl:template match="commonInfo">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <xsl:choose>
@@ -981,7 +982,7 @@
   <xsl:template match="preliminaryRqmts">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$centerhead2.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="centerhead">Preliminary requirements</bridgehead>
@@ -996,7 +997,7 @@
   <xsl:template match="closeRqmts">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$centerhead2.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="centerhead">Requirements after job completion</bridgehead>
@@ -1006,7 +1007,7 @@
   <xsl:template name="required.conditions">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="sidehead0">Required conditions</bridgehead>
@@ -1115,7 +1116,7 @@
   <xsl:template match="reqPersons">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="sidehead0">Required persons</bridgehead>
@@ -1208,7 +1209,7 @@
   <xsl:template match="reqSupportEquips">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="sidehead0">Support equipment</bridgehead>
@@ -1264,7 +1265,7 @@
   <xsl:template match="reqSupplies">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="sidehead0">Consumables, materials and expendables</bridgehead>
@@ -1320,7 +1321,7 @@
   <xsl:template match="reqSpares">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="sidehead0">Spares</bridgehead>
@@ -1376,7 +1377,7 @@
   <xsl:template match="reqSafety">
     <xsl:processing-instruction name="dbfo-need">
       <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$bridgehead.need"/>
+      <xsl:value-of select="$sidehead0.need"/>
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>
     <bridgehead renderas="sidehead0">Safety conditions</bridgehead>
