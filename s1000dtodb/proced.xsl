@@ -49,7 +49,22 @@
   </xsl:template>
 
   <xsl:template match="procedure">
-    <xsl:apply-templates/>
+    <xsl:choose>
+      <xsl:when test="$hide.empty.proced.rqmts = 0">
+        <xsl:apply-templates select="*"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="commonInfo"/>
+        <xsl:apply-templates select="preliminaryRqmts[
+          reqCondGroup[not(noConds)] or
+          reqPersons or
+          reqSupportEquips[not(noSupportEquips)] or
+          reqSupplies[not(noSupplies)] or
+          reqSpares[not(noSpares)]]"/>
+        <xsl:apply-templates select="mainProcedure"/>
+        <xsl:apply-templates select="closeRqmts[reqCondGroup[not(noConds)]]"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="mainProcedure">
