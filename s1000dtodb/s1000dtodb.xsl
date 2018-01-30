@@ -227,6 +227,8 @@
   <!--<xsl:param name="sidehead0.need">2cm</xsl:param>
   <xsl:param name="centerhead2.need">5cm</xsl:param>-->
 
+  <xsl:param name="hide.empty.prelim.rqmts">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -749,7 +751,7 @@
                 <xsl:apply-templates select="." mode="number"/>
               </xsl:for-each>
             </xsl:when>
-            <xsl:when test="name($target[1]) = 'proceduralStep' or name($target[1]) = 'proceduralStepAlts'">
+            <xsl:when test="name($target[1]) = 'proceduralStep' or name($target[1]) = 'proceduralStepAlts' or name($target[1]) = 'crewDrillStep'">
               <xsl:attribute name="xrefstyle">select:nopage</xsl:attribute>
               <xsl:for-each select="$target">
                 <xsl:text>Step&#xA0;</xsl:text>

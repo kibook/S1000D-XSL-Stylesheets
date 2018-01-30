@@ -108,7 +108,7 @@
         </xsl:when>
         <xsl:when test="@renderas='sidehead' or @renderas='sidehead0'">
           <xsl:text>normal</xsl:text>  
-        </xsl:when>        
+        </xsl:when>
       </xsl:choose>
     </xsl:variable>
     <xsl:variable name="text.align">
