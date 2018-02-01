@@ -156,7 +156,7 @@
     <xsl:apply-templates select="proceduralStep"/>
   </xsl:template>
 
-  <xsl:template match="proceduralStep/para">
+  <!--<xsl:template match="proceduralStep/para">
     <xsl:choose>
       <xsl:when test="position() = 1">
 	<xsl:apply-templates/>
@@ -165,6 +165,6 @@
 	<para><xsl:apply-templates/></para>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:template>
+  </xsl:template>-->
 
 </xsl:stylesheet>
