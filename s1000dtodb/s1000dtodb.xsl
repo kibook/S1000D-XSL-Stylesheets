@@ -2891,7 +2891,7 @@
     <xsl:choose>
       <xsl:when test=". = 'plus'">+</xsl:when>
       <xsl:when test=". = 'minus'">-</xsl:when>
-      <xsl:when test=". = 'plusorminus'">± </xsl:when>
+      <xsl:otherwise>± </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
