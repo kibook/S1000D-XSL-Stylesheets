@@ -136,7 +136,6 @@
       <xsl:when test=". = 'degC'"> °C</xsl:when>
       <xsl:when test=". = 'degF'"> °F</xsl:when>
       <xsl:when test=". = 'degR'"> °R</xsl:when>
-      <xsl:when test=". = 'h'">h</xsl:when>
       <xsl:when test=". = 'in2'"> in<superscript>2</superscript></xsl:when>
       <xsl:when test=". = 'in3'"> in<superscript>3</superscript></xsl:when>
       <xsl:when test=". = 'in4'"> in<superscript>4</superscript></xsl:when>

@@ -2852,9 +2852,19 @@
       <xsl:when test="@quantityGroupType = 'minimum'">from </xsl:when>
       <xsl:when test="@quantityGroupType = 'maximum'"> to </xsl:when>
     </xsl:choose>
-    <xsl:apply-templates select="quantityValue"/>
-    <xsl:for-each select="quantityTolerance">
+    <xsl:for-each select="quantityValue">
+      <xsl:if test="position() != 1">
+        <xsl:text> </xsl:text>
+      </xsl:if>
+      <xsl:apply-templates select="."/>
+    </xsl:for-each>
+    <xsl:if test="quantityValue and quantityTolerance">
       <xsl:text> </xsl:text>
+    </xsl:if>
+    <xsl:for-each select="quantityTolerance">
+      <xsl:if test="position() != 1">
+        <xsl:text> </xsl:text>
+      </xsl:if>
       <xsl:apply-templates select="."/>
     </xsl:for-each>
     <xsl:apply-templates select="@quantityUnitOfMeasure"/>
@@ -2882,15 +2892,16 @@
   </xsl:template>
 
   <xsl:template match="quantityTolerance">
-    <xsl:apply-templates select="@quantityToleranceType"/>
+    <xsl:call-template name="quantity.tolerance.type"/>
     <xsl:call-template name="format.quantity.value"/>
     <xsl:apply-templates select="@quantityUnitOfMeasure"/>
   </xsl:template>
 
-  <xsl:template match="@quantityToleranceType">
+  <xsl:template name="quantity.tolerance.type">
+    <xsl:param name="type" select="@quantityToleranceType"/>
     <xsl:choose>
-      <xsl:when test=". = 'plus'">+</xsl:when>
-      <xsl:when test=". = 'minus'">-</xsl:when>
+      <xsl:when test="$type = 'plus'">+</xsl:when>
+      <xsl:when test="$type = 'minus'">-</xsl:when>
       <xsl:otherwise>± </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
