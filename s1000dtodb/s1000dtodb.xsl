@@ -2636,7 +2636,7 @@
                     applicability. -->
         <xsl:when test="$show.applicability = 'standard'">
           <xsl:variable name="this" select="."/>
-          <xsl:variable name="this.preced" select="$this/preceding::*"/>
+          <xsl:variable name="this.preced" select="$this/preceding::*|$this/ancestor::*"/>
           <xsl:variable name="this.preced.count" select="count($this.preced)"/>
           <xsl:variable name="preced.applic" select="$this/preceding::*[@applicRefId][1]"/>
           <!-- If there is a preceding applicability statement, a statement must
