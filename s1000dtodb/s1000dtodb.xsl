@@ -1777,13 +1777,22 @@
 	            <xsl:text>*</xsl:text>
 	          </xsl:attribute>
 	        </xsl:when>
+          <!-- Do not copy S1000D-specific attributes. -->
+          <xsl:when test="name(.) = 'applicRefId'"/>
 	        <xsl:otherwise>
 	          <xsl:copy/>
 	        </xsl:otherwise>
         </xsl:choose>
       </xsl:for-each>
-      <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
-      <xsl:call-template name="applic.annotation"/>
+      <xsl:if test="self::entry">
+        <!-- Show applic for row in first entry -->
+        <xsl:for-each select="parent::row">
+          <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+          <xsl:call-template name="applic.annotation"/>
+        </xsl:for-each>
+        <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+        <xsl:call-template name="applic.annotation"/>
+      </xsl:if>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
