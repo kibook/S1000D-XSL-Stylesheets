@@ -2607,14 +2607,20 @@
 
   <xsl:template match="assert">
     <xsl:value-of select="@applicPropertyIdent"/>
-    <xsl:text> = </xsl:text>
+    <xsl:text>: </xsl:text>
     <xsl:value-of select="@applicPropertyValues"/>
   </xsl:template>
 
   <xsl:template match="evaluate">
     <xsl:variable name="op" select="@andOr"/>
     <xsl:for-each select="assert|evaluate">
+      <xsl:if test="self::evaluate and @andOr != $op">
+        <xsl:text>(</xsl:text>
+      </xsl:if>
       <xsl:apply-templates select="."/>
+      <xsl:if test="self::evaluate and @andOr != $op">
+        <xsl:text>)</xsl:text>
+      </xsl:if>
       <xsl:if test="position() != last()">
         <xsl:text> </xsl:text>
         <xsl:value-of select="$op"/>
