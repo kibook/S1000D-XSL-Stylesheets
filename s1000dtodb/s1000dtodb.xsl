@@ -417,12 +417,16 @@
   </xsl:template>
 
   <xsl:template name="get.applicability.string">
+    <xsl:variable name="applic" select="dmStatus/applic"/>
     <xsl:choose>
-      <xsl:when test="dmStatus/applic/displayText/simplePara">
-        <xsl:apply-templates select="dmStatus/applic/displayText/simplePara/node()"/>
+      <xsl:when test="$applic/displayText/simplePara">
+        <xsl:apply-templates select="$applic/displayText/simplePara/node()"/>
+      </xsl:when>
+      <xsl:when test="$applic/displayText">
+        <xsl:text>All</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>All</xsl:text>
+        <xsl:apply-templates select="$applic/assert|$applic/evaluate"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
