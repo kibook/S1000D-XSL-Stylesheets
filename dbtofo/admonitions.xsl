@@ -54,7 +54,7 @@
     </xsl:variable>
 
     <fo:block space-before.minimum="0.8em" space-before.optimum="1em"
-      space-before.maximum="1.2em" padding-top="4pt" padding-bottom="4pt"
+      space-before.maximum="1.2em" padding-top="4pt" padding-bottom="4pt" keep-with-next="always"
       id="{$id}">
       <xsl:if test="$admon.textlabel != 0 or title">
         <xsl:variable name="admon.title">
