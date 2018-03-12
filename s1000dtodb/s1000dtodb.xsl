@@ -1402,8 +1402,8 @@
   </xsl:template>
 
   <xsl:template match="warning|caution|note">
-    <xsl:call-template name="applic.annotation"/>
     <xsl:element name="{name()}">
+      <xsl:call-template name="applic.annotation"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
