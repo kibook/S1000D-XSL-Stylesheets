@@ -1401,12 +1401,20 @@
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="warning|caution|note">
+  <xsl:template match="warning|caution">
+    <xsl:call-template name="applic.annotation"/>
     <xsl:element name="{name()}">
-      <xsl:call-template name="applic.annotation"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="note">
+    <note>
+      <xsl:call-template name="applic.annotation"/>
+      <xsl:call-template name="revisionflag"/>
+      <xsl:apply-templates/>
+    </note>
   </xsl:template>
 
   <xsl:template match="para|warningAndCautionPara|notePara|simplePara|attentionListItemPara">
