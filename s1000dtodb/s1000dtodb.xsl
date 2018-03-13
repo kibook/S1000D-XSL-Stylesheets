@@ -222,7 +222,7 @@
        
        standard   Show applicability statements as described in Chap 6 of the
                   specification. -->
-  <xsl:param name="show.applicability">standard</xsl:param>
+  <xsl:param name="show.applicability">simple</xsl:param>
 
   <!--<xsl:param name="sidehead0.need">2cm</xsl:param>
   <xsl:param name="centerhead2.need">5cm</xsl:param>-->
