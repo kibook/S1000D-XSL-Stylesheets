@@ -151,9 +151,15 @@
           <xsl:apply-templates select="*[not(self::proceduralStep or self::title)]"/>
         </fo:block>
       </xsl:with-param>
-      <xsl:with-param name="title" select="title"/>
+      <xsl:with-param name="title">
+        <xsl:apply-templates select="title" mode="labeltitle"/>
+      </xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates select="proceduralStep"/>
+  </xsl:template>
+
+  <xsl:template match="proceduralStep/title" mode="labeltitle">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <!--<xsl:template match="proceduralStep/para">

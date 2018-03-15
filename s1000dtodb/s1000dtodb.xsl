@@ -641,7 +641,7 @@
     <xsl:element name="para">
       <xsl:if test="$titled.labelled.para.toc = 1">
         <xsl:attribute name="label"><xsl:value-of select="$label"/></xsl:attribute>
-        <xsl:if test="$title">
+        <xsl:if test="$title != ''">
           <xsl:attribute name="labeltitle"><xsl:value-of select="$title"/></xsl:attribute>
         </xsl:if>
       </xsl:if>
