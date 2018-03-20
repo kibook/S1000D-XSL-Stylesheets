@@ -465,10 +465,30 @@
         <xsl:apply-templates select=".//issueDate"/>
       </date>
       <bibliomisc role="publication.title">
-        <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/pmTitle/text()"/>
+        <xsl:choose>
+          <xsl:when test="$pm/identAndStatusSection/pmAddress/pmAddressItems/pmTitle">
+            <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/pmTitle/text()"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="dmAddress/dmAddressItems/dmTitle"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </bibliomisc>
       <bibliomisc role="publication.author">
-        <xsl:apply-templates select="$pm/identAndStatusSection/pmStatus/responsiblePartnerCompany/enterpriseName/text()"/>
+        <xsl:choose>
+          <xsl:when test="$pm/identAndStatusSection/pmStatus/responsiblePartnerCompany/enterpriseName">
+            <xsl:value-of select="$pm/identAndStatusSection/pmStatus/responsiblePartnerCompany/enterpriseName"/>
+          </xsl:when>
+          <xsl:when test="$pm/identAndStatusSection/pmStatus/responsiblePartnerCompany/@enterpriseCode">
+            <xsl:value-of select="$pm/identAndStatusSection/pmStatus/responsiblePartnerCompany/@enterpriseCode"/>
+          </xsl:when>
+          <xsl:when test="dmStatus/responsiblePartnerCompany/enterpriseName">
+            <xsl:value-of select="dmStatus/responsiblePartnerCompany/enterpriseName"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="dmStatus/responsiblePartnerCompany/@enterpriseCode"/>
+          </xsl:otherwise>
+        </xsl:choose>
       </bibliomisc>
       <bibliomisc role="page.header.logo">
         <xsl:apply-templates select="(dmStatus/logo|$pm/identAndStatusSection/pmStatus/logo)[1]"/>
@@ -494,8 +514,11 @@
             <xsl:when test="$producedby.blurb != ''">
               <xsl:value-of select="$producedby.blurb"/>
             </xsl:when>
-            <xsl:otherwise>
+            <xsl:when test="dmStatus/responsiblePartnerCompany/enterpriseName">
               <xsl:value-of select="dmStatus/responsiblePartnerCompany/enterpriseName"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="dmStatus/responsiblePartnerCompany/@enterpriseCode"/>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:if test="$printedin.blurb != ''">
