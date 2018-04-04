@@ -47,10 +47,6 @@
   
   <xsl:param name="show.unimplemented.markup">1</xsl:param>
 
-  <!-- When generate.references.table = 1, the contents of the References table
-       are automatically generated (if the refs element exists, it is ignored). -->
-  <xsl:param name="generate.references.table">0</xsl:param>
-
   <!-- When use.unparsed.entity.uri = 1, the unparsed URI of an ICN entity is
        used to determine the filename. -->
   <xsl:param name="use.unparsed.entity.uri">0</xsl:param>
@@ -570,22 +566,10 @@
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>-->
 
-    <!-- Create references table automatically when $generate.references.table = 1 -->
-    <xsl:variable name="content" select="content/description|content/procedure"/>
+    <xsl:variable name="dm.refs" select="content/refs/dmRef"/>
+    <xsl:variable name="pm.refs" select="content/refs/pmRef"/>
+    <xsl:variable name="ep.refs" select="content/refs/externalPubRef"/>
 
-    <xsl:variable name="auth.dm.refs" select="content/refs/dmRef"/>
-    <xsl:variable name="auth.pm.refs" select="content/refs/pmRef"/>
-    <xsl:variable name="auth.ep.refs" select="content/refs/externalPubRef"/>
-
-    <xsl:variable name="auto.dm.refs" select="$content//dmRef"/>
-    <xsl:variable name="auto.pm.refs" select="$content//pmRef"/>
-    <xsl:variable name="auto.ep.refs" select="$content//externalPubRef"/>
-
-    <xsl:variable name="gen" select="$generate.references.table"/>
-
-    <xsl:variable name="dm.refs" select="$auth.dm.refs[$gen=0]|$auto.dm.refs[$gen=1]"/>
-    <xsl:variable name="pm.refs" select="$auth.pm.refs[$gen=0]|$auto.pm.refs[$gen=1]"/>
-    <xsl:variable name="ep.refs" select="$auth.ep.refs[$gen=0]|$auto.ep.refs[$gen=1]"/>
     <xsl:variable name="refs" select="$dm.refs|$pm.refs|$ep.refs"/>
 
     <bridgehead renderas="centerhead">References</bridgehead>
