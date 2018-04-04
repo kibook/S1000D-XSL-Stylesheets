@@ -36,12 +36,14 @@
   </xsl:template>
   
   <xsl:template match="descrCrew">
-    <bridgehead renderas="centerhead">Crew/operator description</bridgehead>
+    <xsl:if test="$show.schema.heading != 0">
+      <bridgehead renderas="centerhead">Crew/operator description</bridgehead>
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="crewRefCard">
-    <xsl:if test="not(title)">
+    <xsl:if test="not(title) and $show.schema.heading != 0">
       <bridgehead renderas="centerhead">Operation</bridgehead>
     </xsl:if>
     <xsl:apply-templates select="*"/>

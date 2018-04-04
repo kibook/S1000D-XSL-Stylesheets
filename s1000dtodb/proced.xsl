@@ -68,12 +68,9 @@
   </xsl:template>
 
   <xsl:template match="mainProcedure">
-    <!--<xsl:processing-instruction name="dbfo-need">
-      <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$centerhead2.need"/>
-      <xsl:text>"</xsl:text>
-    </xsl:processing-instruction>-->
-    <bridgehead renderas="centerhead">Procedure</bridgehead>
+    <xsl:if test="$show.schema.heading != 0">
+      <bridgehead renderas="centerhead">Procedure</bridgehead>
+    </xsl:if>
     <xsl:apply-templates/>
   </xsl:template>
 

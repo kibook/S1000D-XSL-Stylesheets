@@ -101,12 +101,9 @@
   </xsl:template>
 
   <xsl:template match="description">
-    <!--<xsl:processing-instruction name="dbfo-need">
-      <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$centerhead2.need"/>
-      <xsl:text>"</xsl:text>
-    </xsl:processing-instruction>-->
-    <bridgehead renderas="centerhead">Description</bridgehead>
+    <xsl:if test="$show.schema.heading != 0">
+      <bridgehead renderas="centerhead">Description</bridgehead>
+    </xsl:if>
     <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
     <xsl:apply-templates/>
   </xsl:template>

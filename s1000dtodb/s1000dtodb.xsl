@@ -226,6 +226,13 @@
   <!-- Hide preliminary requirements section when unused (all tables are empty) -->
   <xsl:param name="hide.empty.proced.rqmts">0</xsl:param>
 
+  <!-- Hide the References table if there are no references -->
+  <xsl:param name="hide.empty.refs.table">0</xsl:param>
+
+  <!-- Whether or not to include the default heading based on the DM schema,
+       e.g., "Description" for descriptive, "Procedure" for procedural, etc. -->
+  <xsl:param name="show.schema.heading">1</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -560,82 +567,78 @@
       </index>
     </xsl:if>
 
-    <!--<xsl:processing-instruction name="dbfo-need">
-      <xsl:text>height="</xsl:text>
-      <xsl:value-of select="$sidehead0.need"/>
-      <xsl:text>"</xsl:text>
-    </xsl:processing-instruction>-->
-
     <xsl:variable name="dm.refs" select="content/refs/dmRef"/>
     <xsl:variable name="pm.refs" select="content/refs/pmRef"/>
     <xsl:variable name="ep.refs" select="content/refs/externalPubRef"/>
 
     <xsl:variable name="refs" select="$dm.refs|$pm.refs|$ep.refs"/>
 
-    <bridgehead renderas="centerhead">References</bridgehead>
-    <table pgwide="1" frame="topbot" colsep="0">
-      <title>References</title>
-      <tgroup cols="2" align="left">
-        <thead>
-          <row>
-            <entry>Data module/Technical publication</entry>
-            <entry>Title</entry>
-          </row>
-        </thead>
-        <tbody rowsep="0">
-	        <xsl:if test="not($refs)">
-	          <row>
-	            <entry>None</entry>
-	            <entry></entry>
-	          </row>
-	        </xsl:if>
-	        <xsl:for-each select="$dm.refs">
-	          <row>
-	            <entry>
-                <xsl:apply-templates select="."/>
-                <xsl:if test="dmRefIdent/issueInfo">
-                  <xsl:text> Issue </xsl:text>
-                  <xsl:apply-templates select="dmRefIdent/issueInfo"/>
-                </xsl:if>
-              </entry>
-	            <entry>
-                <xsl:apply-templates select="dmRefAddressItems/dmTitle"/>
-	            </entry>
-	          </row>
-	        </xsl:for-each>
-          <xsl:for-each select="$pm.refs">
+    <xsl:if test="$hide.empty.refs.table = 0 or $refs">
+      <bridgehead renderas="centerhead">References</bridgehead>
+      <table pgwide="1" frame="topbot" colsep="0">
+        <title>References</title>
+        <tgroup cols="2" align="left">
+          <thead>
             <row>
-              <entry>
-                <xsl:apply-templates select="."/>
-              </entry>
-              <entry>
-                <xsl:apply-templates select="pmRefAddressItems/pmTitle"/>
-                <xsl:if test="pmRefAddressItems/issueDate">
-                  <xsl:text> </xsl:text>
-                  <xsl:apply-templates select="pmRefAddressItems/issueDate"/>
-                </xsl:if>
-              </entry>
+              <entry>Data module/Technical publication</entry>
+              <entry>Title</entry>
             </row>
-          </xsl:for-each>
-	        <xsl:for-each select="$ep.refs">
-	          <row>
-	            <entry>
-	              <xsl:if test="externalPubRefIdent/externalPubCode">
-		              <xsl:if test="externalPubRefIdent/externalPubCode/@pubCodingScheme">
-		                <xsl:value-of select="externalPubRefIdent/externalPubCode/@pubCodingScheme"/>
-		                <xsl:text> </xsl:text>
-	                </xsl:if>
-		              <xsl:value-of select="externalPubRefIdent/externalPubCode"/>
-	              </xsl:if>
-	            </entry>
-	            <entry>
-                <xsl:value-of select="externalPubRefIdent/externalPubTitle"/>
-	            </entry>
-	          </row>
-	        </xsl:for-each>
-        </tbody>
-      </tgroup>
-    </table>      
+          </thead>
+          <tbody rowsep="0">
+            <xsl:if test="not($refs)">
+              <row>
+                <entry>None</entry>
+                <entry></entry>
+              </row>
+            </xsl:if>
+            <xsl:for-each select="$dm.refs">
+              <row>
+                <entry>
+                  <xsl:apply-templates select="."/>
+                  <xsl:if test="dmRefIdent/issueInfo">
+                    <xsl:text> Issue </xsl:text>
+                    <xsl:apply-templates select="dmRefIdent/issueInfo"/>
+                  </xsl:if>
+                </entry>
+                <entry>
+                  <xsl:apply-templates select="dmRefAddressItems/dmTitle"/>
+                </entry>
+              </row>
+            </xsl:for-each>
+            <xsl:for-each select="$pm.refs">
+              <row>
+                <entry>
+                  <xsl:apply-templates select="."/>
+                </entry>
+                <entry>
+                  <xsl:apply-templates select="pmRefAddressItems/pmTitle"/>
+                  <xsl:if test="pmRefAddressItems/issueDate">
+                    <xsl:text> </xsl:text>
+                    <xsl:apply-templates select="pmRefAddressItems/issueDate"/>
+                  </xsl:if>
+                </entry>
+              </row>
+            </xsl:for-each>
+            <xsl:for-each select="$ep.refs">
+              <row>
+                <entry>
+                  <xsl:if test="externalPubRefIdent/externalPubCode">
+                    <xsl:if test="externalPubRefIdent/externalPubCode/@pubCodingScheme">
+                      <xsl:value-of select="externalPubRefIdent/externalPubCode/@pubCodingScheme"/>
+                      <xsl:text> </xsl:text>
+                    </xsl:if>
+                    <xsl:value-of select="externalPubRefIdent/externalPubCode"/>
+                  </xsl:if>
+                </entry>
+                <entry>
+                  <xsl:value-of select="externalPubRefIdent/externalPubTitle"/>
+                </entry>
+              </row>
+            </xsl:for-each>
+          </tbody>
+        </tgroup>
+      </table>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="*" mode="number">
