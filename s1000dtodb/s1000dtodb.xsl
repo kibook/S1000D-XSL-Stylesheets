@@ -227,6 +227,7 @@
   <!--<xsl:param name="sidehead0.need">2cm</xsl:param>
   <xsl:param name="centerhead2.need">5cm</xsl:param>-->
 
+  <!-- Hide preliminary requirements section when unused (all tables are empty) -->
   <xsl:param name="hide.empty.proced.rqmts">0</xsl:param>
 
   <xsl:output indent="no" method="xml"/>
