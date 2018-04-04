@@ -163,6 +163,13 @@
   <xsl:param name="list.item.spacing.minimum">0.4em</xsl:param>
   <xsl:param name="list.item.spacing.maximum">0.6em</xsl:param>
 
+  <!-- Which items to display in the header/footer. -->
+  <xsl:param name="header.show.security">1</xsl:param>
+  <xsl:param name="footer.show.dmc">1</xsl:param>
+  <xsl:param name="footer.show.applic">1</xsl:param>
+  <xsl:param name="footer.show.security">1</xsl:param>
+  <xsl:param name="footer.show.end.of.data.module">1</xsl:param>
+
   <xsl:param name="local.l10n.xml" select="document('')"/>
   
   <l:i18n xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0">

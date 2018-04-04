@@ -113,9 +113,11 @@
 
         <xsl:when test="$position='center'">
           <fo:block text-align-last="center">
-            <fo:retrieve-marker retrieve-class-name="chapter.classification"
-              retrieve-position="first-including-carryover"
-              retrieve-boundary="page-sequence"/>
+            <xsl:if test="$header.show.security != 0">
+              <fo:retrieve-marker retrieve-class-name="chapter.classification"
+                retrieve-position="first-including-carryover"
+                retrieve-boundary="page-sequence"/>
+            </xsl:if>
           </fo:block>
         </xsl:when>
 
@@ -169,17 +171,21 @@
               <xsl:choose>
                 <xsl:when test="$sequence = 'first' or $sequence = 'odd'">
                   <fo:block font-size="10pt" font-weight="normal">
-                    <xsl:text>Applicable to: </xsl:text>
-                    <fo:retrieve-marker retrieve-class-name="chapter.applicability"
-                      retrieve-position="first-including-carryover"
-                      retrieve-boundary="page-sequence"/>
+                    <xsl:if test="$footer.show.applic != 0">
+                      <xsl:text>Applicable to: </xsl:text>
+                      <fo:retrieve-marker retrieve-class-name="chapter.applicability"
+                        retrieve-position="first-including-carryover"
+                        retrieve-boundary="page-sequence"/>
+                    </xsl:if>
                   </fo:block>
                 </xsl:when>
                 <xsl:otherwise>
                   <fo:block font-size="11pt" font-weight="bold">
-                    <fo:retrieve-marker retrieve-class-name="chapter.data.module.code"
-                      retrieve-position="first-including-carryover"
-                      retrieve-boundary="page-sequence"/>
+                    <xsl:if test="$footer.show.dmc != 0">
+                      <fo:retrieve-marker retrieve-class-name="chapter.data.module.code"
+                        retrieve-position="first-including-carryover"
+                        retrieve-boundary="page-sequence"/>
+                    </xsl:if>
                   </fo:block>
                 </xsl:otherwise>
               </xsl:choose>
@@ -189,17 +195,21 @@
               <xsl:choose>
                 <xsl:when test="$sequence = 'first' or $sequence = 'odd'">
                   <fo:block font-size="11pt" font-weight="bold">
-                    <fo:retrieve-marker retrieve-class-name="chapter.data.module.code"
-                      retrieve-position="first-including-carryover"
-                      retrieve-boundary="page-sequence"/>
+                    <xsl:if test="$footer.show.dmc != 0">
+                      <fo:retrieve-marker retrieve-class-name="chapter.data.module.code"
+                        retrieve-position="first-including-carryover"
+                        retrieve-boundary="page-sequence"/>
+                    </xsl:if>
                   </fo:block>
                 </xsl:when>
                 <xsl:otherwise>
                   <fo:block font-size="10pt" font-weight="normal">
-                    <xsl:text>Applicable to: </xsl:text>
-                    <fo:retrieve-marker retrieve-class-name="chapter.applicability"
-                      retrieve-position="first-including-carryover"
-                      retrieve-boundary="page-sequence"/>
+                    <xsl:if test="$footer.show.applic != 0">
+                      <xsl:text>Applicable to: </xsl:text>
+                      <fo:retrieve-marker retrieve-class-name="chapter.applicability"
+                        retrieve-position="first-including-carryover"
+                        retrieve-boundary="page-sequence"/>
+                    </xsl:if>
                   </fo:block>
                 </xsl:otherwise>
               </xsl:choose>
@@ -214,9 +224,11 @@
             <fo:table-row>
               <fo:table-cell text-align="center">
                 <fo:block font-size="11pt" font-weight="bold">
-                  <fo:retrieve-marker retrieve-class-name="end.of.data.module"
-                    retrieve-position="last-starting-within-page"
-                    retrieve-boundary="page-sequence"/>
+                  <xsl:if test="$footer.show.end.of.data.module != 0">
+                    <fo:retrieve-marker retrieve-class-name="end.of.data.module"
+                      retrieve-position="last-starting-within-page"
+                      retrieve-boundary="page-sequence"/>
+                  </xsl:if>
                 </fo:block>
               </fo:table-cell>
             </fo:table-row>
@@ -252,9 +264,11 @@
             </fo:table-cell>
             <fo:table-cell text-align="center">
 	            <fo:block font-size="11pt" font-weight="bold">
-                <fo:retrieve-marker retrieve-class-name="chapter.classification"
-                  retrieve-position="first-including-carryover"
-                  retrieve-boundary="page-sequence"/>
+                <xsl:if test="$footer.show.security != 0">
+                  <fo:retrieve-marker retrieve-class-name="chapter.classification"
+                    retrieve-position="first-including-carryover"
+                    retrieve-boundary="page-sequence"/>
+                </xsl:if>
               </fo:block>
             </fo:table-cell>
             <fo:table-cell text-align="right">
