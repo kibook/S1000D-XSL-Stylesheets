@@ -1,9 +1,8 @@
 #!/bin/sh
 
-dir=/home/kibukj/documents/S1000D/S1000D-XSL-Stylesheets
-s2d="$dir"/s1000dtodb/s1000dtodb.xsl
-d2f="$dir"/dbtofo/dbtofo.xsl
-xsltproc='xsltproc --xinclude'
+dir="$(dirname "$0")/../share/xml/s1000d/stylesheet/S1000D-XSL-Stylesheets"
+s2d="$dir/s1000dtodb/s1000dtodb.xsl"
+d2f="$dir/dbtofo/dbtofo.xsl"
 out=
 
 while getopts s:d:o: opt
