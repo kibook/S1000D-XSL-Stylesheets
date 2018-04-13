@@ -1,0 +1,45 @@
+#!/bin/sh
+
+dir=/home/kibukj/documents/S1000D/S1000D-XSL-Stylesheets
+s2d="$dir"/s1000dtodb/s1000dtodb.xsl
+d2f="$dir"/dbtofo/dbtofo.xsl
+xsltproc='xsltproc --xinclude'
+out=
+
+while getopts s:d:o: opt
+do
+	case $opt in
+		s) s2d="$OPTARG"
+		   ;;
+		d) d2f="$OPTARG"
+		   ;;
+		o) out="$OPTARG"
+		   ;;
+		?) echo "Usage: s1kd2pdf [-s <s1000dtodb>] [-d <dbtofo>] [-o <out>] <src> [<params>]"
+		   echo
+		   echo "Options:"
+		   echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."
+		   echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
+		   echo "  -o <out>         Output to <out> instead of <src>.pdf."
+		   echo "  <params>         xsltproc parameters to pass to both stylesheets."
+		   echo
+		   echo "Example:"
+		   echo "  s1kd2pdf -o test.pdf test.xml -param show.unclassified 0 -stringparam publication.code 'Test'"
+		   exit 2
+		   ;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+src="$1"
+shift
+
+if test -z "$out"
+then
+	out="$(echo "$src"|rev|cut -d. -f2-|rev).pdf"
+fi
+
+xsltproc --xinclude "$@" "$s2d" "$src" |
+xsltproc --xinclude -param fop1.extensions 1 "$@" "$d2f" - |
+fop -c /etc/fop.xml - "$out"
