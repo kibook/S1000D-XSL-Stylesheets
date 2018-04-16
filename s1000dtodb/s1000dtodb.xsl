@@ -119,13 +119,17 @@
   <!-- Include the "Part No." prefix on identNumber -->
   <xsl:param name="part.no.prefix">1</xsl:param>
 
-  <!-- Include the acronymDefinition with an acronym (e.g.,
+  <!-- Whether and how to include the acronym definition.
 
-          All data modules have a DMC (Data Module Code)
-                                      ^^^^^^^^^^^^^^^^^^
+       no    Only show the acronym term.
 
-          Otherwise, only the acronymTerm is displayed. -->
-  <xsl:param name="auto.expand.acronyms">0</xsl:param>
+       before    This is a Data Module Code (DMC)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+
+       after     This is a DMC (Data Module Code)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  -->
+  <xsl:param name="auto.expand.acronyms">no</xsl:param>
 
   <!-- Width of the term column in a definition list. -->
   <xsl:param name="definition.list.term.width">50mm</xsl:param>
@@ -2813,10 +2817,23 @@
   </xsl:template>
 
   <xsl:template match="acronym">
-    <xsl:apply-templates select="acronymTerm"/>
-    <xsl:if test="$auto.expand.acronyms != 0">
-      <xsl:apply-templates select="acronymDefinition"/>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="$auto.expand.acronyms = 'before'">
+        <xsl:apply-templates select="acronymDefinition"/>
+        <xsl:text> (</xsl:text>
+        <xsl:apply-templates select="acronymTerm"/>
+        <xsl:text>)</xsl:text>
+      </xsl:when>
+      <xsl:when test="$auto.expand.acronyms = 'after'">
+        <xsl:apply-templates select="acronymTerm"/>
+        <xsl:text> (</xsl:text>
+        <xsl:apply-templates select="acronymDefinition"/>
+        <xsl:text>)</xsl:text>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="acronymTerm"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="acronymTerm">
@@ -2824,9 +2841,7 @@
   </xsl:template>
 
   <xsl:template match="acronymDefinition">
-    <xsl:text> (</xsl:text>
     <xsl:apply-templates/>
-    <xsl:text>)</xsl:text>
   </xsl:template>
 
   <xsl:template name="data.module.type">
