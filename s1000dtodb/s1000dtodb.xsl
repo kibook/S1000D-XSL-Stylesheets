@@ -17,8 +17,10 @@
   xmlns:mml="http://www.w3.org/1998/Math/MathML"
   version="1.0">
   
+  <!-- When set, adds the "Printed $date.time" statement to the left margin. -->
   <xsl:param name="date.time"/>
   
+  <!-- When "yes", show the "Produced by" statement. -->
   <xsl:param name="want.producedby.blurb">yes</xsl:param>
 
   <!-- Set the "Produced by" blurb for the whole publication rather than
@@ -48,7 +50,7 @@
   <xsl:param name="show.unimplemented.markup">1</xsl:param>
 
   <!-- When use.unparsed.entity.uri = 1, the unparsed URI of an ICN entity is
-       used to determine the filename. -->
+       used to determine the filename instead of the InfoEntityResolver and info-entity-->
   <xsl:param name="use.unparsed.entity.uri">0</xsl:param>
 
   <!-- Show / hide the ICN on graphics. -->
