@@ -50,8 +50,8 @@
   <xsl:param name="show.unimplemented.markup">1</xsl:param>
 
   <!-- When use.unparsed.entity.uri = 1, the unparsed URI of an ICN entity is
-       used to determine the filename instead of the InfoEntityResolver and info-entity-->
-  <xsl:param name="use.unparsed.entity.uri">0</xsl:param>
+       used to determine the filename if the InfoEntityResolver is not available. -->
+  <xsl:param name="use.unparsed.entity.uri">1</xsl:param>
 
   <!-- Show / hide the ICN on graphics. -->
   <xsl:param name="show.graphic.icn">1</xsl:param>
