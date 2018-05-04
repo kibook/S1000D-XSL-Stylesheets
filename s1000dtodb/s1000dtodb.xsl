@@ -961,7 +961,8 @@
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:call-template name="applic.annotation"/>
-      <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+      <xsl:apply-templates select="@warningRefs"/>
+      <xsl:apply-templates select="@cautionRefs"/>
       <xsl:apply-templates/>
     </section>
   </xsl:template>
@@ -977,7 +978,8 @@
       </xsl:with-param>
       <xsl:with-param name="content">
         <fo:block>
-          <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+          <xsl:apply-templates select="@warningRefs"/>
+          <xsl:apply-templates select="@cautionRefs"/>
           <xsl:call-template name="applic.annotation"/>
           <xsl:apply-templates/>
         </fo:block>
@@ -1414,7 +1416,8 @@
   </xsl:template>
 
   <xsl:template match="safetyRqmts">
-    <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+    <xsl:apply-templates select="@warningRefs"/>
+    <xsl:apply-templates select="@cautionRefs"/>
     <xsl:apply-templates/>
   </xsl:template>
 
@@ -1816,10 +1819,12 @@
       <xsl:if test="self::entry">
         <!-- Show applic for row in first entry -->
         <xsl:for-each select="parent::row">
-          <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+          <xsl:apply-templates select="@warningRefs"/>
+          <xsl:apply-templates select="@cautionRefs"/>
           <xsl:call-template name="applic.annotation"/>
         </xsl:for-each>
-        <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+        <xsl:apply-templates select="@warningRefs"/>
+        <xsl:apply-templates select="@cautionRefs"/>
         <xsl:call-template name="applic.annotation"/>
       </xsl:if>
       <xsl:apply-templates/>
