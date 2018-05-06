@@ -1,31 +1,40 @@
 #!/bin/sh
 
+show_help()
+{
+	echo "Usage: s1kd2pdf [-s <s1000dtodb>] [-d <dbtofo>] [-o <out>] <src> [<params>]"
+	echo
+	echo "Options:"
+	echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."
+	echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
+	echo "  -o <out>         Output to <out> instead of <src>.pdf."
+	echo "  <params>         xsltproc parameters to pass to both stylesheets."
+	echo
+	echo "Example:"
+	echo "  s1kd2pdf -o test.pdf test.xml -param show.unclassified 0 -stringparam publication.code 'Test'"
+}
+
 dir="$(dirname "$0")/../share/xml/s1000d/stylesheet/S1000D-XSL-Stylesheets"
 s2d="$dir/s1000dtodb/s1000dtodb.xsl"
 d2f="$dir/dbtofo/dbtofo.xsl"
 out=
 
-while getopts s:d:o: opt
+while getopts s:d:o:h? opt
 do
 	case $opt in
-		s) s2d="$OPTARG"
-		   ;;
-		d) d2f="$OPTARG"
-		   ;;
-		o) out="$OPTARG"
-		   ;;
-		?) echo "Usage: s1kd2pdf [-s <s1000dtodb>] [-d <dbtofo>] [-o <out>] <src> [<params>]"
-		   echo
-		   echo "Options:"
-		   echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."
-		   echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
-		   echo "  -o <out>         Output to <out> instead of <src>.pdf."
-		   echo "  <params>         xsltproc parameters to pass to both stylesheets."
-		   echo
-		   echo "Example:"
-		   echo "  s1kd2pdf -o test.pdf test.xml -param show.unclassified 0 -stringparam publication.code 'Test'"
-		   exit 2
-		   ;;
+		s)
+			s2d="$OPTARG"
+			;;
+		d)
+			d2f="$OPTARG"
+			;;
+		o)
+			out="$OPTARG"
+			;;
+		h|?)
+			show_help
+			exit 2
+			;;
 	esac
 done
 

@@ -39,7 +39,6 @@
   <!-- Whether or not to include the "title" in the data module TOC. The "title"
        is the infoName, or techName if there is no infoName. -->
   <xsl:param name="include.title.in.toc">1</xsl:param>
-
   
   <xsl:param name="s1000d.xsl.version"/>
   
