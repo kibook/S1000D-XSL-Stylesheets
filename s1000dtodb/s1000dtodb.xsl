@@ -581,7 +581,7 @@
 
     <xsl:if test="$hide.empty.refs.table = 0 or $refs">
       <bridgehead renderas="centerhead">References</bridgehead>
-      <table pgwide="1" frame="topbot" colsep="0">
+      <table pgwide="1" frame="topbot" colsep="0" role="refs">
         <title>References</title>
         <tgroup cols="2" align="left">
           <thead>

@@ -170,6 +170,8 @@
   <xsl:param name="footer.show.security">1</xsl:param>
   <xsl:param name="footer.show.end.of.data.module">1</xsl:param>
 
+  <xsl:param name="show.schema.heading">1</xsl:param>
+
   <xsl:param name="local.l10n.xml" select="document('')"/>
   
   <l:i18n xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0">

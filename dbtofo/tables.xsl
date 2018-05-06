@@ -41,7 +41,15 @@
         </fo:block>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-imports/>
+        <fo:block>
+          <!-- If the default heading related to the schema is not shown,
+               include extra space after the References table before the first
+               content. -->
+          <xsl:if test="@role = 'refs' and $show.schema.heading = 0">
+            <xsl:attribute name="space-after.minimum">24pt</xsl:attribute>
+          </xsl:if>
+          <xsl:apply-imports/>
+        </fo:block>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
