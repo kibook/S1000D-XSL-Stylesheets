@@ -104,7 +104,8 @@
     <xsl:if test="$show.schema.heading != 0">
       <bridgehead renderas="centerhead">Description</bridgehead>
     </xsl:if>
-    <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+    <xsl:apply-templates select="@warningRefs"/>
+    <xsl:apply-templates select="@cautionRefs"/>
     <xsl:apply-templates/>
   </xsl:template>
 

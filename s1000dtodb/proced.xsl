@@ -144,7 +144,8 @@
         </fo:block>
         <fo:block>
           <xsl:call-template name="make.applic.annotation"/>
-          <xsl:apply-templates select="@warningRefs|@cautionRefs"/>
+          <xsl:apply-templates select="@warningRefs"/>
+          <xsl:apply-templates select="@cautionRefs"/>
           <xsl:apply-templates select="*[not(self::proceduralStep or self::title)]"/>
         </fo:block>
       </xsl:with-param>

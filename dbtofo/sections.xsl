@@ -29,7 +29,7 @@
         <xsl:element name="fo:{$section.container.element}">
           <xsl:attribute name="space-before.minimum">10pt</xsl:attribute>
           <xsl:apply-imports/>
-        </xsl:element>        
+        </xsl:element>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
