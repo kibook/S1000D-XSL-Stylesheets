@@ -1106,11 +1106,11 @@
 	        <xsl:attribute name="xlink:href">
 	          <xsl:value-of select="@xlink:href"/>
 	        </xsl:attribute>
-	        <xsl:apply-templates/>
+	        <xsl:apply-templates select="*"/>
         </xsl:element>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates/>
+        <xsl:apply-templates selet="*"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
