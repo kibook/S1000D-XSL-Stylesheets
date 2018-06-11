@@ -61,7 +61,7 @@
 
        When external.pub.ref.inline = 'code', externalPubRefs are presented
        using the externalPubCode. -->
-  <xsl:param name="external.pub.ref.inline">title</xsl:param>
+  <xsl:param name="external.pub.ref.inline">code</xsl:param>
 
   <!-- When these variables = 1 and a project includes a descriptive data module
        with their associated info code, the contents are automatically generated. -->
