@@ -148,7 +148,7 @@
     <xsl:attribute name="text-decoration">underline</xsl:attribute>
   </xsl:attribute-set>
   
-  <xsl:param name="ulink.show">1</xsl:param>
+  <xsl:param name="ulink.show">0</xsl:param>
   <xsl:param name="ulink.footnotes">1</xsl:param>
 
   <!-- When 0, the page number will reset to 1 for each data module.
