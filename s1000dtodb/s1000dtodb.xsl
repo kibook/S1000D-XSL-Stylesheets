@@ -246,6 +246,7 @@
   <xsl:include href="fault.xsl"/>
   <xsl:include href="proced.xsl"/>
   <xsl:include href="frontmatter.xsl"/>
+  <xsl:include href="ipd.xsl"/>
 
   <!-- Project configurable attribute values -->
   <xsl:include href="configurable.xsl"/>
@@ -1225,6 +1226,12 @@
       </xsl:if>
     </xsl:if>
     <xsl:value-of select="partAndSerialNumber/partNumber"/>
+  </xsl:template>
+
+  <xsl:template match="partRef">
+    <xsl:value-of select="@manufacturerCodeValue"/>
+    <xsl:text>/</xsl:text>
+    <xsl:value-of select="@partNumberValue"/>
   </xsl:template>
 
   <xsl:template match="remarks">
