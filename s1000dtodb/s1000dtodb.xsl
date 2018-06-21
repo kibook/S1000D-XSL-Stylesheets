@@ -247,6 +247,9 @@
   <xsl:include href="proced.xsl"/>
   <xsl:include href="frontmatter.xsl"/>
   <xsl:include href="ipd.xsl"/>
+  <xsl:include href="appliccrossreftable.xsl"/>
+  <xsl:include href="condcrossreftable.xsl"/>
+  <xsl:include href="prdcrossreftable.xsl"/>
 
   <!-- Project configurable attribute values -->
   <xsl:include href="configurable.xsl"/>
