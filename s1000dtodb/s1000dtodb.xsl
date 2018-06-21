@@ -250,6 +250,7 @@
   <xsl:include href="appliccrossreftable.xsl"/>
   <xsl:include href="condcrossreftable.xsl"/>
   <xsl:include href="prdcrossreftable.xsl"/>
+  <xsl:include href="comrep.xsl"/>
 
   <!-- Project configurable attribute values -->
   <xsl:include href="configurable.xsl"/>
