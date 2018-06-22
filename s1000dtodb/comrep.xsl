@@ -26,9 +26,7 @@
   </xsl:template>
 
   <xsl:template match="controlIndicatorRepository">
-    <xsl:if test="$show.schema.heading != 0">
-      <bridgehead renderas="centerhead">Controls and indicators</bridgehead>
-    </xsl:if>
+    <bridgehead renderas="centerhead">Controls and indicators</bridgehead>
     <table pgwide="1" frame="topbot" colsep="0" rowsep="0">
       <title>Controls and indicators</title>
       <tgroup cols="5">
@@ -96,5 +94,36 @@
       <xsl:apply-templates/>
     </listitem>
   </xsl:template>
-  
+
+  <xsl:template match="enterpriseRepository">
+    <bridgehead renderas="centerhead">Enterprise information</bridgehead>
+    <table pgwide="1" frame="topbot" colsep="0" rowsep="0">
+      <title>Enterprise information</title>
+      <tgroup cols="2">
+        <colspec colname="c1" colwidth="1*"/>
+        <colspec colname="c2" colwidth="8*"/>
+        <thead rowsep="1">
+          <row>
+            <entry>CAGE</entry>
+            <entry>Name</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:apply-templates select="enterpriseSpec"/>
+        </tbody>
+      </tgroup>
+    </table>
+  </xsl:template>
+
+  <xsl:template match="enterpriseSpec">
+    <row>
+      <entry>
+        <xsl:value-of select="enterpriseIdent/@manufacturerCodeValue"/>
+      </entry>
+      <entry>
+        <xsl:value-of select="enterpriseName"/>
+      </entry>
+    </row>
+  </xsl:template>
+
 </xsl:stylesheet>
