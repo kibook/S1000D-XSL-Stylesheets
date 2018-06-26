@@ -2030,7 +2030,7 @@
         </thead>
         <tbody>
           <xsl:choose>
-            <xsl:when test="not(//reasonForUpdate)">
+            <xsl:when test="not(//reasonForUpdate[@updateHighlight = 1])">
               <row>
                 <entry>None</entry>
               </row>
@@ -2045,7 +2045,7 @@
   </xsl:template>
 
   <xsl:template match="dmodule" mode="highlights">
-    <xsl:apply-templates select="identAndStatusSection/dmStatus/reasonForUpdate" mode="highlights"/>
+    <xsl:apply-templates select="identAndStatusSection/dmStatus/reasonForUpdate[@updateHighlight = 1]" mode="highlights"/>
   </xsl:template>
 
   <xsl:template match="reasonForUpdate" mode="highlights">
