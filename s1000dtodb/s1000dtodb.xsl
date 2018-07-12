@@ -1547,22 +1547,24 @@
           <para><xsl:value-of select="@infoEntityIdent"/></para>
         </caption>
       </xsl:if>
-      <caption role="title">
-        <para>
-          <xsl:text>Fig </xsl:text>
-          <xsl:number count="figure" level="any" from="dmodule"/>
-          <xsl:text>&#160;&#160;</xsl:text>
-          <xsl:apply-templates select="parent::figure/title/node()"/>
-          <xsl:variable name="graphic.count" select="count(parent::figure/graphic)"/>
-          <xsl:if test="$graphic.count &gt; 1">
-            <xsl:text> (Sheet </xsl:text>
-            <xsl:number count="graphic" level="single" from="figure"/>
-            <xsl:text> of </xsl:text>
-            <xsl:value-of select="$graphic.count"/>
-            <xsl:text>)</xsl:text>
-          </xsl:if>
-        </para>
-      </caption>
+      <xsl:if test="parent::figure">
+        <caption role="title">
+          <para>
+            <xsl:text>Fig </xsl:text>
+            <xsl:number count="figure" level="any" from="dmodule"/>
+            <xsl:text>&#160;&#160;</xsl:text>
+            <xsl:apply-templates select="parent::figure/title/node()"/>
+            <xsl:variable name="graphic.count" select="count(parent::figure/graphic)"/>
+            <xsl:if test="$graphic.count &gt; 1">
+              <xsl:text> (Sheet </xsl:text>
+              <xsl:number count="graphic" level="single" from="figure"/>
+              <xsl:text> of </xsl:text>
+              <xsl:value-of select="$graphic.count"/>
+              <xsl:text>)</xsl:text>
+            </xsl:if>
+          </para>
+        </caption>
+      </xsl:if>
     </mediaobject>
     <xsl:apply-templates/>
   </xsl:template>
@@ -2422,7 +2424,7 @@
     <xsl:variable name="dataConds" select="$dataRestrictions/dataConds"/>
     <fo:block start-indent="0pt">
       <fo:block font-weight="bold">
-        <fo:block-container height="25mm">
+        <fo:block-container height="20mm">
           <fo:block font-size="18pt">
             <xsl:apply-templates select="$productIntroName"/>
             <xsl:apply-templates select="$productAndModel"/>
@@ -2448,7 +2450,7 @@
           </xsl:call-template>
         </fo:block-container>
       </fo:block>
-      <fo:block-container height="60mm">
+      <fo:block-container height="65mm">
         <fo:block space-before="16pt">
           <xsl:apply-templates select="$productIllustration"/>
         </fo:block>
