@@ -66,4 +66,10 @@
     </xsl:call-template>
   </xsl:template>
 
+  <xsl:template match="d:phrase[@revisionflag]">
+    <fo:inline color="green">
+      <xsl:apply-imports/>
+    </fo:inline>
+  </xsl:template>
+
 </xsl:stylesheet>

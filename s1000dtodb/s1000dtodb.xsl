@@ -1633,6 +1633,10 @@
 
   <xsl:template match="definitionList">
     <variablelist termlength="{$definition.list.term.width}">
+      <!-- FIXME: Change marks on individual rows doesn't seem to work well
+                  with the current DocBook stylesheets, so this will add a
+                  change mark to the whole table if any of its descendants
+                  have a change mark. -->
       <xsl:if test="descendant-or-self::*[@changeMark = '1']">
         <xsl:call-template name="revisionflag">
           <xsl:with-param name="change.mark">1</xsl:with-param>
@@ -1747,17 +1751,23 @@
   
   <xsl:template match="listItemTerm">
     <xsl:element name="term">
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="listItem|listItemDefinition|attentionSequentialListItem|attentionRandomListItem">
+  <xsl:template match="listItem|attentionSequentialListItem|attentionRandomListItem">
     <xsl:element name="listitem">
       <xsl:call-template name="revisionflag"/>
       <xsl:call-template name="applic.annotation"/>
       <xsl:apply-templates/>
     </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="listItemDefinition">
+    <listitem>
+      <xsl:call-template name="applic.annotation"/>
+      <xsl:apply-templates/>
+    </listitem>
   </xsl:template>
   
   <xsl:template match="table">
@@ -1769,6 +1779,10 @@
     </xsl:variable>
     <xsl:element name="{$table-type}">
       <xsl:call-template name="copy.id"/>
+      <!-- FIXME: Change marks on individual rows doesn't seem to work well
+                  with the current DocBook stylesheets, so this will add a
+                  change mark to the whole table if any of its descendants
+                  have a change mark. -->
       <xsl:if test="descendant-or-self::*[@changeMark = '1']">
         <xsl:call-template name="revisionflag">
           <xsl:with-param name="change.mark">1</xsl:with-param>
@@ -1877,18 +1891,30 @@
     <xsl:param name="change.type">
       <xsl:value-of select="@changeType"/>
     </xsl:param>
-    <xsl:if test="$change.mark = '1'">
+    <!-- Do not include a revisionflag if an ancestor will already have one.
+
+         Also do not include one if it is a descendant of an element which
+         automatically displays a change mark if any of its descendants have a
+         change mark, which currently are:
+           - definitionList
+           - table
+    -->
+    <xsl:variable name="ancestor" select="
+      ancestor::*[@changeMark = '1']|
+      ancestor::table|
+      ancestor::definitionList"/>
+    <xsl:if test="$change.mark = '1' and not($ancestor)">
       <xsl:attribute name="revisionflag">
         <xsl:choose>
-	  <xsl:when test="$change.type = 'add'">
-	    <xsl:text>added</xsl:text>
-	  </xsl:when>
-	  <xsl:when test="$change.type = 'delete'">
-	    <xsl:text>deleted</xsl:text>
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <xsl:text>changed</xsl:text>
-	  </xsl:otherwise>      
+          <xsl:when test="$change.type = 'add'">
+            <xsl:text>added</xsl:text>
+          </xsl:when>
+          <xsl:when test="$change.type = 'delete'">
+            <xsl:text>deleted</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>changed</xsl:text>
+          </xsl:otherwise>
         </xsl:choose>
       </xsl:attribute>
     </xsl:if>
