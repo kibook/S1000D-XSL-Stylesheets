@@ -239,6 +239,9 @@
        e.g., "Description" for descriptive, "Procedure" for procedural, etc. -->
   <xsl:param name="show.schema.heading">1</xsl:param>
 
+  <!-- Align applicability statements on steps/levelled paras to the left image limit, before the number. -->
+  <xsl:param name="alt.applic.display">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -954,18 +957,16 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template name="levelled.para.content">
-    <xsl:call-template name="copy.id"/>
-    <xsl:call-template name="revisionflag"/>
-    <xsl:call-template name="applic.annotation"/>
-    <xsl:apply-templates/>
-  </xsl:template>
-
   <xsl:template match="levelledPara|commonInfoDescrPara">
+    <xsl:if test="$alt.applic.display != 0">
+      <xsl:call-template name="alt.applic.annotation"/>
+    </xsl:if>
     <section>
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
-      <xsl:call-template name="applic.annotation"/>
+      <xsl:if test="$alt.applic.display = 0">
+        <xsl:call-template name="applic.annotation"/>
+      </xsl:if>
       <xsl:apply-templates select="@warningRefs"/>
       <xsl:apply-templates select="@cautionRefs"/>
       <xsl:apply-templates/>
@@ -977,6 +978,9 @@
        Allows for levelledPara's without titles to be displayed properly? -->
 
   <xsl:template match="levelledPara[not(title)]|commonInfoDescrPara[not(title)]">
+    <xsl:if test="$alt.applic.display != 0">
+      <xsl:call-template name="alt.applic.annotation"/>
+    </xsl:if>
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
         <xsl:apply-templates select="." mode="number"/>
@@ -985,7 +989,9 @@
         <fo:block>
           <xsl:apply-templates select="@warningRefs"/>
           <xsl:apply-templates select="@cautionRefs"/>
-          <xsl:call-template name="applic.annotation"/>
+          <xsl:if test="$alt.applic.display = 0">
+            <xsl:call-template name="applic.annotation"/>
+          </xsl:if>
           <xsl:apply-templates/>
         </fo:block>
       </xsl:with-param>
@@ -2669,7 +2675,7 @@
       <xsl:text>Applicable to: </xsl:text>
       <xsl:choose>
         <xsl:when test="displayText">
-          <xsl:apply-templates select="displayText/simplePara/text()"/>
+          <xsl:apply-templates select="displayText"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:apply-templates select="assert|evaluate"/>
@@ -2678,10 +2684,34 @@
     </fo:block>
   </xsl:template>
 
+  <xsl:template match="displayText">
+    <xsl:choose>
+      <xsl:when test="count(simplePara) &gt; 1">
+        <xsl:apply-templates select="simplePara"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="simplePara/text()"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="displayText/simplePara">
+    <fo:block>
+      <xsl:apply-templates/>
+    </fo:block>
+  </xsl:template>
+
   <xsl:template match="assert">
-    <xsl:value-of select="@applicPropertyIdent"/>
-    <xsl:text>: </xsl:text>
-    <xsl:value-of select="@applicPropertyValues"/>
+    <xsl:choose>
+      <xsl:when test="@applicPropertyIdent">
+        <xsl:value-of select="@applicPropertyIdent"/>
+        <xsl:text>: </xsl:text>
+        <xsl:value-of select="@applicPropertyValues"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="evaluate">
@@ -2705,6 +2735,14 @@
   <xsl:template name="applic.annotation">
     <xsl:if test="$show.applicability != 'none' and ancestor-or-self::dmodule//content//@applicRefId">
       <xsl:call-template name="make.applic.annotation"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="alt.applic.annotation">
+    <xsl:if test="$show.applicability != 'none' and ancestor-or-self::dmodule//content//@applicRefId">
+      <fo:block start-indent="0pt" keep-with-next="always" space-before="8pt">
+        <xsl:call-template name="make.applic.annotation"/>
+      </fo:block>
     </xsl:if>
   </xsl:template>
 
