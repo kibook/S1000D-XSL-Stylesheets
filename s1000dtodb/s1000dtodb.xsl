@@ -2702,16 +2702,13 @@
   </xsl:template>
 
   <xsl:template match="assert">
-    <xsl:choose>
-      <xsl:when test="@applicPropertyIdent">
-        <xsl:value-of select="@applicPropertyIdent"/>
-        <xsl:text>: </xsl:text>
-        <xsl:value-of select="@applicPropertyValues"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:apply-templates/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:value-of select="@applicPropertyIdent"/>
+    <xsl:text>: </xsl:text>
+    <xsl:value-of select="@applicPropertyValues"/>
+  </xsl:template>
+
+  <xsl:template match="assert[text()]">
+    <xsl:apply-templates/>
   </xsl:template>
 
   <xsl:template match="evaluate">
