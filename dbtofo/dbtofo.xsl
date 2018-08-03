@@ -40,7 +40,7 @@
        is the infoName, or techName if there is no infoName. -->
   <xsl:param name="include.title.in.toc">1</xsl:param>
   
-  <xsl:param name="s1000d.xsl.version">V1.3.6 (01-08-2018)</xsl:param>
+  <xsl:param name="s1000d.xsl.version">V1.3.7 (03-08-2018)</xsl:param>
   
   <xsl:param name="creator.tool">
     <xsl:text>S1000D XSL </xsl:text>
@@ -170,6 +170,10 @@
   <xsl:param name="footer.show.end.of.data.module">1</xsl:param>
 
   <xsl:param name="show.schema.heading">1</xsl:param>
+
+  <xsl:param name="change.bar.width">2pt</xsl:param>
+  <xsl:param name="change.bar.color">black</xsl:param>
+  <xsl:param name="change.bar.style">solid</xsl:param>
 
   <xsl:param name="local.l10n.xml" select="document('')"/>
   

@@ -19,16 +19,20 @@
   <!-- change bars ********************************************************** -->
 
   <xsl:attribute-set name="change.bar.attributes">
-    <xsl:attribute name="change-bar-color">black</xsl:attribute>
+    <xsl:attribute name="change-bar-color">
+      <xsl:value-of select="$change.bar.color"/>
+    </xsl:attribute>
     <xsl:attribute name="change-bar-placement">left</xsl:attribute>
-    <xsl:attribute name="change-bar-style">solid</xsl:attribute>
+    <xsl:attribute name="change-bar-style">
+      <xsl:value-of select="$change.bar.style"/>
+    </xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="custom.change.bar.attributes">
-    <xsl:attribute name="border-start-color">black</xsl:attribute>
-    <xsl:attribute name="border-start-style">solid</xsl:attribute>
-    <xsl:attribute name="border-start-width">2pt</xsl:attribute>
-    <xsl:attribute name="padding-start">21mm</xsl:attribute>
+    <xsl:attribute name="border-start-color"><xsl:value-of select="$change.bar.color"/></xsl:attribute>
+    <xsl:attribute name="border-start-style"><xsl:value-of select="$change.bar.style"/></xsl:attribute>
+    <xsl:attribute name="border-start-width"><xsl:value-of select="$change.bar.width"/></xsl:attribute>
+    <xsl:attribute name="padding-start">23mm</xsl:attribute>
     <xsl:attribute name="space-before">8pt</xsl:attribute>
   </xsl:attribute-set>
 
