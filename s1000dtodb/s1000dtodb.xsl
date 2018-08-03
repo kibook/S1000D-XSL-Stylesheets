@@ -2083,9 +2083,16 @@
   </xsl:template>
 
   <xsl:template match="reasonForUpdate" mode="highlights">
+    <xsl:variable name="prec" select="count(preceding-sibling::reasonForUpdate[@updateHighlight = 1])"/>
     <row>
-      <xsl:if test="position() = 1">
-        <entry morerows="{count(following-sibling::reasonForUpdate)}">
+      <xsl:if test="$prec = 0">
+        <entry>
+          <xsl:variable name="succ" select="count(following-sibling::reasonForUpdate[@updateHighlight = 1])"/>
+          <xsl:if test="$succ != 0">
+            <xsl:attribute name="morerows">
+              <xsl:value-of select="$succ"/>
+            </xsl:attribute>
+          </xsl:if>
           <link>
             <xsl:attribute name="linkend">
               <xsl:text>ID_</xsl:text>
