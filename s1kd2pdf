@@ -2,12 +2,13 @@
 
 show_help()
 {
-	echo "Usage: s1kd2pdf [-s <s1000dtodb>] [-d <dbtofo>] [-o <out>] <src> [<params>]"
+	echo "Usage: s1kd2pdf [-d <dbtofo>] [-o <out>] [-s <s1000dtodb>] <src> [<params>]"
 	echo
 	echo "Options:"
-	echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."
 	echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
 	echo "  -o <out>         Output to <out> instead of <src>.pdf."
+	echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."
+	echo "  <src>            Source S1000D module."
 	echo "  <params>         xsltproc parameters to pass to both stylesheets."
 	echo
 	echo "Example:"

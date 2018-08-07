@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-2/xml_schema_flat/descript.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
+        <language languageIsoCode="en" countryIsoCode="CA"/>
+        <issueInfo issueNumber="001" inWork="00"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2018" month="08" day="07"/>
+        <dmTitle>
+          <techName>s1kd2pdf(1) | S1000D XSL Stylesheets</techName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany>
+        <enterpriseName>khzae.net</enterpriseName>
+      </responsiblePartnerCompany>
+      <originator>
+        <enterpriseName>khzae.net</enterpriseName>
+      </originator>
+      <applic>
+        <displayText>
+          <simplePara>All</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="F" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <description>
+      <levelledPara>
+        <title>NAME</title>
+        <para>s1kd2pdf - Create a PDF from S1000D data</para>
+      </levelledPara>
+      <levelledPara>
+        <title>SYNOPSIS</title>
+        <para>
+          <verbatimText verbatimStyle="vs23">s1kd2pdf [-s &lt;XSL&gt;] [-d &lt;XSL&gt;] [-o &lt;out&gt;] &lt;src&gt; [&lt;param&gt;...]</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>DESCRIPTION</title>
+        <para>The <emphasis>s1kd2pdf</emphasis> command will create a PDF from S1000D data modules or publications using the S1000D XSL Stylesheets, xsltproc, and Apache FOP.</para>
+      </levelledPara>
+      <levelledPara>
+        <title>OPTIONS</title>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>-d &lt;XSL&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use a custom stylesheet for DocBook-to-FO conversion.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-o &lt;out&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Output to &lt;out&gt; instead of &lt;src&gt;.pdf</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-s &lt;XSL&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use a custom stylesheet for S1000D-to-DocBook conversion.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>&lt;src&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Source S1000D module to create a PDF from.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>&lt;param&gt;...</listItemTerm>
+              <listItemDefinition>
+                <para>xsltproc parameters to pass to both stylesheets.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>PARAMETERS</title>
+        <para>The following parameters can be supplied at the end of the command with the -param or -stringparam flags to customize the PDF output:</para>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>auto.expand.acronyms</listItemTerm>
+              <listItemDefinition>
+                <para>The first time an acronym is used, include the definition after it in parentheses.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>data.module.index</listItemTerm>
+              <listItemDefinition>
+                <para>Include an index section in each data module.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>date.time</listItemTerm>
+              <listItemDefinition>
+                <para>When set, add the "Printed $date.time" statement to the left margin.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>definition.list.term.width</listItemTerm>
+              <listItemDefinition>
+                <para>Width of the term column in a definition list.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>external.pub.ref.inline</listItemTerm>
+              <listItemDefinition>
+                <para>How external publication references are presented.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>front.matter.info.codes</listItemTerm>
+              <listItemDefinition>
+                <para>Descriptive data modules with any of these info codes are presented as front matter.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generate.highlights</listItemTerm>
+              <listItemDefinition>
+                <para>Generate a Highlights section when encountering a descriptive data module with info code 00U.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generate.index</listItemTerm>
+              <listItemDefinition>
+                <para>Generate an index when encountering a descriptive data module with info code 014.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generate.list.of.datamodules</listItemTerm>
+              <listItemDefinition>
+                <para>Generate a List of effective data modules when encountering a descriptive data module with info code 00S.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generate.list.of.illustrations</listItemTerm>
+              <listItemDefinition>
+                <para>Generate a List of illustrations when encountering a descriptive data module with info code 00A.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generate.list.of.tables</listItemTerm>
+              <listItemDefinition>
+                <para>Generate a List of tables when encountering a descriptive data module with info code 00Z.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generate.table.of.contents</listItemTerm>
+              <listItemDefinition>
+                <para>Generate a Table of contents when encountering a descriptive data module with info code 009.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generate.title.page</listItemTerm>
+              <listItemDefinition>
+                <para>Generate a Title page when encountering a descriptive data module with info code 001.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>generated.hierarchical.toc.indent</listItemTerm>
+              <listItemDefinition>
+                <para>The indentation of each level of the hierarchical table of contents.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>hide.empty.proced.rqmts</listItemTerm>
+              <listItemDefinition>
+                <para>Hide the preliminary requirements section of a procedural data module if all the standard tables are empty.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>hide.empty.refs.table</listItemTerm>
+              <listItemDefinition>
+                <para>Hide the References table if it is empty.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>hierarchical.table.of.contents</listItemTerm>
+              <listItemDefinition>
+                <para>Generate a hierarchical table of contents.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>highlight.applic</listItemTerm>
+              <listItemDefinition>
+                <para>Highlight applicability statements by colouring them blue.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>include.pmentry.bookmarks</listItemTerm>
+              <listItemDefinition>
+                <para>Include pmEntry levels and titles in the PDF bookmarks.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>index.type</listItemTerm>
+              <listItemDefinition>
+                <para>What kind of index to generate.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>part.no.prefix</listItemTerm>
+              <listItemDefinition>
+                <para>Prefix part numbers with the text "Part No."</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>printedin.blurb</listItemTerm>
+              <listItemDefinition>
+                <para>When set, adds a "Printed in" statement after the "Published by" statement, indicating the country the document was produced in.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>printedin.blurb.before</listItemTerm>
+              <listItemDefinition>
+                <para>The text between the "Produced by" and the "Printed in" statements.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>producedby.blurb</listItemTerm>
+              <listItemDefinition>
+                <para>Set the "Produced by" statement for the whole publication manually, rather than deriving it from each data module's responsible partner company.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>producedby.blurb.before</listItemTerm>
+              <listItemDefinition>
+                <para>The text label of the "Produced by" statement.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>producedby.blurb.on.titlepage</listItemTerm>
+              <listItemDefinition>
+                <para>Whether or not to show the "Produced by" statement on the title page. Often this can be redundant as the title page also includes the name of the producer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>publication.code</listItemTerm>
+              <listItemDefinition>
+                <para>Set the publication code manually instead of using the one derived from the publication module.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>quantity.decimal.format</listItemTerm>
+              <listItemDefinition>
+                <para>The format to use when presenting quantity values.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>quantity.format</listItemTerm>
+              <listItemDefinition>
+                <para>The picture string passed to format-number() when reformat.quantities = custom.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>reformat.quantities</listItemTerm>
+              <listItemDefinition>
+                <para>Controls whether and how quantities are reformatted for presentation.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>running.pagination</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to use normal or running pagination.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>show.applicability</listItemTerm>
+              <listItemDefinition>
+                <para>Whether and how applicability statements are shown on elements.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>show.graphic.icn</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the ICN below a graphic.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>show.schema.heading</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to include the default heading related to the S1000D schema of a data module.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>show.unclassified</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the text "UNCLASSIFIED" when a document is not classified.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>simple.info.codes</listItemTerm>
+              <listItemDefinition>
+                <para>Descriptive data modules with these info codes will be presented with a minimal stylesheet, without the standard lists, tables, or headings.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>title.page.issue.date</listItemTerm>
+              <listItemDefinition>
+                <para>Show the issue date of the publication module on the generated title page.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>titled.labelled.para.toc</listItemTerm>
+              <listItemDefinition>
+                <para>Include "labelled paras" besides levelledPara in the data module's TOC. For example, steps with titles.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>use.unparsed.entity.uri</listItemTerm>
+              <listItemDefinition>
+                <para>Use the unparsed entity URI to resolve an ICN reference rather than the InfoEntityResolver and info-entity-map concept.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>want.inwork.blurb</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to include a statement in the left margin when a data module is a draft issue.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>want.producedby.blurb</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to include the "Produced by" statement in the left margin.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>bridgehead.in.toc</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to include default headings in each data module's TOC.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>double.sided</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to use alternating headers/footers for double-sided printing.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>end.of.data.module.position</listItemTerm>
+              <listItemDefinition>
+                <para>Where to present the "End of data module" statement.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>end.of.text</listItemTerm>
+              <listItemDefinition>
+                <para>How the text of the "End of data module" statement is determined.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>font.family</listItemTerm>
+              <listItemDefinition>
+                <para>The default font family for all elements.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.applic</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the "Applicability" statement in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.dmc</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the data module code in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.end.of.data.module</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the "End of data module" statement in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.security</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the security statement in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footnote.font.size</listItemTerm>
+              <listItemDefinition>
+                <para>The font size of a footnote.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>header.show.security</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the security statement in the header.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>include.title.in.toc</listItemTerm>
+              <listItemDefinition>
+                <para>Whether and how to include the data module title in the data module's TOC.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>running.pagination</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to use normal or running pagination.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>title.fontset</listItemTerm>
+              <listItemDefinition>
+                <para>Default font for titles.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>toc.section.depth</listItemTerm>
+              <listItemDefinition>
+                <para>The depth of each data module's TOC.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>ulink.footnotes</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to present external publication hyperlinks as footnotes.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>ulink.show</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show external publication hyperlinks inline.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>EXAMPLE</title>
+        <para>
+          <verbatimText verbatimStyle="vs23">$ s1kd2pdf -o test.pdf test.xml -param show.unclassified 0</verbatimText>
+        </para>
+      </levelledPara>
+    </description>
+  </content>
+</dmodule>
