@@ -29,9 +29,9 @@ To change where these are installed, specify the `PREFIX` make variable. For exa
 
 The default prefix is `/usr/local`.
 
-Instructions for using the script can be found in the
-(README)[s1kd2pdf.README] or man page for s1kd2pdf(1), or by running the
-following:
+Instructions for using the script can be found in
+[s1kd2pdf.README](s1kd2pdf.README) or the man page for s1kd2pdf(1),
+or by running the following:
 
 ```
 $ s1kd2pdf -h
