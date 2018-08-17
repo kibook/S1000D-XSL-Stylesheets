@@ -96,7 +96,7 @@
        issueDate element of the title page front matter schema (vs. the issue
        date of the title page data module itself, which is displayed in the
        footer). -->
-  <xsl:param name="title.page.issue.date">1</xsl:param>
+  <xsl:param name="title.page.issue.date">0</xsl:param>
 
   <!-- When hierarchical.table.of.contents = 1, pmEntryTitles are shown in the
        table of contents with indentation to reflect their level. -->
