@@ -121,7 +121,7 @@
 
   <!-- Whether and how to include the acronym definition.
 
-       no    Only show the acronym term.
+       no        Only show the acronym term.
 
        before    This is a Data Module Code (DMC)
                            ^^^^^^^^^^^^^^^^^^^^^^
@@ -129,7 +129,7 @@
        after     This is a DMC (Data Module Code)
                            ^^^^^^^^^^^^^^^^^^^^^^
   -->
-  <xsl:param name="auto.expand.acronyms">no</xsl:param>
+  <xsl:param name="auto.expand.acronyms">before</xsl:param>
 
   <!-- Width of the term column in a definition list. -->
   <xsl:param name="definition.list.term.width">50mm</xsl:param>

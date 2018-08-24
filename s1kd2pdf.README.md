@@ -39,9 +39,9 @@ The following parameters can be supplied at the end of the command with the -par
 auto.expand.acronyms  
 Choose how to expand acronyms:
 
--   "no" - Don't expand (default)
+-   "no" - Only show the term
 
--   "before" - Show the definition followed by the term in parentheses
+-   "before" - Show the definition followed by the term in parentheses (default)
 
 -   "after" - Show the term followed by the definition in parentheses
 

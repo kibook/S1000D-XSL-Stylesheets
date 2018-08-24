@@ -108,10 +108,10 @@
                 <para>
                   <randomList>
                     <listItem>
-                      <para>"no" - Don't expand (default)</para>
+                      <para>"no" - Only show the term</para>
                     </listItem>
                     <listItem>
-                      <para>"before" - Show the definition followed by the term in parentheses</para>
+                      <para>"before" - Show the definition followed by the term in parentheses (default)</para>
                     </listItem>
                     <listItem>
                       <para>"after" - Show the term followed by the definition in parentheses</para>
