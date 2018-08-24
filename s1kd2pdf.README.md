@@ -37,7 +37,13 @@ PARAMETERS
 The following parameters can be supplied at the end of the command with the -param or -stringparam flags to customize the PDF output:
 
 auto.expand.acronyms  
-The first time an acronym is used, include the definition after it in parentheses.
+Choose how to expand acronyms:
+
+-   "no" - Don't expand (default)
+
+-   "before" - Show the definition followed by the term in parentheses
+
+-   "after" - Show the term followed by the definition in parentheses
 
 data.module.index  
 Include an index section in each data module.
