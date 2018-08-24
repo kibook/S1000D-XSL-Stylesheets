@@ -35,7 +35,12 @@
           </dmRefIdent>
         </dmRef>
       </brexDmRef>
-      <qualityAssurance><unverified/></qualityAssurance>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+      <reasonForUpdate id="rfu-0001" updateReasonType="urt01">
+        <simplePara>Describe values for auto.expand.acronyms</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -98,7 +103,7 @@
           <definitionList>
             <definitionListItem>
               <listItemTerm>auto.expand.acronyms</listItemTerm>
-              <listItemDefinition>
+              <listItemDefinition changeType="modify" reasonForUpdateRefIds="rfu-0001">
                 <para>Choose how to expand acronyms:</para>
                 <para>
                   <randomList>
