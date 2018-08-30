@@ -45,6 +45,9 @@ Choose how to expand acronyms:
 
 -   "after" - Show the term followed by the definition in parentheses
 
+bridgehead.in.toc  
+Whether to include default headings in each data module's TOC.
+
 data.module.index  
 Include an index section in each data module.
 
@@ -54,11 +57,41 @@ When set, add the "Printed $date.time" statement to the left margin.
 definition.list.term.width  
 Width of the term column in a definition list.
 
+double.sided  
+Whether to use alternating headers/footers for double-sided printing.
+
+end.of.data.module.position  
+Where to present the "End of data module" statement.
+
+end.of.text  
+How the text of the "End of data module" statement is determined.
+
 external.pub.ref.inline  
 How external publication references are presented.
 
+font.family  
+The default font family for all elements.
+
+footer.show.applic  
+Whether to show the "Applicability" statement in the footer.
+
+footer.show.dmc  
+Whether to show the data module code in the footer.
+
+footer.show.end.of.data.module  
+Whether to show the "End of data module" statement in the footer.
+
+footer.show.security  
+Whether to show the security statement in the footer.
+
+footnote.font.size  
+The font size of a footnote.
+
 front.matter.info.codes  
 Descriptive data modules with any of these info codes are presented as front matter.
+
+generate.display.text  
+If set to "0", display text for applicability annotations that have none will not be automatically generated, and no annotation will be displayed on elements referencing it.
 
 generate.highlights  
 Generate a Highlights section when encountering a descriptive data module with info code 00U.
@@ -84,6 +117,9 @@ Generate a Title page when encountering a descriptive data module with info code
 generated.hierarchical.toc.indent  
 The indentation of each level of the hierarchical table of contents.
 
+header.show.security  
+Whether to show the security statement in the header.
+
 hide.empty.proced.rqmts  
 Hide the preliminary requirements section of a procedural data module if all the standard tables are empty.
 
@@ -98,6 +134,9 @@ Highlight applicability statements by colouring them blue.
 
 include.pmentry.bookmarks  
 Include pmEntry levels and titles in the PDF bookmarks.
+
+include.title.in.toc  
+Whether and how to include the data module title in the data module's TOC.
 
 index.type  
 What kind of index to generate.
@@ -135,6 +174,9 @@ Controls whether and how quantities are reformatted for presentation.
 running.pagination  
 Whether to use normal or running pagination.
 
+running.pagination  
+Whether to use normal or running pagination.
+
 show.applicability  
 Whether and how applicability statements are shown on elements.
 
@@ -150,62 +192,14 @@ Whether to show the text "UNCLASSIFIED" when a document is not classified.
 simple.info.codes  
 Descriptive data modules with these info codes will be presented with a minimal stylesheet, without the standard lists, tables, or headings.
 
+title.fontset  
+Default font for titles.
+
 title.page.issue.date  
 Show the issue date of the publication module on the generated title page.
 
 titled.labelled.para.toc  
 Include "labelled paras" besides levelledPara in the data module's TOC. For example, steps with titles.
-
-use.unparsed.entity.uri  
-Use the unparsed entity URI to resolve an ICN reference rather than the InfoEntityResolver and info-entity-map concept.
-
-want.inwork.blurb  
-Whether to include a statement in the left margin when a data module is a draft issue.
-
-want.producedby.blurb  
-Whether to include the "Produced by" statement in the left margin.
-
-bridgehead.in.toc  
-Whether to include default headings in each data module's TOC.
-
-double.sided  
-Whether to use alternating headers/footers for double-sided printing.
-
-end.of.data.module.position  
-Where to present the "End of data module" statement.
-
-end.of.text  
-How the text of the "End of data module" statement is determined.
-
-font.family  
-The default font family for all elements.
-
-footer.show.applic  
-Whether to show the "Applicability" statement in the footer.
-
-footer.show.dmc  
-Whether to show the data module code in the footer.
-
-footer.show.end.of.data.module  
-Whether to show the "End of data module" statement in the footer.
-
-footer.show.security  
-Whether to show the security statement in the footer.
-
-footnote.font.size  
-The font size of a footnote.
-
-header.show.security  
-Whether to show the security statement in the header.
-
-include.title.in.toc  
-Whether and how to include the data module title in the data module's TOC.
-
-running.pagination  
-Whether to use normal or running pagination.
-
-title.fontset  
-Default font for titles.
 
 toc.section.depth  
 The depth of each data module's TOC.
@@ -215,6 +209,15 @@ Whether to present external publication hyperlinks as footnotes.
 
 ulink.show  
 Whether to show external publication hyperlinks inline.
+
+use.unparsed.entity.uri  
+Use the unparsed entity URI to resolve an ICN reference rather than the InfoEntityResolver and info-entity-map concept.
+
+want.inwork.blurb  
+Whether to include a statement in the left margin when a data module is a draft issue.
+
+want.producedby.blurb  
+Whether to include the "Produced by" statement in the left margin.
 
 EXAMPLE
 =======

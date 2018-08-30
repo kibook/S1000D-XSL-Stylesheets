@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="01"/>
+        <issueInfo issueNumber="001" inWork="02"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="08" day="24"/>
+        <issueDate year="2018" month="08" day="30"/>
         <dmTitle>
           <techName>s1kd2pdf(1) | S1000D XSL Stylesheets</techName>
         </dmTitle>
@@ -40,6 +40,12 @@
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateReasonType="urt01">
         <simplePara>Describe values for auto.expand.acronyms</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0002" updateReasonType="urt02">
+        <simplePara>Add generate.display.text parameter.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0003" updateReasonType="urt01">
+        <simplePara>Sort PARAMETERS entries.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -121,6 +127,12 @@
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
+              <listItemTerm>bridgehead.in.toc</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to include default headings in each data module's TOC.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
               <listItemTerm>data.module.index</listItemTerm>
               <listItemDefinition>
                 <para>Include an index section in each data module.</para>
@@ -139,15 +151,75 @@
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
+              <listItemTerm>double.sided</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to use alternating headers/footers for double-sided printing.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>end.of.data.module.position</listItemTerm>
+              <listItemDefinition>
+                <para>Where to present the "End of data module" statement.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>end.of.text</listItemTerm>
+              <listItemDefinition>
+                <para>How the text of the "End of data module" statement is determined.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
               <listItemTerm>external.pub.ref.inline</listItemTerm>
               <listItemDefinition>
                 <para>How external publication references are presented.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
+              <listItemTerm>font.family</listItemTerm>
+              <listItemDefinition>
+                <para>The default font family for all elements.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.applic</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the "Applicability" statement in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.dmc</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the data module code in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.end.of.data.module</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the "End of data module" statement in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footer.show.security</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the security statement in the footer.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>footnote.font.size</listItemTerm>
+              <listItemDefinition>
+                <para>The font size of a footnote.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
               <listItemTerm>front.matter.info.codes</listItemTerm>
               <listItemDefinition>
                 <para>Descriptive data modules with any of these info codes are presented as front matter.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0002">
+              <listItemTerm>generate.display.text</listItemTerm>
+              <listItemDefinition>
+                <para>If set to "0", display text for applicability annotations that have none will not be automatically generated, and no annotation will be displayed on elements referencing it.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -199,6 +271,12 @@
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
+              <listItemTerm>header.show.security</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to show the security statement in the header.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
               <listItemTerm>hide.empty.proced.rqmts</listItemTerm>
               <listItemDefinition>
                 <para>Hide the preliminary requirements section of a procedural data module if all the standard tables are empty.</para>
@@ -226,6 +304,12 @@
               <listItemTerm>include.pmentry.bookmarks</listItemTerm>
               <listItemDefinition>
                 <para>Include pmEntry levels and titles in the PDF bookmarks.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>include.title.in.toc</listItemTerm>
+              <listItemDefinition>
+                <para>Whether and how to include the data module title in the data module's TOC.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -301,6 +385,12 @@
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
+              <listItemTerm>running.pagination</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to use normal or running pagination.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
               <listItemTerm>show.applicability</listItemTerm>
               <listItemDefinition>
                 <para>Whether and how applicability statements are shown on elements.</para>
@@ -331,6 +421,12 @@
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
+              <listItemTerm>title.fontset</listItemTerm>
+              <listItemDefinition>
+                <para>Default font for titles.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
               <listItemTerm>title.page.issue.date</listItemTerm>
               <listItemDefinition>
                 <para>Show the issue date of the publication module on the generated title page.</para>
@@ -340,108 +436,6 @@
               <listItemTerm>titled.labelled.para.toc</listItemTerm>
               <listItemDefinition>
                 <para>Include "labelled paras" besides levelledPara in the data module's TOC. For example, steps with titles.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>use.unparsed.entity.uri</listItemTerm>
-              <listItemDefinition>
-                <para>Use the unparsed entity URI to resolve an ICN reference rather than the InfoEntityResolver and info-entity-map concept.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>want.inwork.blurb</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to include a statement in the left margin when a data module is a draft issue.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>want.producedby.blurb</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to include the "Produced by" statement in the left margin.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>bridgehead.in.toc</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to include default headings in each data module's TOC.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>double.sided</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to use alternating headers/footers for double-sided printing.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>end.of.data.module.position</listItemTerm>
-              <listItemDefinition>
-                <para>Where to present the "End of data module" statement.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>end.of.text</listItemTerm>
-              <listItemDefinition>
-                <para>How the text of the "End of data module" statement is determined.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>font.family</listItemTerm>
-              <listItemDefinition>
-                <para>The default font family for all elements.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>footer.show.applic</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to show the "Applicability" statement in the footer.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>footer.show.dmc</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to show the data module code in the footer.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>footer.show.end.of.data.module</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to show the "End of data module" statement in the footer.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>footer.show.security</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to show the security statement in the footer.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>footnote.font.size</listItemTerm>
-              <listItemDefinition>
-                <para>The font size of a footnote.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>header.show.security</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to show the security statement in the header.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>include.title.in.toc</listItemTerm>
-              <listItemDefinition>
-                <para>Whether and how to include the data module title in the data module's TOC.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>running.pagination</listItemTerm>
-              <listItemDefinition>
-                <para>Whether to use normal or running pagination.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>title.fontset</listItemTerm>
-              <listItemDefinition>
-                <para>Default font for titles.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -460,6 +454,24 @@
               <listItemTerm>ulink.show</listItemTerm>
               <listItemDefinition>
                 <para>Whether to show external publication hyperlinks inline.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>use.unparsed.entity.uri</listItemTerm>
+              <listItemDefinition>
+                <para>Use the unparsed entity URI to resolve an ICN reference rather than the InfoEntityResolver and info-entity-map concept.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>want.inwork.blurb</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to include a statement in the left margin when a data module is a draft issue.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>want.producedby.blurb</listItemTerm>
+              <listItemDefinition>
+                <para>Whether to include the "Produced by" statement in the left margin.</para>
               </listItemDefinition>
             </definitionListItem>
           </definitionList>

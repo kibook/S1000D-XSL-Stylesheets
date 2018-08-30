@@ -242,6 +242,9 @@
   <!-- Align applicability statements on steps/levelled paras to the left image limit, before the number. -->
   <xsl:param name="alt.applic.display">0</xsl:param>
 
+  <!-- Generate display text for applicability annotations which have none. -->
+  <xsl:param name="generate.display.text">1</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -2675,20 +2678,22 @@
   </xsl:template>
 
   <xsl:template match="applic">
-    <fo:block font-weight="bold" font-size="10pt" keep-with-next="always">
-      <xsl:if test="$highlight.applic != 0">
-        <xsl:attribute name="color">blue</xsl:attribute>
-      </xsl:if>
-      <xsl:text>Applicable to: </xsl:text>
-      <xsl:choose>
-        <xsl:when test="displayText">
-          <xsl:apply-templates select="displayText"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:apply-templates select="assert|evaluate"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </fo:block>
+    <xsl:if test="$generate.display.text != 0 or displayText">
+      <fo:block font-weight="bold" font-size="10pt" keep-with-next="always">
+        <xsl:if test="$highlight.applic != 0">
+          <xsl:attribute name="color">blue</xsl:attribute>
+        </xsl:if>
+        <xsl:text>Applicable to: </xsl:text>
+        <xsl:choose>
+          <xsl:when test="displayText">
+            <xsl:apply-templates select="displayText"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="assert|evaluate"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </fo:block>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="displayText">
