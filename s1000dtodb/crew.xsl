@@ -84,15 +84,22 @@
         </xsl:choose>
       </xsl:with-param>
       <xsl:with-param name="content">
-        <fo:block keep-with-next="always">
-          <xsl:apply-templates select="title"/>
-        </fo:block>
-        <fo:block>
+        <xsl:if test="title">
+          <fo:block keep-with-next="always">
+            <xsl:apply-templates select="title"/>
+          </fo:block>
+        </xsl:if>
+        <xsl:variable name="con">
           <xsl:call-template name="make.applic.annotation"/>
           <xsl:apply-templates select="@warningRefs"/>
           <xsl:apply-templates select="@cautionRefs"/>
           <xsl:apply-templates select="*[not(self::crewDrillStep or self::title)]"/>
-        </fo:block>
+        </xsl:variable>
+        <xsl:if test="$con != ''">
+          <fo:block>
+            <xsl:copy-of select="$con"/>
+          </fo:block>
+        </xsl:if>
       </xsl:with-param>
       <xsl:with-param name="title" select="title"/>
     </xsl:call-template>
