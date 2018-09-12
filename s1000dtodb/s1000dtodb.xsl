@@ -2564,7 +2564,14 @@
           </fo:inline>
         </xsl:if>
         <fo:inline vertical-align="top">
-          <xsl:value-of select="$company/enterpriseName"/>
+          <xsl:choose>
+            <xsl:when test="$company/enterpriseName">
+              <xsl:value-of select="$company/enterpriseName"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$company/@enterpriseCode"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </fo:inline>
       </fo:block>
     </fo:block>
