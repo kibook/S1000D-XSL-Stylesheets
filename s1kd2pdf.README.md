@@ -121,7 +121,7 @@ header.show.security
 Whether to show the security statement in the header.
 
 hide.empty.proced.rqmts  
-Hide the preliminary requirements section of a procedural data module if all the standard tables are empty.
+Hide empty tables in the preliminary requirements section.
 
 hide.empty.refs.table  
 Hide the References table if it is empty.

@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="02"/>
+        <issueInfo issueNumber="001" inWork="03"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="08" day="30"/>
+        <issueDate year="2018" month="09" day="12"/>
         <dmTitle>
           <techName>s1kd2pdf(1) | S1000D XSL Stylesheets</techName>
         </dmTitle>
@@ -46,6 +46,9 @@
       </reasonForUpdate>
       <reasonForUpdate id="rfu-0003" updateReasonType="urt01">
         <simplePara>Sort PARAMETERS entries.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0003" updateReasonType="urt02">
+        <simplePara>Change behaviour of hide.empty.proced.rqmts.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -279,7 +282,7 @@
             <definitionListItem>
               <listItemTerm>hide.empty.proced.rqmts</listItemTerm>
               <listItemDefinition>
-                <para>Hide the preliminary requirements section of a procedural data module if all the standard tables are empty.</para>
+                <para changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0004">Hide empty tables in the preliminary requirements section.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

@@ -229,7 +229,7 @@
   <!--<xsl:param name="sidehead0.need">2cm</xsl:param>
   <xsl:param name="centerhead2.need">5cm</xsl:param>-->
 
-  <!-- Hide preliminary requirements section when unused (all tables are empty) -->
+  <!-- Hide empty preliminary requirements tables. -->
   <xsl:param name="hide.empty.proced.rqmts">0</xsl:param>
 
   <!-- Hide the References table if there are no references -->
@@ -1025,12 +1025,24 @@
       <xsl:text>"</xsl:text>
     </xsl:processing-instruction>-->
     <bridgehead renderas="centerhead">Preliminary requirements</bridgehead>
-    <xsl:apply-templates select="reqCondGroup"/>
-    <xsl:apply-templates select="reqPersons"/>
-    <xsl:apply-templates select="reqSupportEquips"/>
-    <xsl:apply-templates select="reqSupplies"/>
-    <xsl:apply-templates select="reqSpares"/>
-    <xsl:apply-templates select="reqSafety"/>
+    <xsl:choose>
+      <xsl:when test="$hide.empty.proced.rqmts = 0">
+        <xsl:apply-templates select="reqCondGroup"/>
+        <xsl:apply-templates select="reqPersons"/>
+        <xsl:apply-templates select="reqSupportEquips"/>
+        <xsl:apply-templates select="reqSupplies"/>
+        <xsl:apply-templates select="reqSpares"/>
+        <xsl:apply-templates select="reqSafety"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="reqCondGroup[not(noConds)]"/>
+        <xsl:apply-templates select="reqPersons"/>
+        <xsl:apply-templates select="reqSupportEquips[not(noSupportEquips)]"/>
+        <xsl:apply-templates select="reqSupplies[not(noSupplies)]"/>
+        <xsl:apply-templates select="reqSpares[not(noSpares)]"/>
+        <xsl:apply-templates select="reqSafety[not(noSafety)]"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="closeRqmts">
