@@ -50,6 +50,8 @@ To add project-specific customizations to the PDF output:
 
 Example:
 
+    $ s1kd2pdf -S > custom.xsl
+
     <?xml version="1.0"?>
     <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -64,6 +66,8 @@ Example:
     </xsl:template>
 
     </xsl:stylesheet>
+
+    $ s1kd2pdf -s custom.xsl ...
 
 PARAMETERS
 ==========

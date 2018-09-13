@@ -135,7 +135,7 @@
               <para>Use the -d/-s options to apply this custom stylesheet.</para>
             </listItem>
           </sequentialList></para>
-          <para>Example: <verbatimText verbatimStyle="vs11"><![CDATA[<?xml version="1.0"?>
+          <para>Example: <verbatimText verbatimStyle="vs24">$ s1kd2pdf -S > custom.xsl</verbatimText><verbatimText verbatimStyle="vs11"><![CDATA[<?xml version="1.0"?>
 <xsl:stylesheet
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 version="1.0">
@@ -148,7 +148,7 @@ version="1.0">
 </fo:inline>
 </xsl:template>
 
-</xsl:stylesheet>]]></verbatimText></para>
+</xsl:stylesheet>]]></verbatimText><verbatimText verbatimStyle="vs24">$ s1kd2pdf -s custom.xsl ...</verbatimText></para>
         </levelledPara>
       </levelledPara>
       <levelledPara>
