@@ -37,6 +37,34 @@ Source S1000D module to create a PDF from.
 &lt;param&gt;...  
 xsltproc parameters to pass to both stylesheets.
 
+Adding customizations to the stylesheets
+----------------------------------------
+
+To add project-specific customizations to the PDF output:
+
+1.  Use the -D/-S options to create a template XSLT file which imports the installed default stylesheets.
+
+2.  Add customizations to this file.
+
+3.  Use the -d/-s options to apply this custom stylesheet.
+
+Example:
+
+    <?xml version="1.0"?>
+    <xsl:stylesheet
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    version="1.0">
+    <xsl:import href="/path/to/original/stylesheet.xsl"/>
+
+    <!-- Present verbatimText type vs51 as green. -->
+    <xsl:template match="verbatimText[@verbatimStyle = 'vs51']">
+    <fo:inline color="green">
+    <xsl:apply-imports/>
+    </fo:inline>
+    </xsl:template>
+
+    </xsl:stylesheet>
+
 PARAMETERS
 ==========
 

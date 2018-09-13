@@ -122,6 +122,34 @@
             </definitionListItem>
           </definitionList>
         </para>
+        <levelledPara changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0005">
+          <title>Adding customizations to the stylesheets</title>
+          <para>To add project-specific customizations to the PDF output: <sequentialList>
+            <listItem>
+              <para>Use the -D/-S options to create a template XSLT file which imports the installed default stylesheets.</para>
+            </listItem>
+            <listItem>
+              <para>Add customizations to this file.</para>
+            </listItem>
+            <listItem>
+              <para>Use the -d/-s options to apply this custom stylesheet.</para>
+            </listItem>
+          </sequentialList></para>
+          <para>Example: <verbatimText verbatimStyle="vs11"><![CDATA[<?xml version="1.0"?>
+<xsl:stylesheet
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+version="1.0">
+<xsl:import href="/path/to/original/stylesheet.xsl"/>
+
+<!-- Present verbatimText type vs51 as green. -->
+<xsl:template match="verbatimText[@verbatimStyle = 'vs51']">
+<fo:inline color="green">
+<xsl:apply-imports/>
+</fo:inline>
+</xsl:template>
+
+</xsl:stylesheet>]]></verbatimText></para>
+        </levelledPara>
       </levelledPara>
       <levelledPara>
         <title>PARAMETERS</title>
