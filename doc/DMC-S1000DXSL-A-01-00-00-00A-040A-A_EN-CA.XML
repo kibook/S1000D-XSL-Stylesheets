@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="03"/>
+        <issueInfo issueNumber="001" inWork="04"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="09" day="12"/>
+        <issueDate year="2018" month="09" day="13"/>
         <dmTitle>
           <techName>s1kd2pdf(1) | S1000D XSL Stylesheets</techName>
         </dmTitle>
@@ -47,8 +47,14 @@
       <reasonForUpdate id="rfu-0003" updateReasonType="urt01">
         <simplePara>Sort PARAMETERS entries.</simplePara>
       </reasonForUpdate>
-      <reasonForUpdate id="rfu-0003" updateReasonType="urt02">
+      <reasonForUpdate id="rfu-0004" updateReasonType="urt02">
         <simplePara>Change behaviour of hide.empty.proced.rqmts.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0005" updateReasonType="urt02">
+        <simplePara>Add -D and -S options.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0006" updateReasonType="urt01">
+        <simplePara>Add -h and -? to synopsis.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -61,7 +67,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs23">s1kd2pdf [-s &lt;XSL&gt;] [-d &lt;XSL&gt;] [-o &lt;out&gt;] &lt;src&gt; [&lt;param&gt;...]</verbatimText>
+          <verbatimText verbatimStyle="vs23" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0005 rfu-0006">s1kd2pdf [-s &lt;XSL&gt;] [-d &lt;XSL&gt;] [-o &lt;out&gt;] [-DSh?] &lt;src&gt; [&lt;param&gt;...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -72,6 +78,12 @@
         <title>OPTIONS</title>
         <para>
           <definitionList>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0005">
+              <listItemTerm>-D</listItemTerm>
+              <listItemDefinition>
+                <para>Generate template XSLT for a custom DocBook-to-FO stylesheet (-d).</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>-d &lt;XSL&gt;</listItemTerm>
               <listItemDefinition>
@@ -82,6 +94,12 @@
               <listItemTerm>-o &lt;out&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Output to &lt;out&gt; instead of &lt;src&gt;.pdf</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0005">
+              <listItemTerm>-S</listItemTerm>
+              <listItemDefinition>
+                <para>Generate template XSLT for a custom S1000D-to-DocBook stylesheet (-s).</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

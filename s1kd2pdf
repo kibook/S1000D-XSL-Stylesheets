@@ -5,8 +5,10 @@ show_help()
 	echo "Usage: s1kd2pdf [-d <dbtofo>] [-o <out>] [-s <s1000dtodb>] <src> [<params>]"
 	echo
 	echo "Options:"
+	echo "  -D               Create template for -d option."
 	echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
 	echo "  -o <out>         Output to <out> instead of <src>.pdf."
+	echo "  -S               Create template for -S option."
 	echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."
 	echo "  <src>            Source S1000D module."
 	echo "  <params>         xsltproc parameters to pass to both stylesheets."
@@ -15,14 +17,40 @@ show_help()
 	echo "  s1kd2pdf -o test.pdf test.xml -param show.unclassified 0 -stringparam publication.code 'Test'"
 }
 
-dir="$(dirname "$0")/../share/xml/s1000d/stylesheet/S1000D-XSL-Stylesheets"
+dir="$(dirname $(dirname "$0"))/share/xml/s1000d/stylesheet/S1000D-XSL-Stylesheets"
 s2d="$dir/s1000dtodb/s1000dtodb.xsl"
 d2f="$dir/dbtofo/dbtofo.xsl"
 out=
 
-while getopts s:d:o:h? opt
+custom_s1000dtodb()
+{
+	cat <<-EOF
+		<?xml version="1.0" encoding="UTF-8"?>
+		<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+		  <xsl:import href="$s2d"/>
+		</xsl:stylesheet>
+	EOF
+}
+
+custom_dbtofo()
+{
+	cat <<-EOF
+		<?xml version="1.0" encoding="UTF-8"?>
+		<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+		  <xsl:import href="$d2f"/>
+		</xsl:stylesheet>
+	EOF
+}
+
+while getopts Ss:Dd:o:h? opt
 do
 	case $opt in
+		S)	custom_s1000dtodb
+			exit
+			;;
+		D)	custom_dbtofo
+			exit
+			;;
 		s)
 			s2d="$OPTARG"
 			;;

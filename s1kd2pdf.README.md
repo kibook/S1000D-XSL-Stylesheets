@@ -6,7 +6,7 @@ s1kd2pdf - Create a PDF from S1000D data
 SYNOPSIS
 ========
 
-    s1kd2pdf [-s <XSL>] [-d <XSL>] [-o <out>] <src> [<param>...]
+    s1kd2pdf [-s <XSL>] [-d <XSL>] [-o <out>] [-DSh?] <src> [<param>...]
 
 DESCRIPTION
 ===========
@@ -16,11 +16,17 @@ The *s1kd2pdf* command will create a PDF from S1000D data modules or publication
 OPTIONS
 =======
 
+-D  
+Generate template XSLT for a custom DocBook-to-FO stylesheet (-d).
+
 -d &lt;XSL&gt;  
 Use a custom stylesheet for DocBook-to-FO conversion.
 
 -o &lt;out&gt;  
 Output to &lt;out&gt; instead of &lt;src&gt;.pdf
+
+-S  
+Generate template XSLT for a custom S1000D-to-DocBook stylesheet (-s).
 
 -s &lt;XSL&gt;  
 Use a custom stylesheet for S1000D-to-DocBook conversion.
