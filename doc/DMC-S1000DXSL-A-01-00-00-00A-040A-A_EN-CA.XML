@@ -56,6 +56,9 @@
       <reasonForUpdate id="rfu-0006" updateReasonType="urt01">
         <simplePara>Add -h and -? to synopsis.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0007" updateReasonType="urt02">
+        <simplePara>Add -F option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -67,7 +70,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs23" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0005 rfu-0006">s1kd2pdf [-s &lt;XSL&gt;] [-d &lt;XSL&gt;] [-o &lt;out&gt;] [-DSh?] &lt;src&gt; [&lt;param&gt;...]</verbatimText>
+          <verbatimText verbatimStyle="vs23" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0005 rfu-0006 rfu-0007">s1kd2pdf [-s &lt;XSL&gt;] [-d &lt;XSL&gt;] [-o &lt;out&gt;] [-DFSh?] &lt;src&gt; [&lt;param&gt;...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -90,10 +93,16 @@
                 <para>Use a custom stylesheet for DocBook-to-FO conversion.</para>
               </listItemDefinition>
             </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0007">
+              <listItemTerm>-F</listItemTerm>
+              <listItemDefinition>
+                <para>Output the generated XSL-FO instead of a PDF.</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>-o &lt;out&gt;</listItemTerm>
               <listItemDefinition>
-                <para>Output to &lt;out&gt; instead of &lt;src&gt;.pdf</para>
+                <para changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0007">Output to &lt;out&gt; instead of &lt;src&gt;.pdf (or &lt;src&gt;.fo if the -F option is used).</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0005">

@@ -7,6 +7,7 @@ show_help()
 	echo "Options:"
 	echo "  -D               Create template for -d option."
 	echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
+	echo "  -F               Output XSL-FO instead of PDF."
 	echo "  -o <out>         Output to <out> instead of <src>.pdf."
 	echo "  -S               Create template for -S option."
 	echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."
@@ -20,6 +21,7 @@ show_help()
 dir="$(dirname $(dirname "$0"))/share/xml/s1000d/stylesheet/S1000D-XSL-Stylesheets"
 s2d="$dir/s1000dtodb/s1000dtodb.xsl"
 d2f="$dir/dbtofo/dbtofo.xsl"
+fmt=pdf
 out=
 
 custom_s1000dtodb()
@@ -42,23 +44,28 @@ custom_dbtofo()
 	EOF
 }
 
-while getopts Ss:Dd:o:h? opt
+while getopts Dd:Fo:Ss:h? opt
 do
 	case $opt in
-		S)	custom_s1000dtodb
+		D)
+			custom_dbtofo
 			exit
-			;;
-		D)	custom_dbtofo
-			exit
-			;;
-		s)
-			s2d="$OPTARG"
 			;;
 		d)
 			d2f="$OPTARG"
 			;;
+		F)
+			fmt=fo
+			;;
 		o)
 			out="$OPTARG"
+			;;
+		S)
+			custom_s1000dtodb
+			exit
+			;;
+		s)
+			s2d="$OPTARG"
 			;;
 		h|?)
 			show_help
@@ -74,9 +81,17 @@ shift
 
 if test -z "$out"
 then
-	out="$(echo "$src"|rev|cut -d. -f2-|rev).pdf"
+	out="$(echo "$src"|rev|cut -d. -f2-|rev).$fmt"
 fi
 
-xsltproc --xinclude "$@" "$s2d" "$src" |
-xsltproc --xinclude -param fop1.extensions 1 "$@" "$d2f" - |
-fop -c /etc/fop.xml - "$out"
+case $fmt in
+	pdf)
+		xsltproc --xinclude "$@" "$s2d" "$src" |
+		xsltproc --xinclude -param fop1.extensions 1 "$@" "$d2f" - |
+		fop -c /etc/fop.xml - "$out"
+		;;
+	fo)
+		xsltproc --xinclude "$@" "$s2d" "$src" |
+		xsltproc --xinclude -param fop1.extensions 1 "$@" "$d2f" - > "$out"
+		;;
+esac
