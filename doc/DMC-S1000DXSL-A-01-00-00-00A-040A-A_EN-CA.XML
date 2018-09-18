@@ -59,6 +59,9 @@
       <reasonForUpdate id="rfu-0007" updateReasonType="urt02">
         <simplePara>Add -F option.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0008" updateReasonType="urt02">
+        <simplePara>Add hide.deleted.content parameter.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -133,18 +136,8 @@
         </para>
         <levelledPara changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0005">
           <title>Adding customizations to the stylesheets</title>
-          <para>To add project-specific customizations to the PDF output: <sequentialList>
-            <listItem>
-              <para>Use the -D/-S options to create a template XSLT file which imports the installed default stylesheets.</para>
-            </listItem>
-            <listItem>
-              <para>Add customizations to this file.</para>
-            </listItem>
-            <listItem>
-              <para>Use the -d/-s options to apply this custom stylesheet.</para>
-            </listItem>
-          </sequentialList></para>
-          <para>Example: <verbatimText verbatimStyle="vs24">$ s1kd2pdf -S > custom.xsl</verbatimText><verbatimText verbatimStyle="vs11"><![CDATA[<?xml version="1.0"?>
+          <para>To add project-specific customizations to the PDF output: <sequentialList><listItem><para>Use the -D/-S options to create a template XSLT file which imports the installed default stylesheets.</para></listItem><listItem><para>Add customizations to this file.</para></listItem><listItem><para>Use the -d/-s options to apply this custom stylesheet.</para></listItem></sequentialList></para>
+          <para>Example: <verbatimText verbatimStyle="vs24">$ s1kd2pdf -S &gt; custom.xsl</verbatimText><verbatimText verbatimStyle="vs11"><![CDATA[<?xml version="1.0"?>
 <xsl:stylesheet
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 version="1.0">
@@ -332,6 +325,21 @@ version="1.0">
               <listItemTerm>header.show.security</listItemTerm>
               <listItemDefinition>
                 <para>Whether to show the security statement in the header.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0008">
+              <listItemTerm>hide.deleted.content</listItemTerm>
+              <listItemDefinition>
+                <para>
+                  <randomList>
+                    <listItem>
+                      <para>"0" - Present "deleted" content as struck-through.</para>
+                    </listItem>
+                    <listItem>
+                      <para>"1" - Hide "deleted" content.</para>
+                    </listItem>
+                  </randomList>
+                </para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

@@ -161,6 +161,11 @@ The indentation of each level of the hierarchical table of contents.
 header.show.security  
 Whether to show the security statement in the header.
 
+hide.deleted.content  
+-   "0" - Present "deleted" content as struck-through.
+
+-   "1" - Hide "deleted" content.
+
 hide.empty.proced.rqmts  
 Hide empty tables in the preliminary requirements section.
 
