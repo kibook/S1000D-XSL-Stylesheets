@@ -40,7 +40,7 @@
        is the infoName, or techName if there is no infoName. -->
   <xsl:param name="include.title.in.toc">1</xsl:param>
   
-  <xsl:param name="s1000d.xsl.version">V1.3.11 (12-09-2018)</xsl:param>
+  <xsl:param name="s1000d.xsl.version">V1.3.12 (17-09-2018)</xsl:param>
   
   <xsl:param name="creator.tool">
     <xsl:text>S1000D XSL </xsl:text>
@@ -174,6 +174,13 @@
   <xsl:param name="change.bar.width">2pt</xsl:param>
   <xsl:param name="change.bar.color">black</xsl:param>
   <xsl:param name="change.bar.style">solid</xsl:param>
+
+  <!-- Hide "deleted" content or present as struck-through.
+
+       0  Show "deleted" content as struck-through.
+       1  Hide "deleted" content.
+  -->
+  <xsl:param name="hide.deleted.content">0</xsl:param>
 
   <xsl:param name="local.l10n.xml" select="document('')"/>
   

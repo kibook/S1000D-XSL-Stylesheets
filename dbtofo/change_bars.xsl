@@ -53,9 +53,20 @@
           <rx:change-bar-end change-bar-class="{$class}"/>
         </xsl:when>
         <xsl:otherwise>
-          <fo:block xsl:use-attribute-sets="custom.change.bar.attributes">
-            <xsl:copy-of select="$content"/>
-          </fo:block>
+          <xsl:choose>
+            <xsl:when test="@revisionflag = 'deleted'">
+              <xsl:if test="$hide.deleted.content = 0">
+                <fo:block text-decoration="line-through" color="red">
+                  <xsl:copy-of select="$content"/>
+                </fo:block>
+              </xsl:if>
+            </xsl:when>
+            <xsl:otherwise>
+              <fo:block xsl:use-attribute-sets="custom.change.bar.attributes">
+                <xsl:copy-of select="$content"/>
+              </fo:block>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:if>
