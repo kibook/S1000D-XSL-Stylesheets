@@ -60,7 +60,8 @@
           reqPersons or
           reqSupportEquips[not(noSupportEquips)] or
           reqSupplies[not(noSupplies)] or
-          reqSpares[not(noSpares)]]"/>
+          reqSpares[not(noSpares)] or
+          reqSafety[not(noSafety)]]"/>
         <xsl:apply-templates select="mainProcedure"/>
         <xsl:apply-templates select="closeRqmts[reqCondGroup[not(noConds)]]"/>
       </xsl:otherwise>
