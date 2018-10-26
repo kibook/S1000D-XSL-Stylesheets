@@ -2595,6 +2595,10 @@
     <fo:block space-before="8pt" font-size="14pt">
       <xsl:text>Issue No. </xsl:text>
       <xsl:value-of select="$issueInfo/@issueNumber"/>
+      <xsl:if test="$issueInfo/@inWork != '00'">
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="$issueInfo/@inWork"/>
+      </xsl:if>
       <xsl:if test="$issueDate and $title.page.issue.date != 0">
         <xsl:text>, </xsl:text>
         <xsl:apply-templates select="$issueDate"/>
