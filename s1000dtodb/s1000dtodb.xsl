@@ -2060,11 +2060,22 @@
     </row>
   </xsl:template>
 
+  <xsl:template name="issue.num">
+    <xsl:param name="issueInfo"/>
+    <xsl:value-of select="$issueInfo/@issueNumber"/>
+    <xsl:if test="$issueInfo/@inWork != '00'">
+      <xsl:text>-</xsl:text>
+      <xsl:value-of select="$issueInfo/@inWork"/>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template name="gen.high">
     <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <para>
       <xsl:text>The listed changes are introduced in issue </xsl:text>
-      <xsl:value-of select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>
+      <xsl:call-template name="issue.num">
+        <xsl:with-param name="issueInfo" select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo"/>
+      </xsl:call-template>
       <xsl:text>, dated </xsl:text>
       <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>
       <xsl:text>, of this publication.</xsl:text>
@@ -2125,9 +2136,14 @@
   
   <xsl:template name="gen.lodm">
     <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
-    <para>The listed documents are included in issue
-      <xsl:value-of select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>, dated
-      <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>, of this publication.
+    <para>
+      <xsl:text>The listed documents are included in issue </xsl:text>
+      <xsl:call-template name="issue.num">
+        <xsl:with-param name="issueInfo" select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo"/>
+      </xsl:call-template>
+      <xsl:text>, dated </xsl:text>
+      <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>
+      <xsl:text>, of this publication.</xsl:text>
     </para>
     <para>C = Changed data module</para>
     <para>N = New data module</para>
@@ -2268,7 +2284,9 @@
       <xsl:otherwise>
         <para>
           <xsl:text>The listed documents are included in issue </xsl:text>
-          <xsl:value-of select="issueInfo/@issueNumber"/>
+          <xsl:call-template name="issue.num">
+            <xsl:with-param name="issueInfo" select="issueInfo"/>
+          </xsl:call-template>
           <xsl:text>, dated </xsl:text>
           <xsl:apply-templates select="issueDate"/>
           <xsl:text>, of this publication.</xsl:text>
@@ -2322,7 +2340,9 @@
     <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <para>
       <xsl:text>The listed documents are included in issue </xsl:text>
-      <xsl:value-of select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo/@issueNumber"/>
+      <xsl:call-template name="issue.num">
+        <xsl:with-param name="issueInfo" select="$pm/identAndStatusSection/pmAddress/pmIdent/issueInfo"/>
+      </xsl:call-template>
       <xsl:text>, dated </xsl:text>
       <xsl:apply-templates select="$pm/identAndStatusSection/pmAddress/pmAddressItems/issueDate"/>
       <xsl:text>, of this publication.</xsl:text>
@@ -2594,11 +2614,9 @@
     <xsl:param name="issueDate"/>
     <fo:block space-before="8pt" font-size="14pt">
       <xsl:text>Issue No. </xsl:text>
-      <xsl:value-of select="$issueInfo/@issueNumber"/>
-      <xsl:if test="$issueInfo/@inWork != '00'">
-        <xsl:text>-</xsl:text>
-        <xsl:value-of select="$issueInfo/@inWork"/>
-      </xsl:if>
+      <xsl:call-template name="issue.num">
+        <xsl:with-param name="issueInfo" select="$issueInfo"/>
+      </xsl:call-template>
       <xsl:if test="$issueDate and $title.page.issue.date != 0">
         <xsl:text>, </xsl:text>
         <xsl:apply-templates select="$issueDate"/>
