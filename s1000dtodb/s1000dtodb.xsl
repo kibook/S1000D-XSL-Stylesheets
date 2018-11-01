@@ -80,6 +80,9 @@
   <!-- 014 Alphabetical and alphanumeric index -->
   <xsl:param name="generate.index">0</xsl:param>
 
+  <!-- Include the RPC on the title page. -->
+  <xsl:param name="title.page.publisher">1</xsl:param>
+
   <!-- The type of index to generate.
 
        table    Creates a tabular index with data module references.
@@ -2540,11 +2543,18 @@
             <fo:table-row>
               <fo:table-cell>
                 <fo:block-container height="15mm">
-                  <xsl:call-template name="logo.and.company">
-                    <xsl:with-param name="title">Publisher:</xsl:with-param>
-                    <xsl:with-param name="logo" select="$publisherLogo"/>
-                    <xsl:with-param name="company" select="$responsiblePartnerCompany"/>
-                  </xsl:call-template>
+                  <xsl:choose>
+                    <xsl:when test="$title.page.publisher != 0">
+                      <xsl:call-template name="logo.and.company">
+                        <xsl:with-param name="title">Publisher:</xsl:with-param>
+                        <xsl:with-param name="logo" select="$publisherLogo"/>
+                        <xsl:with-param name="company" select="$responsiblePartnerCompany"/>
+                      </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <fo:block/>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </fo:block-container>
                 <fo:block-container height="15mm">
                   <fo:block>

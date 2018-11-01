@@ -11,7 +11,8 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-The *s1kd2pdf* command will create a PDF from S1000D data modules or publications using the S1000D XSL Stylesheets, xsltproc, and Apache FOP.
+The *s1kd2pdf* command will create a PDF from S1000D data modules or
+publications using the S1000D XSL Stylesheets, xsltproc, and Apache FOP.
 
 OPTIONS
 =======
@@ -26,7 +27,8 @@ Use a custom stylesheet for DocBook-to-FO conversion.
 Output the generated XSL-FO instead of a PDF.
 
 -o &lt;out&gt;  
-Output to &lt;out&gt; instead of &lt;src&gt;.pdf (or &lt;src&gt;.fo if the -F option is used).
+Output to &lt;out&gt; instead of &lt;src&gt;.pdf (or &lt;src&gt;.fo if
+the -F option is used).
 
 -S  
 Generate template XSLT for a custom S1000D-to-DocBook stylesheet (-s).
@@ -45,7 +47,8 @@ Adding customizations to the stylesheets
 
 To add project-specific customizations to the PDF output:
 
-1.  Use the -D/-S options to create a template XSLT file which imports the installed default stylesheets.
+1.  Use the -D/-S options to create a template XSLT file which imports
+    the installed default stylesheets.
 
 2.  Add customizations to this file.
 
@@ -75,14 +78,16 @@ Example:
 PARAMETERS
 ==========
 
-The following parameters can be supplied at the end of the command with the -param or -stringparam flags to customize the PDF output:
+The following parameters can be supplied at the end of the command with
+the -param or -stringparam flags to customize the PDF output:
 
 auto.expand.acronyms  
 Choose how to expand acronyms:
 
 -   "no" - Only show the term
 
--   "before" - Show the definition followed by the term in parentheses (default)
+-   "before" - Show the definition followed by the term in parentheses
+    (default)
 
 -   "after" - Show the term followed by the definition in parentheses
 
@@ -129,31 +134,41 @@ footnote.font.size
 The font size of a footnote.
 
 front.matter.info.codes  
-Descriptive data modules with any of these info codes are presented as front matter.
+Descriptive data modules with any of these info codes are presented as
+front matter.
 
 generate.display.text  
-If set to "0", display text for applicability annotations that have none will not be automatically generated, and no annotation will be displayed on elements referencing it.
+If set to "0", display text for applicability annotations that have none
+will not be automatically generated, and no annotation will be displayed
+on elements referencing it.
 
 generate.highlights  
-Generate a Highlights section when encountering a descriptive data module with info code 00U.
+Generate a Highlights section when encountering a descriptive data
+module with info code 00U.
 
 generate.index  
-Generate an index when encountering a descriptive data module with info code 014.
+Generate an index when encountering a descriptive data module with info
+code 014.
 
 generate.list.of.datamodules  
-Generate a List of effective data modules when encountering a descriptive data module with info code 00S.
+Generate a List of effective data modules when encountering a
+descriptive data module with info code 00S.
 
 generate.list.of.illustrations  
-Generate a List of illustrations when encountering a descriptive data module with info code 00A.
+Generate a List of illustrations when encountering a descriptive data
+module with info code 00A.
 
 generate.list.of.tables  
-Generate a List of tables when encountering a descriptive data module with info code 00Z.
+Generate a List of tables when encountering a descriptive data module
+with info code 00Z.
 
 generate.table.of.contents  
-Generate a Table of contents when encountering a descriptive data module with info code 009.
+Generate a Table of contents when encountering a descriptive data module
+with info code 009.
 
 generate.title.page  
-Generate a Title page when encountering a descriptive data module with info code 001.
+Generate a Title page when encountering a descriptive data module with
+info code 001.
 
 generated.hierarchical.toc.indent  
 The indentation of each level of the hierarchical table of contents.
@@ -182,7 +197,8 @@ include.pmentry.bookmarks
 Include pmEntry levels and titles in the PDF bookmarks.
 
 include.title.in.toc  
-Whether and how to include the data module title in the data module's TOC.
+Whether and how to include the data module title in the data module's
+TOC.
 
 index.type  
 What kind of index to generate.
@@ -191,28 +207,35 @@ part.no.prefix
 Prefix part numbers with the text "Part No."
 
 printedin.blurb  
-When set, adds a "Printed in" statement after the "Published by" statement, indicating the country the document was produced in.
+When set, adds a "Printed in" statement after the "Published by"
+statement, indicating the country the document was produced in.
 
 printedin.blurb.before  
 The text between the "Produced by" and the "Printed in" statements.
 
 producedby.blurb  
-Set the "Produced by" statement for the whole publication manually, rather than deriving it from each data module's responsible partner company.
+Set the "Produced by" statement for the whole publication manually,
+rather than deriving it from each data module's responsible partner
+company.
 
 producedby.blurb.before  
 The text label of the "Produced by" statement.
 
 producedby.blurb.on.titlepage  
-Whether or not to show the "Produced by" statement on the title page. Often this can be redundant as the title page also includes the name of the producer.
+Whether or not to show the "Produced by" statement on the title page.
+Often this can be redundant as the title page also includes the name of
+the producer.
 
 publication.code  
-Set the publication code manually instead of using the one derived from the publication module.
+Set the publication code manually instead of using the one derived from
+the publication module.
 
 quantity.decimal.format  
 The format to use when presenting quantity values.
 
 quantity.format  
-The picture string passed to format-number() when reformat.quantities = custom.
+The picture string passed to format-number() when reformat.quantities =
+custom.
 
 reformat.quantities  
 Controls whether and how quantities are reformatted for presentation.
@@ -230,22 +253,30 @@ show.graphic.icn
 Whether to show the ICN below a graphic.
 
 show.schema.heading  
-Whether to include the default heading related to the S1000D schema of a data module.
+Whether to include the default heading related to the S1000D schema of a
+data module.
 
 show.unclassified  
-Whether to show the text "UNCLASSIFIED" when a document is not classified.
+Whether to show the text "UNCLASSIFIED" when a document is not
+classified.
 
 simple.info.codes  
-Descriptive data modules with these info codes will be presented with a minimal stylesheet, without the standard lists, tables, or headings.
+Descriptive data modules with these info codes will be presented with a
+minimal stylesheet, without the standard lists, tables, or headings.
 
 title.fontset  
 Default font for titles.
 
 title.page.issue.date  
-Show the issue date of the publication module on the generated title page.
+Show the issue date of the publication module on the generated title
+page.
+
+title.page.publisher  
+Show the responsible partner company on the generated title page.
 
 titled.labelled.para.toc  
-Include "labelled paras" besides levelledPara in the data module's TOC. For example, steps with titles.
+Include "labelled paras" besides levelledPara in the data module's TOC.
+For example, steps with titles.
 
 toc.section.depth  
 The depth of each data module's TOC.
@@ -257,10 +288,12 @@ ulink.show
 Whether to show external publication hyperlinks inline.
 
 use.unparsed.entity.uri  
-Use the unparsed entity URI to resolve an ICN reference rather than the InfoEntityResolver and info-entity-map concept.
+Use the unparsed entity URI to resolve an ICN reference rather than the
+InfoEntityResolver and info-entity-map concept.
 
 want.inwork.blurb  
-Whether to include a statement in the left margin when a data module is a draft issue.
+Whether to include a statement in the left margin when a data module is
+a draft issue.
 
 want.producedby.blurb  
 Whether to include the "Produced by" statement in the left margin.

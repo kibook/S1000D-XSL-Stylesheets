@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="04"/>
+        <issueInfo issueNumber="001" inWork="05"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="09" day="13"/>
+        <issueDate year="2018" month="11" day="01"/>
         <dmTitle>
           <techName>s1kd2pdf(1) | S1000D XSL Stylesheets</techName>
         </dmTitle>
@@ -61,6 +61,9 @@
       </reasonForUpdate>
       <reasonForUpdate id="rfu-0008" updateReasonType="urt02">
         <simplePara>Add hide.deleted.content parameter.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0009" updateReasonType="urt02">
+        <simplePara>Add title.page.publisher parameter.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -496,6 +499,12 @@ version="1.0">
               <listItemTerm>title.page.issue.date</listItemTerm>
               <listItemDefinition>
                 <para>Show the issue date of the publication module on the generated title page.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0009">
+              <listItemTerm>title.page.publisher</listItemTerm>
+              <listItemDefinition>
+                <para>Show the responsible partner company on the generated title page.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
