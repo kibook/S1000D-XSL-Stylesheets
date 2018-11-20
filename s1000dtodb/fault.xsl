@@ -103,18 +103,44 @@
   </xsl:template>
 
   <xsl:template match="isolationProcedureEnd">
-    <fo:block keep-with-next="always">
-      <xsl:call-template name="copy.id"/>
-    </fo:block>
-    <xsl:apply-templates/>
-    <para>
-      <emphasis role="bold">Go to Requirements after job completion.</emphasis>
-    </para>
+    <xsl:param name="prefix"/>
+    <xsl:choose>
+      <xsl:when test="action">
+        <fo:block keep-with-next="always">
+          <xsl:call-template name="copy.id"/>
+        </fo:block>
+        <xsl:apply-templates/>
+        <para>
+          <emphasis role="bold">Go to Requirements after job completion.</emphasis>
+        </para>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="labelled.para">
+          <xsl:with-param name="label">
+            <xsl:value-of select="$prefix"/><xsl:call-template name="isolation.item.number"/>
+          </xsl:with-param>
+          <xsl:with-param name="content">
+            <xsl:choose>
+              <xsl:when test="*">
+                <xsl:apply-templates select="*"/>
+                <para>
+                  <emphasis role="bold">Go to Requirements after job completion.</emphasis>
+                </para>
+              </xsl:when>
+              <xsl:otherwise>
+                <emphasis role="bold">Go to Requirements after job completion.</emphasis>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template name="isolation.item.number">
     <xsl:number count="action|
                        isolationStepQuestion|
+                       isolationProcedureEnd[not(action)]|
                        closeRqmts/reqCondGroup/reqCondNoRef|
                        closeRqmts/reqCondGroup/reqCondDm|
                        closeRqmts/reqCondGroup/reqCondPm|
@@ -187,18 +213,32 @@
             <xsl:text>Go to </xsl:text>
             <link linkend="{$next.id}">
               <xsl:text>Step </xsl:text>
-              <xsl:for-each select="ancestor-or-self::dmodule//*[@id=$next.action.ref.id]">
-                <xsl:variable name="num">
-                  <xsl:call-template name="isolation.item.number"/>
-                </xsl:variable>
-                <xsl:value-of select="$num + 1"/>
-              </xsl:for-each>
+              <xsl:apply-templates select="$next.elem" mode="iso.item.num"/>
             </link>
             <xsl:text>.</xsl:text>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:with-param>
     </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template match="*" mode="iso.item.num">
+    <xsl:call-template name="isolation.item.number"/>
+  </xsl:template>
+
+  <xsl:template match="isolationStep" mode="iso.item.num">
+    <xsl:apply-templates select="(action|isolationStepQuestion)[1]" mode="iso.item.num"/>
+  </xsl:template>
+
+  <xsl:template match="isolationProcedureEnd" mode="iso.item.num">
+    <xsl:choose>
+      <xsl:when test="action">
+        <xsl:apply-templates select="action" mode="iso.item.num"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="isolation.item.number"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="choice">
@@ -213,8 +253,8 @@
     <xsl:param name="prefix"/>
     <xsl:apply-templates>
       <xsl:with-param name="prefix">
-	<xsl:call-template name="isolation.item.number"/>
-	<xsl:text>.</xsl:text>
+        <xsl:call-template name="isolation.item.number"/>
+        <xsl:text>.</xsl:text>
       </xsl:with-param>
     </xsl:apply-templates>
   </xsl:template>
