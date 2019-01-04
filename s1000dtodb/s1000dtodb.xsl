@@ -239,7 +239,13 @@
   <xsl:param name="hide.empty.refs.table">0</xsl:param>
 
   <!-- Whether or not to include the default heading based on the DM schema,
-       e.g., "Description" for descriptive, "Procedure" for procedural, etc. -->
+       e.g., "Description" for descriptive.
+
+       Only applies to DM types where there is a single heading which
+       corresponds with the main child of <content>. For example,
+       it would not apply to procedural DMs since there is no default
+       heading which corresponds to the <procedure> element (the heading
+       "Procedure" actually corresponds with the element <mainProcedure>). -->
   <xsl:param name="show.schema.heading">1</xsl:param>
 
   <!-- Align applicability statements on steps/levelled paras to the left image limit, before the number. -->

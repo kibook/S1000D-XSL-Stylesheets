@@ -89,9 +89,7 @@
   </xsl:template>
 
   <xsl:template match="isolationMainProcedure">
-    <xsl:if test="$show.schema.heading != 0">
-      <bridgehead renderas="centerhead">Fault isolation procedure</bridgehead>
-    </xsl:if>
+    <bridgehead renderas="centerhead">Fault isolation procedure</bridgehead>
     <xsl:apply-templates/>
   </xsl:template>
 

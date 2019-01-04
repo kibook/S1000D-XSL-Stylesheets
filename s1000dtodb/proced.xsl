@@ -69,9 +69,7 @@
   </xsl:template>
 
   <xsl:template match="mainProcedure">
-    <xsl:if test="$show.schema.heading != 0">
-      <bridgehead renderas="centerhead">Procedure</bridgehead>
-    </xsl:if>
+    <bridgehead renderas="centerhead">Procedure</bridgehead>
     <xsl:apply-templates/>
   </xsl:template>
 
