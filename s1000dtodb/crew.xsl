@@ -90,7 +90,7 @@
           </fo:block>
         </xsl:if>
         <xsl:variable name="con">
-          <xsl:call-template name="make.applic.annotation"/>
+          <xsl:call-template name="applic.annotation"/>
           <xsl:apply-templates select="@warningRefs"/>
           <xsl:apply-templates select="@cautionRefs"/>
           <xsl:apply-templates select="*[not(self::crewDrillStep or self::title)]"/>
