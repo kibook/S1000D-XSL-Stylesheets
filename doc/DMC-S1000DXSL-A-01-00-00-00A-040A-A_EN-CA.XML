@@ -65,6 +65,9 @@
       <reasonForUpdate id="rfu-0009" updateReasonType="urt02">
         <simplePara>Add title.page.publisher parameter.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0010" updateReasonType="urt02">
+        <simplePara>Rename show.applicability to show.content.applic and change behaviour.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -459,10 +462,20 @@ version="1.0">
                 <para>Whether to use normal or running pagination.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>show.applicability</listItemTerm>
+            <definitionListItem changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0010">
+              <listItemTerm>show.content.applic</listItemTerm>
               <listItemDefinition>
-                <para>Whether and how applicability statements are shown on elements.</para>
+                <para>Whether content applicability annotations are shown.</para>
+                <para>
+                  <randomList>
+                    <listItem>
+                      <para>"0" - Do not show content applicability annotations</para>
+                    </listItem>
+                    <listItem>
+                      <para>"1" - Show content applicability annotations (default)</para>
+                    </listItem>
+                  </randomList>
+                </para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

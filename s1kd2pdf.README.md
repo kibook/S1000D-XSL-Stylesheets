@@ -246,8 +246,12 @@ Whether to use normal or running pagination.
 running.pagination  
 Whether to use normal or running pagination.
 
-show.applicability  
-Whether and how applicability statements are shown on elements.
+show.content.applic  
+Whether content applicability annotations are shown.
+
+-   "0" - Do not show content applicability annotations
+
+-   "1" - Show content applicability annotations (default)
 
 show.graphic.icn  
 Whether to show the ICN below a graphic.
