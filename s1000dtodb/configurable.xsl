@@ -73,20 +73,33 @@
        "vs51"-"vs99"  Available for projects -->
   <xsl:template match="verbatimText">
     <xsl:choose>
-      <xsl:when test="not(@verbatimStyle)">
-        <literal><xsl:apply-templates/></literal>
-      </xsl:when>
+      <!-- Block verbatim text types -->
       <xsl:when test="@verbatimStyle = 'vs11'">
-        <programlisting><xsl:apply-templates/></programlisting>
+        <programlisting>
+          <xsl:call-template name="revisionflag"/>
+          <xsl:apply-templates/>
+        </programlisting>
       </xsl:when>
       <xsl:when test="@verbatimStyle = 'vs23'">
-        <screen><xsl:apply-templates/></screen>
+        <screen>
+          <xsl:call-template name="revisionflag"/>
+          <xsl:apply-templates/>
+        </screen>
       </xsl:when>
       <xsl:when test="@verbatimStyle = 'vs24'">
-        <programlisting><xsl:apply-templates/></programlisting>
+        <programlisting>
+          <xsl:call-template name="revisionflag"/>
+          <xsl:apply-templates/>
+        </programlisting>
       </xsl:when>
+      <!-- Inline verbatim text types -->
       <xsl:otherwise>
-        <literal><xsl:apply-templates/></literal>
+        <phrase>
+          <xsl:call-template name="revisionflag"/>
+          <literal>
+            <xsl:apply-templates/>
+          </literal>
+        </phrase>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
