@@ -247,6 +247,12 @@
   <!-- Generate display text for applicability annotations which have none. -->
   <xsl:param name="generate.display.text">1</xsl:param>
 
+  <!-- Product illustration to show on the title page. Can be used to provide an
+       illustration when the title page is generated with a descriptive DM
+       placeholder (as opposed to a frontmatter DM) or to override the
+       illustration specified in a frontmatter title page DM. -->
+  <xsl:param name="title.page.illustration"/>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -2528,7 +2534,18 @@
       </fo:block>
       <fo:block-container height="65mm">
         <fo:block space-before="16pt">
-          <xsl:apply-templates select="$productIllustration"/>
+          <xsl:choose>
+            <xsl:when test="$title.page.illustration">
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="{$title.page.illustration}" align="center" width="100%" scalefit="1"/>
+                </imageobject>
+              </mediaobject>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:apply-templates select="$productIllustration"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </fo:block>
       </fo:block-container>
       <fo:block font-size="8pt">

@@ -271,6 +271,12 @@ minimal stylesheet, without the standard lists, tables, or headings.
 title.fontset  
 Default font for titles.
 
+title.page.illustration  
+Product illustration to show on the title page. Can be used to provide
+an illustration when the title page is generated with a descriptive DM
+placeholder (as opposed to a frontmatter DM) or to override the
+illustration specified in a frontmatter title page DM.
+
 title.page.issue.date  
 Show the issue date of the publication module on the generated title
 page.

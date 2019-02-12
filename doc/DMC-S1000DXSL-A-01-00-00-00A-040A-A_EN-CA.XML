@@ -68,6 +68,9 @@
       <reasonForUpdate id="rfu-0010" updateReasonType="urt02">
         <simplePara>Rename show.applicability to show.content.applic and change behaviour.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0011" updateReasonType="urt02">
+        <simplePara>Add title.page.illustration parameter.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -506,6 +509,12 @@ version="1.0">
               <listItemTerm>title.fontset</listItemTerm>
               <listItemDefinition>
                 <para>Default font for titles.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0011">
+              <listItemTerm>title.page.illustration</listItemTerm>
+              <listItemDefinition>
+                <para>Product illustration to show on the title page. Can be used to provide an illustration when the title page is generated with a descriptive DM placeholder (as opposed to a frontmatter DM) or to override the illustration specified in a frontmatter title page DM.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
