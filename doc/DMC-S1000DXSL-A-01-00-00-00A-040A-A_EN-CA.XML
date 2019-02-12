@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="05"/>
+        <issueInfo issueNumber="001" inWork="06"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="11" day="01"/>
+        <issueDate year="2019" month="02" day="12"/>
         <dmTitle>
           <techName>s1kd2pdf(1) | S1000D XSL Stylesheets</techName>
         </dmTitle>
@@ -69,7 +69,7 @@
         <simplePara>Rename show.applicability to show.content.applic and change behaviour.</simplePara>
       </reasonForUpdate>
       <reasonForUpdate id="rfu-0011" updateReasonType="urt02">
-        <simplePara>Add title.page.illustration parameter.</simplePara>
+        <simplePara>Add title.page.illustration, title.page.illustration.width, title.page.illustration.height, and title.page.illustration.scale parameters.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -515,6 +515,24 @@ version="1.0">
               <listItemTerm>title.page.illustration</listItemTerm>
               <listItemDefinition>
                 <para>Product illustration to show on the title page. Can be used to provide an illustration when the title page is generated with a descriptive DM placeholder (as opposed to a frontmatter DM) or to override the illustration specified in a frontmatter title page DM.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0011">
+              <listItemTerm>title.page.illustration.height</listItemTerm>
+              <listItemDefinition>
+                <para>When title.page.illustration is specified, use this as the reproduction height of the illustration.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0011">
+              <listItemTerm>title.page.illustration.scale</listItemTerm>
+              <listItemDefinition>
+                <para>When title.page.illustration is specified, use this as the reproduction scale of the illustration.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0011">
+              <listItemTerm>title.page.illustration.width</listItemTerm>
+              <listItemDefinition>
+                <para>When title.page.illustration is specified, use this as the reproduction width of the illustration.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

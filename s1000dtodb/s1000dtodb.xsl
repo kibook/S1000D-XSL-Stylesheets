@@ -252,6 +252,15 @@
        placeholder (as opposed to a frontmatter DM) or to override the
        illustration specified in a frontmatter title page DM. -->
   <xsl:param name="title.page.illustration"/>
+  <!-- When title.page.illustration is specified, use this as the reproduction
+       width of the illustration. -->
+  <xsl:param name="title.page.illustration.width"/>
+  <!-- When title.page.illustration is specified, use this as the reproduction
+       height of the illustration. -->
+  <xsl:param name="title.page.illustration.height"/>
+  <!-- When title.page.illustration is specified, use this as the reproduction
+       scale of the illustration. -->
+  <xsl:param name="title.page.illustration.scale"/>
 
   <xsl:output indent="no" method="xml"/>
 
@@ -1530,40 +1539,50 @@
     </xsl:if>
     -->
     <imageobject xsl:exclude-result-prefixes="ier">
-      <xsl:element name="imagedata">
-        <xsl:attribute name="align">center</xsl:attribute>
-        <xsl:attribute name="fileref">
-	        <xsl:value-of select="$fileref"/>
-        </xsl:attribute>
-        <xsl:if test="@reproductionWidth">
-	        <xsl:attribute name="width">
-	          <xsl:value-of select="@reproductionWidth"/>
-	        </xsl:attribute>
-	        <xsl:attribute name="contentwidth">
-	          <xsl:value-of select="@reproductionWidth"/>
-	        </xsl:attribute>
-        </xsl:if>
-        <xsl:if test="@reproductionHeight">
-	        <xsl:attribute name="depth">
-	          <xsl:value-of select="@reproductionHeight"/>
-	        </xsl:attribute>
-	        <xsl:attribute name="contentdepth">
-	          <xsl:value-of select="@reproductionHeight"/>
-	        </xsl:attribute>
-        </xsl:if>
-        <xsl:if test="@reproductionScale">
-          <xsl:attribute name="scale">
-            <xsl:value-of select="@reproductionScale"/>
-          </xsl:attribute>
-        </xsl:if>
-        <xsl:if test="not(@reproductionWidth) and not(@reproductionHeight) and not(@reproductionScale)">
-          <xsl:if test="self::graphic">
-            <xsl:attribute name="width">100%</xsl:attribute>
-          </xsl:if>
-          <xsl:attribute name="scalefit">1</xsl:attribute>
-        </xsl:if>
-      </xsl:element>
+      <xsl:call-template name="make.imagedata">
+        <xsl:with-param name="fileref" select="$fileref"/>
+      </xsl:call-template>
     </imageobject>
+  </xsl:template>
+
+  <xsl:template name="make.imagedata">
+    <xsl:param name="fileref"/>
+    <xsl:param name="width" select="@reproductionWidth"/>
+    <xsl:param name="height" select="@reproductionHeight"/>
+    <xsl:param name="scale" select="@reproductionScale"/>
+    <imagedata>
+      <xsl:attribute name="align">center</xsl:attribute>
+      <xsl:attribute name="fileref">
+        <xsl:value-of select="$fileref"/>
+      </xsl:attribute>
+      <xsl:if test="$width">
+        <xsl:attribute name="width">
+          <xsl:value-of select="$width"/>
+        </xsl:attribute>
+        <xsl:attribute name="contentwidth">
+          <xsl:value-of select="$width"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$height">
+        <xsl:attribute name="depth">
+          <xsl:value-of select="$height"/>
+        </xsl:attribute>
+        <xsl:attribute name="contentdepth">
+          <xsl:value-of select="$height"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:if test="$scale">
+        <xsl:attribute name="scale">
+          <xsl:value-of select="$scale"/>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:if test="not($width) and not($height) and not($scale)">
+        <xsl:if test="self::graphic">
+          <xsl:attribute name="width">100%</xsl:attribute>
+        </xsl:if>
+        <xsl:attribute name="scalefit">1</xsl:attribute>
+      </xsl:if>
+    </imagedata>
   </xsl:template>
 
   <xsl:template match="graphic">
@@ -2538,7 +2557,12 @@
             <xsl:when test="$title.page.illustration">
               <mediaobject>
                 <imageobject>
-                  <imagedata fileref="{$title.page.illustration}" align="center" width="100%" scalefit="1"/>
+                  <xsl:call-template name="make.imagedata">
+                    <xsl:with-param name="fileref" select="$title.page.illustration"/>
+                    <xsl:with-param name="width" select="$title.page.illustration.width"/>
+                    <xsl:with-param name="height" select="$title.page.illustration.height"/>
+                    <xsl:with-param name="scale" select="$title.page.illustration.scale"/>
+                  </xsl:call-template>
                 </imageobject>
               </mediaobject>
             </xsl:when>

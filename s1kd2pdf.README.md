@@ -277,6 +277,18 @@ an illustration when the title page is generated with a descriptive DM
 placeholder (as opposed to a frontmatter DM) or to override the
 illustration specified in a frontmatter title page DM.
 
+title.page.illustration.height  
+When title.page.illustration is specified, use this as the reproduction
+height of the illustration.
+
+title.page.illustration.scale  
+When title.page.illustration is specified, use this as the reproduction
+scale of the illustration.
+
+title.page.illustration.width  
+When title.page.illustration is specified, use this as the reproduction
+width of the illustration.
+
 title.page.issue.date  
 Show the issue date of the publication module on the generated title
 page.
