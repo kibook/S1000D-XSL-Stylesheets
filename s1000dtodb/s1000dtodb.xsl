@@ -3036,16 +3036,7 @@
       <xsl:when test="@quantityGroupType = 'minimum'">from </xsl:when>
       <xsl:when test="@quantityGroupType = 'maximum'"> to </xsl:when>
     </xsl:choose>
-    <xsl:for-each select="quantityValue">
-      <xsl:if test="position() != 1">
-        <xsl:text> </xsl:text>
-      </xsl:if>
-      <xsl:apply-templates select="."/>
-    </xsl:for-each>
-    <xsl:if test="quantityValue and quantityTolerance">
-      <xsl:text> </xsl:text>
-    </xsl:if>
-    <xsl:for-each select="quantityTolerance">
+    <xsl:for-each select="quantityValue|quantityTolerance">
       <xsl:if test="position() != 1">
         <xsl:text> </xsl:text>
       </xsl:if>
