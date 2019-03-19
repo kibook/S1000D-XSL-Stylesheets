@@ -172,9 +172,9 @@
                 presented in the same format regardless of how they are
                 authored.
 
-                For example, 0.030 and 0.3 are both valid xs:decimal numbers.
+                For example, 0.030 and 0.03 are both valid xs:decimal numbers.
                 With this formatting option, both would be presented the same
-                way (either both as 0.030 or both as 0.3).
+                way (either both as 0.030 or both as 0.03).
 
                 The quantity.decimal.format and quantity.format options
                 actually determine the formatting.
