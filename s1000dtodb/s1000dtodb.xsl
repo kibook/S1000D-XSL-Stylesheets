@@ -167,8 +167,8 @@
 
   <!-- Controls whether and how quantities are reformatted for presentation.
 
-       custom   Completely reformat quantities using the formats specified below
-                and the format-number() function. All quantities will be
+       custom   Completely reformat all quantities using the formats specified
+                below and the format-number() function. All quantities will be
                 presented in the same format regardless of how they are
                 authored.
 
@@ -181,17 +181,38 @@
 
                 This is the most consistent option, but isn't suitable if the
                 project uses varying formats (for example, different numbers of
-                leading/trailing zeroes to indicate different scales.
+                leading/trailing zeroes to indicate different scales).
 
-       basic    Do simple translation of xs:decimal to the format indicated in
-                quantity.decimal.format, but keep other formatting (such as
-                leading/trailing zeroes) as-is.
+       normal   Generate a format string which:
+                - translates the xs:decimal value to the format indicated in
+                  quantity.decimal.format
+                - adds thousands separators
+                - preserves leading/trailing zeroes
+
+       basic    Translate '.' in xs:decimal to the appropriate separator. This
+                preserves leading/trailing zeroes without adding thousands
+                separators.
 
        none     Present the xs:decimal value exactly as authored. -->
-  <xsl:param name="reformat.quantities">basic</xsl:param>
+  <xsl:param name="reformat.quantities">normal</xsl:param>
 
+  <!-- Standard decimal formats -->
   <xsl:decimal-format name="SI" decimal-separator="," grouping-separator=" "/>
   <xsl:decimal-format name="imperial" decimal-separator="." grouping-separator=","/>
+
+  <!-- In order to use a custom decimal format, you must define one in a
+       stylesheet that imports this one, e.g.:
+
+       <xsl:decimal-format name="custom" decimal-separator="," grouping-separator="."/>
+
+       Then define these params:
+
+       <xsl:param name="quantity.decimal.format">custom</xsl:param>
+       <xsl:param name="quantity.decimal.separator">,</xsl:param>
+       <xsl:param name="quantity.grouping.separator">.</xsl:param>
+
+       The decimal and grouping separators must match the ones given for the
+       custom format. -->
 
   <!-- The rules for specifying a format for displaying quantity values and
        tolerances.
@@ -201,22 +222,43 @@
        SI         Système International d'Unites (SI)
                   - Uses comma [,] as the decimal separator
                   - Uses space [ ] as the grouping separator
-                    (currently only when reformat.quantities = custom)
 
        imperial   Imperial
                   - Uses period [.] as the decimal separator
-                  - Uses comma [,] as the grouping separator
-                    (currently only when reformat.quantities = custom) -->
+                  - Uses comma [,] as the grouping separator -->
   <xsl:param name="quantity.decimal.format">SI</xsl:param>
+
+  <xsl:param name="quantity.decimal.separator">
+    <xsl:choose>
+      <xsl:when test="$quantity.decimal.format = 'SI'">
+        <xsl:text>,</xsl:text>
+      </xsl:when>
+      <xsl:when test="$quantity.decimal.format = 'imperial'">
+        <xsl:text>.</xsl:text>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:param>
+
+  <xsl:param name="quantity.grouping.separator">
+    <xsl:choose>
+      <xsl:when test="$quantity.decimal.format = 'SI'">
+        <xsl:text> </xsl:text>
+      </xsl:when>
+      <xsl:when test="$quantity.decimal.format = 'imperial'">
+        <xsl:text>,</xsl:text>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:param>
   
   <!-- The actual format of a quantity value/threshold when
        reformat.quantities = custom, conforming to the chosen rules. This is
        the picture string passed to format-number(). -->
   <xsl:param name="quantity.format">
-    <xsl:choose>
-      <xsl:when test="$quantity.decimal.format = 'SI'">### ##0,#####</xsl:when>
-      <xsl:when test="$quantity.decimal.format = 'imperial'">###,##0.#####</xsl:when>
-    </xsl:choose>
+    <xsl:text>###</xsl:text>
+    <xsl:value-of select="$quantity.grouping.separator"/>
+    <xsl:text>##0</xsl:text>
+    <xsl:value-of select="$quantity.decimal.separator"/>
+    <xsl:text>#####</xsl:text>
   </xsl:param>
 
   <!-- Whether to show content applicability annotations. -->
@@ -3045,18 +3087,109 @@
     <xsl:apply-templates select="@quantityUnitOfMeasure"/>
   </xsl:template>
 
-  <!-- Format xs:decimal value appropriately -->
+  <!-- Generate a new string by repeating $string $count times, optionally
+       delimited by $separator every $group repeats. -->
+  <xsl:template name="repeat.string">
+    <xsl:param name="string"/>
+    <xsl:param name="count"/>
+    <xsl:param name="group"/>
+    <xsl:param name="separator"/>
+    <xsl:if test="$count &gt; 0">
+      <xsl:value-of select="$string"/>
+      <xsl:if test="$group and $count &gt; 1 and $count mod $group = 1">
+        <xsl:value-of select="$separator"/>
+      </xsl:if>
+      <xsl:call-template name="repeat.string">
+        <xsl:with-param name="string" select="$string"/>
+        <xsl:with-param name="count" select="$count - 1"/>
+        <xsl:with-param name="group" select="$group"/>
+        <xsl:with-param name="separator" select="$separator"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
+  <!-- Generate a format-number() format string in order to preserve the
+       leading and trailing 0s in a value. -->
+  <xsl:template name="generate.number.format">
+    <xsl:param name="value" select="."/>
+
+    <!-- Discard the negative sign. -->
+    <xsl:variable name="abs">
+      <xsl:choose>
+        <xsl:when test="starts-with($value, '-')">
+          <xsl:value-of select="substring-after($value, '-')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$value"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="has.decimal" select="contains($abs, '.')"/>
+
+    <!-- Leading 0s
+
+         Use repeat.string to create a string of 0s for as many digits there
+         are before the decimal separator.
+    -->
+    <xsl:call-template name="repeat.string">
+      <xsl:with-param name="string">0</xsl:with-param>
+      <xsl:with-param name="count">
+        <xsl:choose>
+          <xsl:when test="$has.decimal">
+            <xsl:value-of select="string-length(substring-before($abs, '.'))"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="string-length($abs)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:with-param>
+      <xsl:with-param name="group">3</xsl:with-param>
+      <xsl:with-param name="separator">
+        <xsl:value-of select="$quantity.grouping.separator"/>
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <!-- Trailing 0s
+
+         Use repeat.string to create a string of 0s for as many digits there
+         are after the decimal separator.
+    -->
+    <xsl:if test="$has.decimal">
+      <xsl:value-of select="$quantity.decimal.separator"/>
+      <xsl:call-template name="repeat.string">
+        <xsl:with-param name="string">0</xsl:with-param>
+        <xsl:with-param name="count" select="string-length(substring-after($value, '.'))"/>
+      </xsl:call-template>
+    </xsl:if>
+
+  </xsl:template>
+
+  <!-- Format xs:decimal value appropriately. -->
   <xsl:template name="format.quantity.value">
     <xsl:param name="value" select="."/>
     <xsl:choose>
+      <!-- NONE: Show xs:decimal value exactly as written. -->
+      <xsl:when test="$reformat.quantities = 'none'">
+        <xsl:value-of select="$value"/>
+      </xsl:when>
+      <!-- BASIC: Convert . in xs:decimal value to the appropriate separator -->
+      <xsl:when test="$reformat.quantities = 'basic'">
+        <xsl:value-of select="translate($value, '.', $quantity.decimal.separator)"/>
+      </xsl:when>
+      <!-- CUSTOM: Use $quantity.format to format all values universally. -->
       <xsl:when test="$reformat.quantities = 'custom'">
         <xsl:value-of select="format-number($value, $quantity.format, $quantity.decimal.format)"/>
       </xsl:when>
-      <xsl:when test="$reformat.quantities = 'basic' and $quantity.decimal.format = 'SI'">
-        <xsl:value-of select="translate($value, '.', ',')"/>
-      </xsl:when>
+      <!-- NORMAL: Dynamically generate a format string for each value so that
+           leading/trailing zeroes are preserved. -->
       <xsl:otherwise>
-        <xsl:value-of select="$value"/>
+        <xsl:variable name="format">
+          <xsl:call-template name="generate.number.format">
+            <xsl:with-param name="value" select="$value"/>
+          </xsl:call-template>
+        </xsl:variable>
+        <xsl:value-of select="format-number($value, $format, $quantity.decimal.format)"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>

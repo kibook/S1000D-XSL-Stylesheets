@@ -233,12 +233,31 @@ the publication module.
 quantity.decimal.format  
 The format to use when presenting quantity values.
 
+-   "SI" - comma for decimal separator, space for grouping (default)
+
+-   "imperial" - period for decimal separator, comma for grouping
+
+quantity.decimal.separator  
+Decimal separator in formatted quantity values.
+
 quantity.format  
 The picture string passed to format-number() when reformat.quantities =
 custom.
 
+quantity.grouping.separator  
+Grouping separator in formatted quantity values.
+
 reformat.quantities  
 Controls whether and how quantities are reformatted for presentation.
+
+-   "normal" - Use appropriate decimal separator, add thousands
+    separators, preserve leading and trailing zeroes (default).
+
+-   "custom" - Completely reformat all values using the format string
+    $quantity.format. Removes leading and trailing zeroes.
+
+-   "basic" - Use the appropriate decimal separator, preserve leading
+    and trailing zeroes, but do not add thousands separators.
 
 running.pagination  
 Whether to use normal or running pagination.

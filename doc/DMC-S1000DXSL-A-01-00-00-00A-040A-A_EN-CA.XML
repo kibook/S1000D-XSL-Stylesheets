@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="S1000DXSL" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="A"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="06"/>
+        <issueInfo issueNumber="001" inWork="07"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="02" day="12"/>
+        <issueDate year="2019" month="03" day="19"/>
         <dmTitle>
           <techName>s1kd2pdf(1) | S1000D XSL Stylesheets</techName>
         </dmTitle>
@@ -439,6 +439,22 @@ version="1.0">
               <listItemTerm>quantity.decimal.format</listItemTerm>
               <listItemDefinition>
                 <para>The format to use when presenting quantity values.</para>
+                <para>
+                  <randomList>
+                    <listItem>
+                      <para>"SI" - comma for decimal separator, space for grouping (default)</para>
+                    </listItem>
+                    <listItem>
+                      <para>"imperial" - period for decimal separator, comma for grouping</para>
+                    </listItem>
+                  </randomList>
+                </para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>quantity.decimal.separator</listItemTerm>
+              <listItemDefinition>
+                <para>Decimal separator in formatted quantity values.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -448,9 +464,28 @@ version="1.0">
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
+              <listItemTerm>quantity.grouping.separator</listItemTerm>
+              <listItemDefinition>
+                <para>Grouping separator in formatted quantity values.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
               <listItemTerm>reformat.quantities</listItemTerm>
               <listItemDefinition>
                 <para>Controls whether and how quantities are reformatted for presentation.</para>
+                <para>
+                  <randomList>
+                    <listItem>
+                      <para>"normal" - Use appropriate decimal separator, add thousands separators, preserve leading and trailing zeroes (default).</para>
+                    </listItem>
+                    <listItem>
+                      <para>"custom" - Completely reformat all values using the format string $quantity.format. Removes leading and trailing zeroes.</para>
+                    </listItem>
+                    <listItem>
+                      <para>"basic" - Use the appropriate decimal separator, preserve leading and trailing zeroes, but do not add thousands separators.</para>
+                    </listItem>
+                  </randomList>
+                </para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
