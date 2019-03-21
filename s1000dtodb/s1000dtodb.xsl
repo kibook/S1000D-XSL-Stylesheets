@@ -3078,13 +3078,13 @@
       <xsl:when test="@quantityGroupType = 'minimum'">
         <xsl:choose>
           <xsl:when test="following-sibling::quantityGroup">from </xsl:when>
-          <xsl:otherwise>at least </xsl:otherwise>
+          <xsl:otherwise>a minimum of </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
       <xsl:when test="@quantityGroupType = 'maximum'">
         <xsl:choose>
           <xsl:when test="preceding-sibling::quantityGroup"> to </xsl:when>
-          <xsl:otherwise>up to </xsl:otherwise>
+          <xsl:otherwise>a maximum of </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
     </xsl:choose>
