@@ -3075,8 +3075,18 @@
 
   <xsl:template match="quantityGroup">
     <xsl:choose>
-      <xsl:when test="@quantityGroupType = 'minimum'">from </xsl:when>
-      <xsl:when test="@quantityGroupType = 'maximum'"> to </xsl:when>
+      <xsl:when test="@quantityGroupType = 'minimum'">
+        <xsl:choose>
+          <xsl:when test="following-sibling::quantityGroup">from </xsl:when>
+          <xsl:otherwise>at least </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="@quantityGroupType = 'maximum'">
+        <xsl:choose>
+          <xsl:when test="preceding-sibling::quantityGroup"> to </xsl:when>
+          <xsl:otherwise>up to </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
     </xsl:choose>
     <xsl:for-each select="quantityValue|quantityTolerance">
       <xsl:if test="position() != 1">
