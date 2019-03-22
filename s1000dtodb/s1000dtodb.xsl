@@ -198,12 +198,13 @@
 
   <!-- Standard decimal formats -->
   <xsl:decimal-format name="SI" decimal-separator="," grouping-separator=" "/>
+  <xsl:decimal-format name="euro" decimal-separator="," grouping-separator="."/>
   <xsl:decimal-format name="imperial" decimal-separator="." grouping-separator=","/>
 
   <!-- In order to use a custom decimal format, you must define one in a
        stylesheet that imports this one, e.g.:
 
-       <xsl:decimal-format name="custom" decimal-separator="," grouping-separator="."/>
+       <xsl:decimal-format name="custom" decimal-separator="," grouping-separator="_"/>
 
        Then define these params:
 
@@ -223,6 +224,10 @@
                   - Uses comma [,] as the decimal separator
                   - Uses space [ ] as the grouping separator
 
+       euro       Common European conventions
+                  - Uses comma [,] as the decimal separator
+                  - Uses period [.] as the grouping separator
+
        imperial   Imperial
                   - Uses period [.] as the decimal separator
                   - Uses comma [,] as the grouping separator -->
@@ -231,6 +236,9 @@
   <xsl:param name="quantity.decimal.separator">
     <xsl:choose>
       <xsl:when test="$quantity.decimal.format = 'SI'">
+        <xsl:text>,</xsl:text>
+      </xsl:when>
+      <xsl:when test="$quantity.decimal.format = 'euro'">
         <xsl:text>,</xsl:text>
       </xsl:when>
       <xsl:when test="$quantity.decimal.format = 'imperial'">
@@ -243,6 +251,9 @@
     <xsl:choose>
       <xsl:when test="$quantity.decimal.format = 'SI'">
         <xsl:text> </xsl:text>
+      </xsl:when>
+      <xsl:when test="$quantity.decimal.format = 'euro'">
+        <xsl:text>.</xsl:text>
       </xsl:when>
       <xsl:when test="$quantity.decimal.format = 'imperial'">
         <xsl:text>,</xsl:text>
