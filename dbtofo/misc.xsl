@@ -15,6 +15,7 @@
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
   xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0"
   xmlns:rx="http://www.renderx.com/XSL/Extensions"
+  xmlns:bc="http://barcode4j.krysalis.org/ns"
   version="1.0">
   
   <!-- misc elements ***************************************************** -->
@@ -25,8 +26,8 @@
     </fo:inline>
   </xsl:template>
 
-  <xsl:template match="fo:*|rx:*">
-    <xsl:element name="{name()}">
+  <xsl:template match="fo:*|rx:*|bc:*">
+    <xsl:element name="{name()}" namespace="{namespace-uri()}">
       <xsl:copy-of select="@*"/>
       <xsl:apply-templates/>
     </xsl:element>

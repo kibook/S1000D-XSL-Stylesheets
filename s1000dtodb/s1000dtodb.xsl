@@ -15,6 +15,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
   xmlns:mml="http://www.w3.org/1998/Math/MathML"
+  xmlns:bc="http://barcode4j.krysalis.org/ns"
   version="1.0">
   
   <!-- When set, adds the "Printed $date.time" statement to the left margin. -->
@@ -315,6 +316,15 @@
        scale of the illustration. -->
   <xsl:param name="title.page.illustration.scale"/>
 
+  <!-- Generate a barcode for the auto-generated title page with this value. -->
+  <xsl:param name="title.page.barcode.value"/>
+  <!-- The type of barcode to generate. Default is Code 128. -->
+  <xsl:param name="title.page.barcode.symbology">datamatrix</xsl:param>
+
+  <!-- Generate a barcode for a front matter title page DM using the
+       @barCodeValue and @barCodeSymbology. -->
+  <xsl:param name="generate.barcode">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -389,7 +399,7 @@
   </xsl:template>
 
   <xsl:template match="fo:*">
-    <xsl:element name="{name()}">
+    <xsl:element name="{name()}" namespace="{namespace-uri()}">
       <xsl:copy-of select="@*"/>
       <xsl:apply-templates/>
     </xsl:element>
@@ -2666,7 +2676,23 @@
               <fo:table-cell>
                 <fo:block-container height="35mm" display-align="after">
                   <fo:block text-align="right">
-                    <xsl:apply-templates select="$barCode/barCodeSymbol"/>
+                    <xsl:choose>
+                      <xsl:when test="$title.page.barcode.value">
+                        <xsl:call-template name="gen.barcode">
+                          <xsl:with-param name="value" select="$title.page.barcode.value"/>
+                          <xsl:with-param name="symbology" select="$title.page.barcode.symbology"/>
+                        </xsl:call-template>
+                      </xsl:when>
+                      <xsl:when test="$barCode/barCodeSymbol">
+                        <xsl:apply-templates select="$barCode/barCodeSymbol"/>
+                      </xsl:when>
+                      <xsl:when test="$generate.barcode != 0 and $barCode">
+                        <xsl:call-template name="gen.barcode">
+                          <xsl:with-param name="value" select="$barCode/barCodeCode/@barCodeValue"/>
+                          <xsl:with-param name="symbology" select="$barCode/barCodeCode/@barCodeSymbology"/>
+                        </xsl:call-template>
+                      </xsl:when>
+                    </xsl:choose>
                   </fo:block>
                 </fo:block-container>
               </fo:table-cell>
@@ -2682,6 +2708,18 @@
         </xsl:if>
       </fo:block>
     </fo:block>
+  </xsl:template>
+
+  <xsl:template name="gen.barcode">
+    <xsl:param name="value"/>
+    <xsl:param name="symbology"/>
+    <fo:instream-foreign-object>
+      <bc:barcode message="{$value}">
+        <xsl:call-template name="bar.code.symbology">
+          <xsl:with-param name="value" select="$symbology"/>
+        </xsl:call-template>
+      </bc:barcode>
+    </fo:instream-foreign-object>
   </xsl:template>
 
   <xsl:template name="logo.and.company">

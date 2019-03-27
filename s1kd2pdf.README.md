@@ -137,6 +137,10 @@ front.matter.info.codes
 Descriptive data modules with any of these info codes are presented as
 front matter.
 
+generate.barcode  
+Use the barCodeCode element of the title page to generate a barcode
+graphic using Barcode4j if no barCodeSymbol element is included.
+
 generate.display.text  
 If set to "0", display text for applicability annotations that have none
 will not be automatically generated, and no annotation will be displayed
@@ -289,6 +293,18 @@ minimal stylesheet, without the standard lists, tables, or headings.
 
 title.fontset  
 Default font for titles.
+
+title.page.barcode.symbology  
+When title.page.barcode.value is specified, this is the type of barcode
+to generate. Can either be one of the S1000D project configurable
+attribute values for barCodeSymbology (e.g., bcs13) or the name of a
+Barcode4j format (e.g., code128).
+
+title.page.barcode.value  
+When this is set, a barcode will be automatically generated for the
+title page using the given value. The type of barcode can be specified
+with title.page.barcode.symbology. If using a frontmatter schema title
+page, this will override the barCode element.
 
 title.page.illustration  
 Product illustration to show on the title page. Can be used to provide

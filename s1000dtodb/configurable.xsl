@@ -3,6 +3,7 @@
   xmlns="http://docbook.org/ns/docbook"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
+  xmlns:bc="http://barcode4j.krysalis.org/ns"
   version="1.0">
 
   <!-- This file contains templates for elements with project configurable
@@ -591,6 +592,105 @@
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>CLASSIFIED: <xsl:value-of select="@securityClassification"/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- Barcode configurations for Barcode4j
+
+       "bcs01"            Codabar
+       "bcs02"            Code 11
+       "bcs03"            EAN-13
+       "bcs04"            EAN-8
+       "bcs05"            Industrial 2 of 5
+       "bcs06"            Interleaved 2 of 5
+       "bcs07"            MSI
+       "bcs08"            Plessey
+       "bcs09"            POSTNET
+       "bcs10"            UPC-A
+       "bcs11"            Standard 2 of 5
+       "bcs12"            UPC-E
+       "bcs13"            Code 128
+       "bcs14"            Code 39
+       "bcs15"            Code 93
+       "bcs16"            LOGMARS
+       "bcs17"            PDF417
+       "bcs18"            DataMatrix
+       "bcs19"            Maxicode
+       "bcs20"            QR Code
+       "bcs21"            Data Code
+       "bcs22"            Code 49
+       "bcs23"            16K
+       "bcs24"            Bookland EAN
+       "bcs25"            ISSN and the SISAC Barcode
+       "bcs26"            OPC
+       "bcs27"            UCC/EAN-128
+       "bcs28"            UPC Shipping Container Symbol: ITF-14
+       "bcs29"            PLANET
+       "bcs30"            Intelligent Mail (USPS4CB)
+       "bcs51" - "bcs99"  Available for projects -->
+  <xsl:template name="bar.code.symbology">
+    <xsl:param name="value"/>
+    <xsl:choose>
+      <xsl:when test="$value = 'bcs01'">
+        <bc:codabar/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs03'">
+        <bc:ean-13/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs04'">
+        <bc:ean-8/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs06'">
+        <bc:intl2of5/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs09'">
+        <bc:postnet/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs10'">
+        <bc:upc-a/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs12'">
+        <bc:upc-e/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs13'">
+        <bc:code128/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs14'">
+        <bc:code39/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs16'">
+        <bc:code39/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs17'">
+        <bc:pdf417/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs18'">
+        <bc:datamatrix/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs21'">
+        <bc:datamatrix/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs24'">
+        <bc:ean-13/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs25'">
+        <bc:ean-13/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs26'">
+        <bc:intl2of5/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs27'">
+        <bc:ean-128/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs28'">
+        <bc:itf-14/>
+      </xsl:when>
+      <xsl:when test="$value = 'bcs30'">
+        <bc:usps4cb/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:element name="{$value}" namespace="http://barcode4j.krysalis.org/ns"/>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
