@@ -2584,8 +2584,9 @@
     <xsl:param name="enterpriseLogo" select="enterpriseLogo"/>
     <xsl:param name="frontMatterInfo" select="frontMatterInfo"/>
     <xsl:param name="barCode" select="barCode"/>
-    <xsl:variable name="policyStatement" select="$dataRestrictions/policyStatement"/>
-    <xsl:variable name="dataConds" select="$dataRestrictions/dataConds"/>
+    <xsl:variable name="policyStatement" select="$dataRestrictions/restrictionInfo/policyStatement"/>
+    <xsl:variable name="dataConds" select="$dataRestrictions/restrictionInfo/dataConds"/>
+    <xsl:variable name="instructions" select="$dataRestrictions/restrictionInstructions/*[node()]"/>
     <fo:block start-indent="0pt">
       <fo:block font-weight="bold">
         <fo:block-container height="20mm">
@@ -2699,10 +2700,11 @@
             </fo:table-row>
           </fo:table-body>
         </fo:table>
-        <xsl:if test="$policyStatement or $dataConds or $frontMatterInfo">
+        <xsl:if test="$policyStatement or $dataConds or $instructions or $frontMatterInfo">
           <fo:block page-break-before="always">
             <xsl:apply-templates select="$policyStatement"/>
             <xsl:apply-templates select="$dataConds"/>
+            <xsl:apply-templates select="$instructions"/>
             <xsl:apply-templates select="$frontMatterInfo"/>
           </fo:block>
         </xsl:if>
@@ -2790,22 +2792,18 @@
     <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="copyrightPara">
-    <fo:block>
+  <xsl:template match="copyrightPara|policyStatement|dataConds|dataDistribution|dataHandling|dataDestruction|dataDisclosure|supersedure">
+    <para>
       <xsl:apply-templates/>
-    </fo:block>
+    </para>
   </xsl:template>
 
-  <xsl:template match="policyStatement">
-    <fo:block>
-      <xsl:apply-templates/>
-    </fo:block>
+  <xsl:template match="exportControl">
+    <xsl:apply-templates select="exportRegistrationStmt"/>
   </xsl:template>
 
-  <xsl:template match="dataConds">
-    <fo:block>
-      <xsl:apply-templates/>
-    </fo:block>
+  <xsl:template match="exportRegistrationStmt">
+    <xsl:apply-templates select="simplePara"/>
   </xsl:template>
 
   <xsl:template match="frontMatterInfo">
