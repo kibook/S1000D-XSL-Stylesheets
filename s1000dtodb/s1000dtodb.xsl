@@ -325,6 +325,16 @@
        @barCodeValue and @barCodeSymbology. -->
   <xsl:param name="generate.barcode">0</xsl:param>
 
+  <!-- Whether to allow inline captions.
+
+       Certain features of captions, such as width, height, and multiple lines,
+       are not yet supported when the caption must appear inline. If this is
+       set to 1, these may be ignored or not handled as expected.
+
+       When this is set to 0, captions that would appear inline with text will
+       be broken out in to their own block instead. -->
+  <xsl:param name="inline.captions">0</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -3096,19 +3106,130 @@
     </informalequation>
   </xsl:template>
 
-  <xsl:template match="caption">
-    <fo:inline border="solid 1px black">
+  <xsl:template match="caption" mode="block">
+    <fo:block-container display-align="center" border="solid 1px black">
+      <xsl:apply-templates select="@captionWidth|@captionHeight"/>
       <xsl:attribute name="background-color">
         <xsl:apply-templates select="@color"/>
       </xsl:attribute>
       <xsl:attribute name="color">
         <xsl:apply-templates select="@color" mode="text.color"/>
       </xsl:attribute>
-      <xsl:apply-templates select="captionLine"/>
+      <fo:block start-indent="0pt">
+        <xsl:attribute name="text-align">
+          <xsl:call-template name="align.caption"/>
+        </xsl:attribute>
+        <xsl:for-each select="captionLine">
+          <fo:block>
+            <xsl:apply-templates/>
+          </fo:block>
+        </xsl:for-each>
+      </fo:block>
+    </fo:block-container>
+  </xsl:template>
+
+  <xsl:template match="caption" mode="inline">
+    <fo:inline border="solid 1px black" padding="0.5mm">
+      <xsl:attribute name="background-color">
+        <xsl:apply-templates select="@color"/>
+      </xsl:attribute>
+      <xsl:attribute name="color">
+        <xsl:apply-templates select="@color" mode="text.color"/>
+      </xsl:attribute>
+      <xsl:for-each select="captionLine">
+        <xsl:apply-templates/>
+        <xsl:if test="position() != last()">
+          <xsl:text> </xsl:text>
+        </xsl:if>
+      </xsl:for-each>
     </fo:inline>
   </xsl:template>
 
-  <xsl:template match="captionLine">
+  <xsl:template match="caption">
+    <xsl:choose>
+      <xsl:when test="parent::para or parent::title">
+        <xsl:choose>
+          <xsl:when test="$inline.captions = 0">
+            <xsl:apply-templates select="." mode="block"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="." mode="inline"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <para>
+          <xsl:apply-templates select="." mode="block"/>
+        </para>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="@captionWidth">
+    <xsl:attribute name="width">
+      <xsl:apply-templates/>
+    </xsl:attribute>
+  </xsl:template>
+
+  <xsl:template match="@captionHeight">
+    <xsl:attribute name="height">
+      <xsl:apply-templates/>
+    </xsl:attribute>
+  </xsl:template>
+
+  <xsl:template name="align.caption">
+    <xsl:variable name="value" select="@alignCaption|@alignCaptionEntry"/>
+    <xsl:choose>
+      <xsl:when test="$value = 'left'">left</xsl:when>
+      <xsl:when test="$value = 'right'">right</xsl:when>
+      <xsl:otherwise>center</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="valign.caption">
+    <xsl:choose>
+      <xsl:when test="@valign = 'top'">top</xsl:when>
+      <xsl:when test="@valign = 'bottom'">bottom</xsl:when>
+      <xsl:otherwise>middle</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="captionGroup">
+    <informaltable frame="none" rowsep="0" colsep="0">
+      <tgroup>
+        <xsl:copy-of select="@cols|@colsep|@rowsep"/>
+        <xsl:apply-templates/>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template match="captionBody">
+    <tbody>
+      <xsl:apply-templates/>
+    </tbody>
+  </xsl:template>
+
+  <xsl:template match="captionRow">
+    <row>
+      <xsl:copy-of select="@rowsep"/>
+      <xsl:apply-templates/>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="captionEntry">
+    <entry>
+      <xsl:copy-of select="@colname|@colsep|@morerows|@namest|@nameend|@rowsep|@spanname"/>
+      <xsl:attribute name="align">
+        <xsl:call-template name="align.caption"/>
+      </xsl:attribute>
+      <xsl:attribute name="valign">
+        <xsl:call-template name="valign.caption"/>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </entry>
+  </xsl:template>
+
+  <xsl:template match="captionText">
     <xsl:apply-templates/>
   </xsl:template>
 
