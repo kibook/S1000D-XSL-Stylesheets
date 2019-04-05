@@ -2196,12 +2196,30 @@
               </row>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:apply-templates select="$all.dmodules" mode="highlights"/>
+              <xsl:apply-templates select="$pm/content/pmEntry" mode="highlights"/>
             </xsl:otherwise>
           </xsl:choose>
         </tbody>
       </tgroup>
     </informaltable>
+  </xsl:template>
+
+  <xsl:template match="pmEntry" mode="highlights">
+    <xsl:apply-templates select="pmEntry|dmRef|dmodule" mode="highlights"/>
+  </xsl:template>
+
+  <xsl:template match="dmRef" mode="highlights">
+    <xsl:variable name="dm.ref.dm.code">
+      <xsl:apply-templates select="dmRefIdent/dmCode"/>
+    </xsl:variable>
+    <xsl:for-each select="$all.dmodules">
+      <xsl:variable name="dm.code">
+        <xsl:call-template name="get.dmcode"/>
+      </xsl:variable>
+      <xsl:if test="$dm.ref.dm.code = $dm.code">
+        <xsl:apply-templates select="." mode="highlights"/>
+      </xsl:if>
+    </xsl:for-each>
   </xsl:template>
 
   <xsl:template match="dmodule" mode="highlights">
