@@ -3150,7 +3150,9 @@
       <xsl:when test="parent::para or parent::title">
         <xsl:choose>
           <xsl:when test="$inline.captions = 0">
-            <xsl:apply-templates select="." mode="block"/>
+            <informalfigure>
+              <xsl:apply-templates select="." mode="block"/>
+            </informalfigure>
           </xsl:when>
           <xsl:otherwise>
             <xsl:apply-templates select="." mode="inline"/>
