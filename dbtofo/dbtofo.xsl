@@ -40,7 +40,7 @@
        is the infoName, or techName if there is no infoName. -->
   <xsl:param name="include.title.in.toc">1</xsl:param>
   
-  <xsl:param name="s1000d.xsl.version">V1.3.32 (04-04-2019)</xsl:param>
+  <xsl:param name="s1000d.xsl.version">V1.3.33 (04-04-2019)</xsl:param>
   
   <xsl:param name="creator.tool">
     <xsl:text>S1000D XSL </xsl:text>

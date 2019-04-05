@@ -3180,19 +3180,11 @@
   </xsl:template>
 
   <xsl:template name="align.caption">
-    <xsl:variable name="value" select="@alignCaption|@alignCaptionEntry"/>
+    <xsl:variable name="value" select="@alignCaption"/>
     <xsl:choose>
       <xsl:when test="$value = 'left'">left</xsl:when>
       <xsl:when test="$value = 'right'">right</xsl:when>
       <xsl:otherwise>center</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
-  <xsl:template name="valign.caption">
-    <xsl:choose>
-      <xsl:when test="@valign = 'top'">top</xsl:when>
-      <xsl:when test="@valign = 'bottom'">bottom</xsl:when>
-      <xsl:otherwise>middle</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
@@ -3220,15 +3212,16 @@
 
   <xsl:template match="captionEntry">
     <entry>
-      <xsl:copy-of select="@colname|@colsep|@morerows|@namest|@nameend|@rowsep|@spanname"/>
-      <xsl:attribute name="align">
-        <xsl:call-template name="align.caption"/>
-      </xsl:attribute>
-      <xsl:attribute name="valign">
-        <xsl:call-template name="valign.caption"/>
-      </xsl:attribute>
+      <xsl:copy-of select="@colname|@colsep|@morerows|@namest|@nameend|@rowsep|@spanname|@valign"/>
+      <xsl:apply-templates select="@alignCaptionEntry"/>
       <xsl:apply-templates/>
     </entry>
+  </xsl:template>
+
+  <xsl:template match="@alignCaptionEntry">
+    <xsl:attribute name="align">
+      <xsl:apply-templates/>
+    </xsl:attribute>
   </xsl:template>
 
   <xsl:template match="captionText">
