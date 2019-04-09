@@ -33,7 +33,6 @@
     <xsl:attribute name="border-start-style"><xsl:value-of select="$change.bar.style"/></xsl:attribute>
     <xsl:attribute name="border-start-width"><xsl:value-of select="$change.bar.width"/></xsl:attribute>
     <xsl:attribute name="padding-start">23mm</xsl:attribute>
-    <xsl:attribute name="space-before">8pt</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:template name="make.change.bar">
@@ -56,14 +55,16 @@
           <xsl:choose>
             <xsl:when test="@revisionflag = 'deleted'">
               <xsl:if test="$hide.deleted.content = 0">
-                <fo:block text-decoration="line-through" color="red">
+                <fo:block text-decoration="line-through" color="red" xsl:use-attribute-sets="normal.para.spacing">
                   <xsl:copy-of select="$content"/>
                 </fo:block>
               </xsl:if>
             </xsl:when>
             <xsl:otherwise>
-              <fo:block xsl:use-attribute-sets="custom.change.bar.attributes">
-                <xsl:copy-of select="$content"/>
+              <fo:block xsl:use-attribute-sets="normal.para.spacing">
+                <fo:block xsl:use-attribute-sets="custom.change.bar.attributes">
+                  <xsl:copy-of select="$content"/>
+                </fo:block>
               </fo:block>
             </xsl:otherwise>
           </xsl:choose>
@@ -82,9 +83,20 @@
   </xsl:template>
 
   <xsl:template match="d:phrase[@revisionflag]">
-    <fo:inline color="green">
-      <xsl:apply-imports/>
-    </fo:inline>
+    <xsl:choose>
+      <xsl:when test="@revisionflag = 'deleted'">
+        <xsl:if test="$hide.deleted.content = 0">
+          <fo:inline text-decoration="line-through" color="red">
+            <xsl:apply-imports/>
+          </fo:inline>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <fo:inline color="green">
+          <xsl:apply-imports/>
+        </fo:inline>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
