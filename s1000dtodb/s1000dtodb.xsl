@@ -3200,9 +3200,10 @@
   <xsl:template name="align.caption">
     <xsl:variable name="value" select="@alignCaption"/>
     <xsl:choose>
-      <xsl:when test="$value = 'left'">left</xsl:when>
-      <xsl:when test="$value = 'right'">right</xsl:when>
-      <xsl:otherwise>center</xsl:otherwise>
+      <xsl:when test="$value">
+        <xsl:value-of select="$value"/>
+      </xsl:when>
+      <xsl:otherwise>left</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
