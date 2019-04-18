@@ -74,6 +74,9 @@
       <reasonForUpdate id="rfu-0012" updateReasonType="urt02">
         <simplePara>Add generate.barcode, title.page.barcode.value, and title.page.barcode.symbology parameters.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0013" updateReasonType="urt02">
+        <simplePara>Add applic.prefix parameter.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -170,6 +173,12 @@ version="1.0">
         <para>The following parameters can be supplied at the end of the command with the -param or -stringparam flags to customize the PDF output:</para>
         <para>
           <definitionList>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0013">
+              <listItemTerm>applic.prefix</listItemTerm>
+              <listItemDefinition>
+                <para>The prefix before applicability annotations. Default is "Applicable to: ".</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>auto.expand.acronyms</listItemTerm>
               <listItemDefinition changeType="modify" reasonForUpdateRefIds="rfu-0001">

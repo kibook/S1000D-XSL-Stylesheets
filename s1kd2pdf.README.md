@@ -81,6 +81,10 @@ PARAMETERS
 The following parameters can be supplied at the end of the command with
 the -param or -stringparam flags to customize the PDF output:
 
+applic.prefix  
+The prefix before applicability annotations. Default is "Applicable to:
+".
+
 auto.expand.acronyms  
 Choose how to expand acronyms:
 

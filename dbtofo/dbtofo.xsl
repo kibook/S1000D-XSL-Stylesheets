@@ -40,7 +40,7 @@
        is the infoName, or techName if there is no infoName. -->
   <xsl:param name="include.title.in.toc">1</xsl:param>
   
-  <xsl:param name="s1000d.xsl.version">V1.3.36 (10-04-2019)</xsl:param>
+  <xsl:param name="s1000d.xsl.version">V1.3.37 (18-04-2019)</xsl:param>
   
   <xsl:param name="creator.tool">
     <xsl:text>S1000D XSL </xsl:text>
@@ -181,6 +181,8 @@
        1  Hide "deleted" content.
   -->
   <xsl:param name="hide.deleted.content">0</xsl:param>
+
+  <xsl:param name="applic.prefix">Applicable to: </xsl:param>
 
   <xsl:param name="local.l10n.xml" select="document('')"/>
   

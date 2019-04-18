@@ -335,6 +335,8 @@
        be broken out in to their own block instead. -->
   <xsl:param name="inline.captions">0</xsl:param>
 
+  <xsl:param name="applic.prefix">Applicable to: </xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -2891,7 +2893,7 @@
         <xsl:if test="$highlight.applic != 0">
           <xsl:attribute name="color">blue</xsl:attribute>
         </xsl:if>
-        <xsl:text>Applicable to: </xsl:text>
+        <xsl:value-of select="$applic.prefix"/>
         <xsl:choose>
           <xsl:when test="displayText">
             <xsl:apply-templates select="displayText"/>

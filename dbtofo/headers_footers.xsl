@@ -172,7 +172,7 @@
                 <xsl:when test="$sequence = 'first' or $sequence = 'odd'">
                   <fo:block font-size="10pt" font-weight="normal">
                     <xsl:if test="$footer.show.applic != 0">
-                      <xsl:text>Applicable to: </xsl:text>
+                      <xsl:value-of select="$applic.prefix"/>
                       <fo:retrieve-marker retrieve-class-name="chapter.applicability"
                         retrieve-position="first-including-carryover"
                         retrieve-boundary="page-sequence"/>
@@ -205,7 +205,7 @@
                 <xsl:otherwise>
                   <fo:block font-size="10pt" font-weight="normal">
                     <xsl:if test="$footer.show.applic != 0">
-                      <xsl:text>Applicable to: </xsl:text>
+                      <xsl:value-of select="$applic.prefix"/>
                       <fo:retrieve-marker retrieve-class-name="chapter.applicability"
                         retrieve-position="first-including-carryover"
                         retrieve-boundary="page-sequence"/>
