@@ -3052,7 +3052,7 @@
 
     <xsl:if test="$after != ''">
       <xsl:call-template name="apply.delimited.id.refs">
-        <xsl:with-param name="ids" select="$after"/>
+        <xsl:with-param name="refs" select="$after"/>
         <xsl:with-param name="delim" select="$delim"/>
       </xsl:call-template>
     </xsl:if>
