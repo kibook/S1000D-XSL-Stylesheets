@@ -2,9 +2,10 @@
 
 show_help()
 {
-	echo "Usage: s1kd2pdf [-d <dbtofo>] [-o <out>] [-s <s1000dtodb>] <src> [<params>]"
+	echo "Usage: s1kd2pdf [-c <cfg>] [-d <dbtofo>] [-o <out>] [-s <s1000dtodb>] <src> [<params>]"
 	echo
 	echo "Options:"
+	echo "  -c <cfg>         Specify a FOP XML configuration file."
 	echo "  -D               Create template for -d option."
 	echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
 	echo "  -F               Output XSL-FO instead of PDF."
@@ -18,11 +19,14 @@ show_help()
 	echo "  s1kd2pdf -o test.pdf test.xml -param show.unclassified 0 -stringparam publication.code 'Test'"
 }
 
+FOP_CONFIG=/etc/fop.xml
+
 dir="$(dirname $(dirname "$0"))/share/xml/s1000d/stylesheet/S1000D-XSL-Stylesheets"
 s2d="$dir/s1000dtodb/s1000dtodb.xsl"
 d2f="$dir/dbtofo/dbtofo.xsl"
 fmt=pdf
 out=
+cfg=
 
 custom_s1000dtodb()
 {
@@ -44,9 +48,12 @@ custom_dbtofo()
 	EOF
 }
 
-while getopts Dd:Fo:Ss:h? opt
+while getopts c:Dd:Fo:Ss:h? opt
 do
 	case $opt in
+		c)
+			cfg="$OPTARG"
+			;;
 		D)
 			custom_dbtofo
 			exit
@@ -84,11 +91,24 @@ then
 	out="$(echo "$src"|rev|cut -d. -f2-|rev).$fmt"
 fi
 
+# Use the global FOP config if -c is not specified
+if test -z "$cfg" -a -e "$FOP_CONFIG"
+then
+	cfg="$FOP_CONFIG"
+fi
+
+args=
+
+if test -n "$cfg"
+then
+	args="$args -c $cfg"
+fi
+
 case $fmt in
 	pdf)
 		xsltproc --xinclude "$@" "$s2d" "$src" |
 		xsltproc --xinclude -param fop1.extensions 1 "$@" "$d2f" - |
-		fop -c /etc/fop.xml - "$out"
+		fop $args - "$out"
 		;;
 	fo)
 		xsltproc --xinclude "$@" "$s2d" "$src" |

@@ -77,6 +77,9 @@
       <reasonForUpdate id="rfu-0013" updateReasonType="urt02">
         <simplePara>Add applic.prefix parameter.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0014" updateReasonType="urt02">
+        <simplePara>Add -c option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -88,7 +91,8 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs23" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0005 rfu-0006 rfu-0007">s1kd2pdf [-s &lt;XSL&gt;] [-d &lt;XSL&gt;] [-o &lt;out&gt;] [-DFSh?] &lt;src&gt; [&lt;param&gt;...]</verbatimText>
+          <verbatimText verbatimStyle="vs23" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0005 rfu-0006 rfu-0007 rfu-0014"><![CDATA[s1kd2pdf [-c <CFG>] [-s <XSL>] [-d <XSL>] [-o <out>] [-DFSh?] <src>
+         [<param>...]]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -99,6 +103,12 @@
         <title>OPTIONS</title>
         <para>
           <definitionList>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0014">
+              <listItemTerm>-c &lt;CFG&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Specify a FOP XML configuration file. By default, /etc/fop.xml will be used (if it exists).</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0005">
               <listItemTerm>-D</listItemTerm>
               <listItemDefinition>

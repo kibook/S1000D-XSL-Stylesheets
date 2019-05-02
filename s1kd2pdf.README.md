@@ -6,7 +6,8 @@ s1kd2pdf - Create a PDF from S1000D data
 SYNOPSIS
 ========
 
-    s1kd2pdf [-s <XSL>] [-d <XSL>] [-o <out>] [-DFSh?] <src> [<param>...]
+    s1kd2pdf [-c <CFG>] [-s <XSL>] [-d <XSL>] [-o <out>] [-DFSh?] <src>
+             [<param>...]
 
 DESCRIPTION
 ===========
@@ -16,6 +17,10 @@ publications using the S1000D XSL Stylesheets, xsltproc, and Apache FOP.
 
 OPTIONS
 =======
+
+-c &lt;CFG&gt;  
+Specify a FOP XML configuration file. By default, /etc/fop.xml will be
+used (if it exists).
 
 -D  
 Generate template XSLT for a custom DocBook-to-FO stylesheet (-d).

@@ -9,7 +9,8 @@ s1kd2pdf \- Create a PDF from S1000D data
 .IP
 .nf
 \f[C]
-s1kd2pdf\ [\-s\ <XSL>]\ [\-d\ <XSL>]\ [\-o\ <out>]\ [\-DFSh?]\ <src>\ [<param>...]
+s1kd2pdf\ [\-c\ <CFG>]\ [\-s\ <XSL>]\ [\-d\ <XSL>]\ [\-o\ <out>]\ [\-DFSh?]\ <src>
+\ \ \ \ \ \ \ \ \ [<param>...]
 \f[]
 .fi
 .SH DESCRIPTION
@@ -18,6 +19,12 @@ The \f[I]s1kd2pdf\f[] command will create a PDF from S1000D data modules
 or publications using the S1000D XSL Stylesheets, xsltproc, and Apache
 FOP.
 .SH OPTIONS
+.TP
+.B \-c <CFG>
+Specify a FOP XML configuration file.
+By default, /etc/fop.xml will be used (if it exists).
+.RS
+.RE
 .TP
 .B \-D
 Generate template XSLT for a custom DocBook\-to\-FO stylesheet (\-d).
