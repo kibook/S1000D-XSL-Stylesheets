@@ -1121,6 +1121,7 @@
       <xsl:when test="$hide.empty.proced.rqmts = 0">
         <xsl:apply-templates select="reqCondGroup"/>
         <xsl:apply-templates select="reqPersons"/>
+        <xsl:apply-templates select="reqTechInfoGroup"/>
         <xsl:apply-templates select="reqSupportEquips"/>
         <xsl:apply-templates select="reqSupplies"/>
         <xsl:apply-templates select="reqSpares"/>
@@ -1129,6 +1130,7 @@
       <xsl:otherwise>
         <xsl:apply-templates select="reqCondGroup[not(noConds)]"/>
         <xsl:apply-templates select="reqPersons"/>
+        <xsl:apply-templates select="reqTechInfoGroup"/>
         <xsl:apply-templates select="reqSupportEquips[not(noSupportEquips)]"/>
         <xsl:apply-templates select="reqSupplies[not(noSupplies)]"/>
         <xsl:apply-templates select="reqSpares[not(noSpares)]"/>
@@ -1247,6 +1249,14 @@
   <xsl:template match="externalPubTitle">
     <xsl:apply-templates/>
   </xsl:template>
+
+  <xsl:template match="externalPubIssueInfo">
+    <xsl:apply-templates select="externalPubIssue"/>
+  </xsl:template>
+
+  <xsl:template match="externalPubIssue">
+    <xsl:apply-templates/>
+  </xsl:template>
   
   <xsl:template match="estimatedTime">
     <xsl:apply-templates/>
@@ -1353,6 +1363,47 @@
 
   <xsl:template match="remarks">
     <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="reqTechInfoGroup">
+    <bridgehead renderas="sidehead0">Required technical information</bridgehead>
+    <table pgwide="1" frame="topbot" colsep="0">
+      <title>Required technical information</title>
+      <tgroup cols="3" align="left">
+        <colspec colnum="1" colwidth="5*"/>
+        <colspec colnum="2" colwidth="6*"/>
+        <colspec colnum="3" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry>Document No.</entry>
+            <entry>Title</entry>
+            <entry>Category</entry>
+          </row>
+        </thead>
+        <tbody rowsep="0">
+          <xsl:apply-templates select="reqTechInfo"/>
+        </tbody>
+      </tgroup>
+    </table>
+  </xsl:template>
+
+  <xsl:template match="reqTechInfo">
+    <xsl:variable name="issno" select="dmRef/dmRefIdent/issueInfo|pmRef/pmRefAddressItems/issueDate|externalPubRef/externalPubRefIdent/externalPubIssueInfo"/>
+    <row>
+      <entry>
+        <xsl:apply-templates select="dmRef|pmRef|externalPubRef/externalPubRefIdent/externalPubCode"/>
+        <xsl:if test="$issno">
+          <xsl:text> Issno </xsl:text>
+          <xsl:apply-templates select="$issno"/>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:apply-templates select="dmRef/dmRefAddressItems/dmTitle|pmRef/pmRefAddressItems/pmTitle|externalPubRef/externalPubRefIdent/externalPubTitle"/>
+      </entry>
+      <entry>
+        <xsl:apply-templates select="@reqTechInfoCategory"/>
+      </entry>
+    </row>
   </xsl:template>
 
   <xsl:template match="reqSupportEquips">

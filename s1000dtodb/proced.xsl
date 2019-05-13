@@ -58,6 +58,7 @@
         <xsl:apply-templates select="preliminaryRqmts[
           reqCondGroup[not(noConds)] or
           reqPersons or
+          reqTechInfoGroup or
           reqSupportEquips[not(noSupportEquips)] or
           reqSupplies[not(noSupplies)] or
           reqSpares[not(noSpares)] or

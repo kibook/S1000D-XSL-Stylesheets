@@ -694,4 +694,27 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- reqTechInfoCategory
+
+       "ti01"       Publication module
+       "ti02"       Data module
+       "ti03"       Drawing
+       "ti04"       Electrical diagram
+       "ti05"       Schematic diagram
+       "ti06"       Safety sheet
+       "ti51-ti99"  Available for projects -->
+  <xsl:template match="@reqTechInfoCategory">
+    <xsl:choose>
+      <xsl:when test=". = 'ti01'">PM</xsl:when>
+      <xsl:when test=". = 'ti02'">DM</xsl:when>
+      <xsl:when test=". = 'ti03'">Drawing</xsl:when>
+      <xsl:when test=". = 'ti04'">Electrical diagram</xsl:when>
+      <xsl:when test=". = 'ti05'">Schematic diagram</xsl:when>
+      <xsl:when test=". = 'ti06'">Safety sheet</xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>
