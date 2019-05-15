@@ -335,6 +335,7 @@
        be broken out in to their own block instead. -->
   <xsl:param name="inline.captions">0</xsl:param>
 
+  <!-- The prefix to show before applicability annotations. -->
   <xsl:param name="applic.prefix">Applicable to: </xsl:param>
 
   <xsl:output indent="no" method="xml"/>
@@ -1355,10 +1356,31 @@
     <xsl:value-of select="partAndSerialNumber/partNumber"/>
   </xsl:template>
 
+  <xsl:template match="toolRef">
+    <xsl:if test="$part.no.prefix != 0">
+      <xsl:text>Part No. </xsl:text>
+    </xsl:if>
+    <xsl:if test="@manufacturerCodeValue">
+      <xsl:value-of select="@manufacturerCodeValue"/>
+      <xsl:text>/</xsl:text>
+    </xsl:if>
+    <xsl:value-of select="@toolNumber"/>
+  </xsl:template>
+
   <xsl:template match="partRef">
+    <xsl:if test="$part.no.prefix != 0">
+      <xsl:text>Part No. </xsl:text>
+    </xsl:if>
     <xsl:value-of select="@manufacturerCodeValue"/>
     <xsl:text>/</xsl:text>
     <xsl:value-of select="@partNumberValue"/>
+  </xsl:template>
+
+  <xsl:template match="supplyRef">
+    <xsl:if test="$part.no.prefix != 0">
+      <xsl:text>Part No. </xsl:text>
+    </xsl:if>
+    <xsl:value-of select="@supplyNumber"/>
   </xsl:template>
 
   <xsl:template match="remarks">
@@ -1439,20 +1461,26 @@
               <xsl:for-each select="supportEquipDescrGroup/supportEquipDescr">
                 <xsl:variable name="id" select="./@id"/>
                 <xsl:element name="row">
-		  <xsl:element name="entry">
-		    <xsl:if test="./@id">
-		      <xsl:attribute name="xml:id">
-            <xsl:text>ID_</xsl:text>
-		        <xsl:call-template name="get.dmcode"/>
-		        <xsl:text>-</xsl:text>
-		        <xsl:value-of select="$id"/>
-		      </xsl:attribute>
-		    </xsl:if>
-		    <xsl:value-of select="name"/>
-		  </xsl:element>
-                  <entry><xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|toolRef"/></entry>
-                  <entry><xsl:apply-templates select="reqQuantity"/></entry>
-                  <entry><xsl:apply-templates select="remarks"/></entry>
+                  <xsl:element name="entry">
+                    <xsl:if test="./@id">
+                      <xsl:attribute name="xml:id">
+                        <xsl:text>ID_</xsl:text>
+                        <xsl:call-template name="get.dmcode"/>
+                        <xsl:text>-</xsl:text>
+                        <xsl:value-of select="$id"/>
+                      </xsl:attribute>
+                    </xsl:if>
+                    <xsl:value-of select="name"/>
+                  </xsl:element>
+                  <entry>
+                    <xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|toolRef"/>
+                  </entry>
+                  <entry>
+                    <xsl:apply-templates select="reqQuantity"/>
+                  </entry>
+                  <entry>
+                    <xsl:apply-templates select="remarks"/>
+                  </entry>
                 </xsl:element>
               </xsl:for-each>
             </xsl:otherwise>
@@ -1496,19 +1524,25 @@
                 <xsl:variable name="id" select="./@id"/>
                 <xsl:element name="row">
                   <xsl:element name="entry">
-		    <xsl:if test="./@id">
-		      <xsl:attribute name="xml:id">
-            <xsl:text>ID_</xsl:text>
-		        <xsl:call-template name="get.dmcode"/>
-		        <xsl:text>-</xsl:text>
-		        <xsl:value-of select="$id"/>
-		      </xsl:attribute>
-		    </xsl:if>
-		    <xsl:value-of select="name"/>
-		  </xsl:element>
-                  <entry><xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|supplyRqmtRef"/></entry>
-                  <entry><xsl:apply-templates select="reqQuantity"/></entry>
-                  <entry><xsl:apply-templates select="remarks"/></entry>
+                    <xsl:if test="./@id">
+                      <xsl:attribute name="xml:id">
+                        <xsl:text>ID_</xsl:text>
+                        <xsl:call-template name="get.dmcode"/>
+                        <xsl:text>-</xsl:text>
+                        <xsl:value-of select="$id"/>
+                      </xsl:attribute>
+                    </xsl:if>
+                    <xsl:value-of select="name"/>
+                  </xsl:element>
+                  <entry>
+                    <xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|supplyRqmtRef|supplyRef"/>
+                  </entry>
+                  <entry>
+                    <xsl:apply-templates select="reqQuantity"/>
+                  </entry>
+                  <entry>
+                    <xsl:apply-templates select="remarks"/>
+                  </entry>
                 </xsl:element>
               </xsl:for-each>
             </xsl:otherwise>
@@ -1552,19 +1586,25 @@
                 <xsl:variable name="id" select="./@id"/>
                 <xsl:element name="row">
                   <xsl:element name="entry">
-		    <xsl:if test="./@id">
-		      <xsl:attribute name="xml:id">
-            <xsl:text>ID_</xsl:text>
-		        <xsl:call-template name="get.dmcode"/>
-		        <xsl:text>-</xsl:text>
-		        <xsl:value-of select="$id"/>
-		      </xsl:attribute>
-		    </xsl:if>
-		    <xsl:value-of select="name"/>
-		  </xsl:element>
-                  <entry><xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|functionalItemRef"/></entry>
-                  <entry><xsl:apply-templates select="reqQuantity"/></entry>
-                  <entry><xsl:apply-templates select="remarks"/></entry>
+                    <xsl:if test="./@id">
+                      <xsl:attribute name="xml:id">
+                        <xsl:text>ID_</xsl:text>
+                        <xsl:call-template name="get.dmcode"/>
+                        <xsl:text>-</xsl:text>
+                        <xsl:value-of select="$id"/>
+                      </xsl:attribute>
+                    </xsl:if>
+                    <xsl:value-of select="name"/>
+                  </xsl:element>
+                  <entry>
+                    <xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|functionalItemRef|partRef"/>
+                  </entry>
+                  <entry>
+                    <xsl:apply-templates select="reqQuantity"/>
+                  </entry>
+                  <entry>
+                    <xsl:apply-templates select="remarks"/>
+                  </entry>
                 </xsl:element>
               </xsl:for-each>
             </xsl:otherwise>
@@ -3056,17 +3096,6 @@
         </xsl:choose>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:template>
-
-  <xsl:template match="toolRef">
-    <xsl:if test="$part.no.prefix != 0">
-      <xsl:text>Part No. </xsl:text>
-    </xsl:if>
-    <xsl:if test="@manufacturerCodeValue">
-      <xsl:value-of select="@manufacturerCodeValue"/>
-      <xsl:text>/</xsl:text>
-    </xsl:if>
-    <xsl:value-of select="@toolNumber"/>
   </xsl:template>
 
   <xsl:template match="name">
