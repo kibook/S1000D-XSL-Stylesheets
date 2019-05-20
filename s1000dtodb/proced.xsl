@@ -56,6 +56,7 @@
       <xsl:otherwise>
         <xsl:apply-templates select="commonInfo"/>
         <xsl:apply-templates select="preliminaryRqmts[
+          productionMaintData or
           reqCondGroup[not(noConds)] or
           reqPersons or
           reqTechInfoGroup or

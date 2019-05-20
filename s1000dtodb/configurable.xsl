@@ -568,17 +568,36 @@
     </xsl:choose>
   </xsl:template>
 
-  <!-- accessPointType -->
-  <xsl:template match="@accessPointType">
+  <!-- accessPointTypeValue
+
+       "accpnl01"               Door
+       "accpnl02"               Panel
+       "accpnl03"               Electrical panel
+       "accpnl04"               Hatch
+       "accpnl05"               Fillet
+       "accpnl51" - "accpnl99"  Available for projects -->
+  <xsl:template match="@accessPointTypeValue">
     <xsl:choose>
-      <xsl:when test=". = 'accpnl01'">door</xsl:when>
-      <xsl:when test=". = 'accpnl02'">panel</xsl:when>
-      <xsl:when test=". = 'accpnl03'">electrical panel</xsl:when>
-      <xsl:when test=". = 'accpnl04'">hatch</xsl:when>
-      <xsl:when test=". = 'accpnl05'">fillet</xsl:when>
+      <xsl:when test=". = 'accpnl01'">Door</xsl:when>
+      <xsl:when test=". = 'accpnl02'">Panel</xsl:when>
+      <xsl:when test=". = 'accpnl03'">Electrical panel</xsl:when>
+      <xsl:when test=". = 'accpnl04'">Hatch</xsl:when>
+      <xsl:when test=". = 'accpnl05'">Fillet</xsl:when>
     </xsl:choose>
   </xsl:template>
 
+  <!-- securityClassification
+
+       "01"         1 (lowest level of security classification, eg, Unclassified)
+       "02"         2 (next higher level of security classification, eg, Restricted)
+       "03"         3 (next higher level of security classification, eg, Confidential)
+       "04"         4 (next higher level of security classification, eg, Secret)
+       "05"         5 (next higher level of security classification, eg, Top secret)
+       "06"         6 (another level of security classification)
+       "07"         7 (another level of security classification)
+       "08"         8 (another level of security classification)
+       "09"         9 (another level of security classification)
+       "51" - "99"  Available for projects -->
   <xsl:template match="security">
     <xsl:choose>
       <xsl:when test="@securityClassification = '01'">
@@ -711,6 +730,132 @@
       <xsl:when test=". = 'ti04'">Electrical diagram</xsl:when>
       <xsl:when test=". = 'ti05'">Schematic diagram</xsl:when>
       <xsl:when test=". = 'ti06'">Safety sheet</xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- thresholdUnitOfMeasure
+
+       "th01"           Flight hours
+       "th02"           Flight cycles
+       "th03"           Months
+       "th04"           Weeks
+       "th05"           Years
+       "th06"           Days
+       "th07"           Supersonic cycles
+       "th08"           Pressure cycles
+       "th09"           Engine cycles
+       "th10"           Engine change
+       "th11"           Shop visits
+       "th12"           Auxiliary power unit change
+       "th13"           Landing gear change
+       "th14"           Wheel change
+       "th15"           Engine start
+       "th16"           APU hours
+       "th17"           Engine hours
+       "th18"           Elapsed hours
+       "th19"           Landings
+       "th20"           Operating cycles
+       "th21"           Operating hours
+       "th22"           Supersonic hours
+       "th23"           "A" check
+       "th24"           "B" check
+       "th25"           "C" check
+       "th26"           "D" check
+       "th27"           Daily
+       "th28"           "E" check
+       "th29"           Overnight
+       "th30"           Preflight
+       "th31"           Routine check
+       "th32"           Structural "C" check
+       "th33"           Service check
+       "th34"           Transit
+       "th35"           Kilometers
+       "th36"           Consumption in cubic meter
+       "th37"           Consumption in liter
+       "th38"           Number of shots - each
+       "th39"           Number of shots - equivalent full charge (EFC)
+       "th51" - "th99"  Available for projects -->
+  <xsl:template match="@thresholdUnitOfMeasure">
+    <xsl:text> </xsl:text>
+    <xsl:choose>
+      <xsl:when test=". = 'th01'">Flight hours</xsl:when>
+      <xsl:when test=". = 'th02'">Flight cycles</xsl:when>
+      <xsl:when test=". = 'th03'">Months</xsl:when>
+      <xsl:when test=". = 'th04'">Weeks</xsl:when>
+      <xsl:when test=". = 'th05'">Years</xsl:when>
+      <xsl:when test=". = 'th06'">Days</xsl:when>
+      <xsl:when test=". = 'th07'">Supersonic cycles</xsl:when>
+      <xsl:when test=". = 'th08'">Pressure cycles</xsl:when>
+      <xsl:when test=". = 'th09'">Engine cycles</xsl:when>
+      <xsl:when test=". = 'th10'">Engine change</xsl:when>
+      <xsl:when test=". = 'th11'">Shop visits</xsl:when>
+      <xsl:when test=". = 'th12'">Auxiliary power unit change</xsl:when>
+      <xsl:when test=". = 'th13'">Landing gear change</xsl:when>
+      <xsl:when test=". = 'th14'">Wheel change</xsl:when>
+      <xsl:when test=". = 'th15'">Engine start</xsl:when>
+      <xsl:when test=". = 'th16'">APU hours</xsl:when>
+      <xsl:when test=". = 'th17'">Engine hours</xsl:when>
+      <xsl:when test=". = 'th18'">Elapsed hours</xsl:when>
+      <xsl:when test=". = 'th19'">Landings</xsl:when>
+      <xsl:when test=". = 'th20'">Operating cycles</xsl:when>
+      <xsl:when test=". = 'th21'">Operating hours</xsl:when>
+      <xsl:when test=". = 'th22'">Supersonic hours</xsl:when>
+      <xsl:when test=". = 'th23'">"A" check</xsl:when>
+      <xsl:when test=". = 'th24'">"B" check</xsl:when>
+      <xsl:when test=". = 'th25'">"C" check</xsl:when>
+      <xsl:when test=". = 'th26'">"D" check</xsl:when>
+      <xsl:when test=". = 'th27'">Daily</xsl:when>
+      <xsl:when test=". = 'th28'">"E" check</xsl:when>
+      <xsl:when test=". = 'th29'">Overnight</xsl:when>
+      <xsl:when test=". = 'th30'">Preflight</xsl:when>
+      <xsl:when test=". = 'th31'">Routine check</xsl:when>
+      <xsl:when test=". = 'th32'">Structural "C" check</xsl:when>
+      <xsl:when test=". = 'th33'">Service check</xsl:when>
+      <xsl:when test=". = 'th34'">Transit</xsl:when>
+      <xsl:when test=". = 'th35'">Kilometers</xsl:when>
+      <xsl:when test=". = 'th36'">Consumption in cubic meter</xsl:when>
+      <xsl:when test=". = 'th37'">Consumption in liter</xsl:when>
+      <xsl:when test=". = 'th38'">Number of shots - each</xsl:when>
+      <xsl:when test=". = 'th39'">Number of shots - equivalent full charge (EFC)</xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- installationLocationType
+
+       "instloctyp01"                   Section
+       "instloctyp02"                   Station
+       "instloctyp03"                   Water line
+       "instloctyp04"                   Buttock line
+       "instloctyp51" - "instloctyp99"  Available for projects -->
+  <xsl:template match="@installationLocationType">
+    <xsl:choose>
+      <xsl:when test=". = 'instloctyp02'">Section</xsl:when>
+      <xsl:when test=". = 'instloctyp03'">Station</xsl:when>
+      <xsl:when test=". = 'instloctyp04'">Water line</xsl:when>
+      <xsl:when test=". = 'instloctyp05'">Buttock line</xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- productItemType
+
+       "pi01"           Frame
+       "pi02"           Rib
+       "pi03"           Stringer
+       "pi51" - "pi99"  Available for projects -->
+  <xsl:template match="@productItemType">
+    <xsl:choose>
+      <xsl:when test=". = 'pi01'">Frame</xsl:when>
+      <xsl:when test=". = 'pi02'">Rib</xsl:when>
+      <xsl:when test=". = 'pi03'">Stringer</xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="."/>
       </xsl:otherwise>

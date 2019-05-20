@@ -896,11 +896,17 @@
                 </xsl:if>
               </xsl:for-each>
             </xsl:when>
+            <xsl:when test="name($target[1]) = 'accessPointRef' or name($target[1]) = 'zoneRef'">
+              <xsl:apply-templates select="$target"/>
+            </xsl:when>
             <xsl:when test="$target/shortName">
               <xsl:apply-templates select="$target/shortName/text()"/>
             </xsl:when>
             <xsl:when test="$target/name">
               <xsl:apply-templates select="$target/name/text()"/>
+            </xsl:when>
+            <xsl:when test="$target/workArea">
+              <xsl:value-of select="$target/workArea"/>
             </xsl:when>
             <xsl:otherwise>
               <xsl:message>Can't generate link target type for: <xsl:value-of select="name($target[1])"/>(<xsl:value-of select="$id"/>)</xsl:message>
@@ -1120,6 +1126,7 @@
     <bridgehead renderas="centerhead">Preliminary requirements</bridgehead>
     <xsl:choose>
       <xsl:when test="$hide.empty.proced.rqmts = 0">
+        <xsl:apply-templates select="productionMaintData"/>
         <xsl:apply-templates select="reqCondGroup"/>
         <xsl:apply-templates select="reqPersons"/>
         <xsl:apply-templates select="reqTechInfoGroup"/>
@@ -1129,6 +1136,7 @@
         <xsl:apply-templates select="reqSafety"/>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:apply-templates select="productionMaintData"/>
         <xsl:apply-templates select="reqCondGroup[not(noConds)]"/>
         <xsl:apply-templates select="reqPersons"/>
         <xsl:apply-templates select="reqTechInfoGroup"/>
@@ -1385,6 +1393,349 @@
 
   <xsl:template match="remarks">
     <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="productionMaintData">
+    <bridgehead renderas="sidehead0">Production management data</bridgehead>
+    <informaltable frame="none" colsep="0" rowsep="0">
+      <tgroup cols="5" align="left">
+        <colspec colname="c1" colwidth="3*"/>
+        <colspec colname="c2" colwidth="8*"/>
+        <colspec colname="c3" colwidth="12*"/>
+        <colspec colname="c4" colwidth="10*"/>
+        <colspec colname="c5" colwidth="10*"/>
+        <tbody>
+          <xsl:apply-templates select="thresholdInterval"/>
+          <xsl:apply-templates select="workAreaLocationGroup"/>
+          <xsl:apply-templates select="taskDuration"/>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template match="thresholdInterval">
+    <row>
+      <entry namest="c1" nameend="c2">
+        <xsl:if test="not(preceding-sibling::thresholdInterval)">
+          <emphasis role="bold">Threshold interval</emphasis>
+        </xsl:if>
+      </entry>
+      <entry namest="c3" nameend="c5">
+        <xsl:apply-templates/>
+        <xsl:apply-templates select="@thresholdUnitOfMeasure"/>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="workAreaLocationGroup">
+    <row>
+      <entry namest="c1" nameend="c5">
+        <emphasis role="bold">
+          <xsl:text>Work area location</xsl:text>
+          <xsl:if test="preceding-sibling::workAreaLocationGroup|following-sibling::workAreaLocationGroup">
+            <xsl:text> </xsl:text>
+            <xsl:number/>
+          </xsl:if>
+        </emphasis>
+      </entry>
+    </row>
+    <xsl:apply-templates select="zoneRef" mode="pmd"/>
+    <xsl:apply-templates select="accessPointRef" mode="pmd"/>
+    <xsl:apply-templates select="workLocation" mode="pmd"/>
+  </xsl:template>
+
+  <xsl:template match="zoneRef" mode="pmd">
+    <row>
+      <entry>
+        <xsl:if test="@id">
+          <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+            <xsl:text>-</xsl:text>
+            <xsl:value-of select="@id"/>
+          </xsl:attribute>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:if test="not(preceding-sibling::zoneRef)">
+          <emphasis role="bold">Zone</emphasis>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:value-of select="@zoneNumber"/>
+      </entry>
+      <entry namest="c4" nameend="c5">
+        <xsl:for-each select="name|shortName|refs/*">
+          <fo:block>
+            <xsl:apply-templates select="."/>
+          </fo:block>
+        </xsl:for-each>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="accessPointRef" mode="pmd">
+    <row>
+      <entry>
+        <xsl:if test="@id">
+          <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+            <xsl:text>-</xsl:text>
+            <xsl:value-of select="@id"/>
+          </xsl:attribute>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:if test="not(preceding-sibling::accessPointRef)">
+          <emphasis role="bold">Access points</emphasis>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:value-of select="@accessPointNumber"/>
+      </entry>
+      <entry namest="c4" nameend="c5">
+        <xsl:choose>
+          <xsl:when test="@accessPointTypeValue">
+            <xsl:apply-templates select="@accessPointTypeValue"/>
+          </xsl:when>
+          <xsl:when test="name">
+            <xsl:apply-templates select="name"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="shortName"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template name="work.location.heading">
+    <xsl:if test="not(preceding-sibling::* or parent::workLocation/preceding-sibling::workLocation)">
+      <xsl:if test="parent::workLocation/@id">
+        <xsl:attribute name="xml:id">
+          <xsl:text>ID_</xsl:text>
+          <xsl:call-template name="get.dmcode"/>
+          <xsl:text>-</xsl:text>
+          <xsl:value-of select="parent::workLocation/@id"/>
+        </xsl:attribute>
+      </xsl:if>
+      <emphasis role="bold">Work location</emphasis>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="workLocation" mode="pmd">
+    <xsl:choose>
+      <xsl:when test="normalize-space(text()) != ''">
+        <row>
+          <entry>
+            <xsl:if test="@id">
+              <xsl:attribute name="xml:id">
+                <xsl:text>ID_</xsl:text>
+                <xsl:call-template name="get.dmcode"/>
+                <xsl:text>-</xsl:text>
+                <xsl:value-of select="@id"/>
+              </xsl:attribute>
+            </xsl:if>
+          </entry>
+          <entry>
+            <xsl:if test="not(preceding-sibling::workLocation)">
+              <emphasis role="bold">Work location</emphasis>
+            </xsl:if>
+          </entry>
+          <entry namest="c3" nameend="c5">
+            <xsl:apply-templates/>
+          </entry>
+        </row>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="*" mode="wla"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="productItem">
+    <xsl:apply-templates select="@productItemType"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="@productItemName"/>
+  </xsl:template>
+
+  <xsl:template match="productItem" mode="wla">
+    <row>
+      <entry/>
+      <entry>
+        <xsl:call-template name="work.location.heading"/>
+      </entry>
+      <entry namest="c3" nameend="c5">
+        <xsl:apply-templates select="."/>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="workArea" mode="wla">
+    <row>
+      <entry/>
+      <entry>
+        <xsl:call-template name="work.location.heading"/>
+      </entry>
+      <entry namest="c3" nameend="c5">
+        <xsl:apply-templates/>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="zoneRef" mode="wla">
+    <row>
+      <entry>
+        <xsl:if test="@id">
+          <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+            <xsl:text>-</xsl:text>
+            <xsl:value-of select="@id"/>
+          </xsl:attribute>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:call-template name="work.location.heading"/>
+      </entry>
+      <entry>
+        <xsl:value-of select="@zoneNumber"/>
+      </entry>
+      <entry namest="c4" nameend="c5">
+        <xsl:for-each select="name|shortName|refs/*">
+          <fo:block>
+            <xsl:apply-templates select="."/>
+          </fo:block>
+        </xsl:for-each>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="accessPointRef" mode="wla">
+    <row>
+      <entry>
+        <xsl:if test="@id">
+          <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+            <xsl:text>-</xsl:text>
+            <xsl:value-of select="@id"/>
+          </xsl:attribute>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:call-template name="work.location.heading"/>
+      </entry>
+      <entry>
+        <xsl:value-of select="@accessPointNumber"/>
+      </entry>
+      <entry namest="c4" nameend="c5">
+        <xsl:choose>
+          <xsl:when test="@accessPointTypeValue">
+            <xsl:apply-templates select="@accessPointTypeValue"/>
+          </xsl:when>
+          <xsl:when test="name">
+            <xsl:apply-templates select="name"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="shortName"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="functionalItemRef" mode="wla">
+    <row>
+      <entry>
+        <xsl:if test="@id">
+          <xsl:attribute name="xml:id">
+            <xsl:text>ID_</xsl:text>
+            <xsl:call-template name="get.dmcode"/>
+            <xsl:text>-</xsl:text>
+            <xsl:value-of select="@id"/>
+          </xsl:attribute>
+        </xsl:if>
+      </entry>
+      <entry>
+        <xsl:call-template name="work.location.heading"/>
+      </entry>
+      <entry>
+        <xsl:value-of select="@functionalItemNumber"/>
+      </entry>
+      <entry namest="c4" nameend="c5">
+        <xsl:for-each select="@functionalItemType|name|shortName|refs/*">
+          <fo:block>
+            <xsl:apply-templates select="."/>
+          </fo:block>
+        </xsl:for-each>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="installationLocation" mode="wla">
+    <row>
+      <entry/>
+      <entry>
+        <xsl:call-template name="work.location.heading"/>
+      </entry>
+      <entry namest="c3" nameend="c5">
+        <xsl:if test="@installationLocationType">
+          <xsl:apply-templates select="@installationLocationType"/>
+          <xsl:text> = </xsl:text>
+        </xsl:if>
+        <xsl:apply-templates/>
+        <xsl:if test="@unitOfMeasure">
+          <xsl:text> </xsl:text>
+          <xsl:apply-templates select="@unitOfMeasure"/>
+        </xsl:if>
+      </entry>
+    </row>
+  </xsl:template>
+
+  <xsl:template match="taskDuration">
+    <row>
+      <entry namest="c1" nameend="c5">
+        <emphasis role="bold">Maintenance task duration</emphasis>
+      </entry>
+    </row>
+    <row>
+      <entry/>
+      <entry/>
+      <entry namest="c3" nameend="c4">Preliminary requirements</entry>
+      <entry>
+        <xsl:call-template name="format.quantity.value">
+          <xsl:with-param name="value" select="@startupDuration"/>
+        </xsl:call-template>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="@unitOfMeasure"/>
+      </entry>
+    </row>
+    <row>
+      <entry/>
+      <entry/>
+      <entry namest="c3" nameend="c4">Procedure</entry>
+      <entry>
+        <xsl:call-template name="format.quantity.value">
+          <xsl:with-param name="value" select="@procedureDuration"/>
+        </xsl:call-template>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="@unitOfMeasure"/>
+      </entry>
+    </row>
+    <row>
+      <entry/>
+      <entry/>
+      <entry namest="c3" nameend="c4">Requirements after job completion</entry>
+      <entry>
+        <xsl:call-template name="format.quantity.value">
+          <xsl:with-param name="value" select="@closeupDuration"/>
+        </xsl:call-template>
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="@unitOfMeasure"/>
+      </entry>
+    </row>
   </xsl:template>
 
   <xsl:template match="reqTechInfoGroup">
@@ -3083,8 +3434,8 @@
           </xsl:when>
           <xsl:when test="self::accessPointRef">
             <xsl:text>Access </xsl:text>
-            <xsl:if test="@accessPointType">
-              <xsl:apply-templates select="@accessPointType"/>
+            <xsl:if test="@accessPointTypeValue">
+              <xsl:apply-templates select="@accessPointTypeValue"/>
               <xsl:text> </xsl:text>
             </xsl:if>
             <xsl:value-of select="@accessPointNumber"/>
