@@ -16,6 +16,7 @@
   xmlns:fo="http://www.w3.org/1999/XSL/Format"
   xmlns:mml="http://www.w3.org/1998/Math/MathML"
   xmlns:bc="http://barcode4j.krysalis.org/ns"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
   version="1.0">
   
   <!-- When set, adds the "Printed $date.time" statement to the left margin. -->
@@ -737,7 +738,16 @@
                       <xsl:value-of select="externalPubRefIdent/externalPubCode/@pubCodingScheme"/>
                       <xsl:text> </xsl:text>
                     </xsl:if>
-                    <xsl:value-of select="externalPubRefIdent/externalPubCode"/>
+                    <xsl:choose>
+                      <xsl:when test="@xlink:href">
+                        <link xlink:href="{@xlink:href}">
+                          <xsl:value-of select="externalPubRefIdent/externalPubCode"/>
+                        </link>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:value-of select="externalPubRefIdent/externalPubCode"/>
+                      </xsl:otherwise>
+                    </xsl:choose>
                   </xsl:if>
                 </entry>
                 <entry>
@@ -1230,7 +1240,7 @@
 
   <xsl:template match="externalPubRef">
     <xsl:choose>
-      <xsl:when test="@xlink:href" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <xsl:when test="@xlink:href">
         <xsl:element name="link">
 	        <xsl:attribute name="xlink:href">
 	          <xsl:value-of select="@xlink:href"/>
