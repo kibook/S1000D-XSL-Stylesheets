@@ -2162,7 +2162,16 @@
   
   <xsl:template match="randomList|attentionRandomList">
     <xsl:element name="itemizedlist">
-      <xsl:call-template name="revisionflag"/>
+      <!-- FIXME: Change marks on listitems don't seem to work well with the
+           current DocBook stylesheets, so this will add a change mark to the
+           whole list if any of its descendants have a change mark. -->
+      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
+        <xsl:call-template name="revisionflag">
+          <xsl:with-param name="change.mark">1</xsl:with-param>
+          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
+          <xsl:with-param name="change.type">modify</xsl:with-param>
+        </xsl:call-template>
+      </xsl:if>
       <xsl:choose>
         <xsl:when test="@listItemPrefix = 'pf01'">
           <xsl:attribute name="mark">
@@ -2201,7 +2210,16 @@
 
   <xsl:template match="sequentialList|attentionSequentialList">
     <xsl:element name="orderedlist">
-      <xsl:call-template name="revisionflag"/>
+      <!-- FIXME: Change marks on listitems don't seem to work well with the
+           current DocBook stylesheets, so this will add a change mark to the
+           whole list if any of its descendants have a change mark. -->
+      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
+        <xsl:call-template name="revisionflag">
+          <xsl:with-param name="change.mark">1</xsl:with-param>
+          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
+          <xsl:with-param name="change.type">modify</xsl:with-param>
+        </xsl:call-template>
+      </xsl:if>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
@@ -2472,12 +2490,20 @@
          automatically displays a change mark if any of its descendants have a
          change mark, which currently are:
            - definitionList
+           - randomList
+           - attentionRandomList
+           - sequentialList
+           - attentionSequentialList
            - table
     -->
     <xsl:variable name="ancestor" select="
       ancestor::*[@changeMark = '1']|
       ancestor::table|
-      ancestor::definitionList"/>
+      ancestor::definitionList|
+      ancestor::randomList|
+      ancestor::attentionRandomList|
+      ancestor::sequentialList|
+      ancestor::attentionSequentialList"/>
     <xsl:if test="$change.mark = '1' and not($ancestor)">
       <xsl:attribute name="revisionflag">
         <xsl:choose>
