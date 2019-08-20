@@ -531,6 +531,11 @@
     <xsl:apply-templates/>
   </xsl:template>
 
+  <xsl:template match="infoNameVariant">
+    <xsl:text>, </xsl:text>
+    <xsl:apply-templates/>
+  </xsl:template>
+
   <xsl:template name="get.applicability.string">
     <xsl:variable name="applic" select="dmStatus/applic"/>
     <xsl:choose>
@@ -1051,6 +1056,7 @@
   
   <xsl:template name="info.name">
     <xsl:apply-templates select="dmAddress/dmAddressItems/dmTitle/infoName"/>
+    <xsl:apply-templates select="dmAddress/dmAddressItems/dmTitle/infoNameVariant"/>
   </xsl:template>
   
   <xsl:template match="issueDate">
@@ -2548,6 +2554,8 @@
       </xsl:if>
       <xsl:apply-templates select="infoName"/>
     </xsl:if>
+
+    <xsl:apply-templates select="infoNameVariant"/>
   </xsl:template>
 
   <xsl:template name="gen.lot">
