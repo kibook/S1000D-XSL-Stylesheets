@@ -48,7 +48,7 @@ custom_dbtofo()
 	EOF
 }
 
-while getopts c:Dd:Fo:Ss:h? opt
+while getopts c:Dd:FIo:Ss:h? opt
 do
 	case $opt in
 		c)
@@ -62,7 +62,10 @@ do
 			d2f="$OPTARG"
 			;;
 		F)
-			fmt=fo
+			fmt='fo'
+			;;
+		I)
+			fmt='if'
 			;;
 		o)
 			out="$OPTARG"
@@ -113,5 +116,10 @@ case $fmt in
 	fo)
 		xsltproc --xinclude "$@" "$s2d" "$src" |
 		xsltproc --xinclude -param fop1.extensions 1 "$@" "$d2f" - > "$out"
+		;;
+	if)
+		xsltproc --xinclude "$@" "$s2d" "$src" |
+		xsltproc --xinclude -param fop1.extensions 1 "$@" "$d2f" - |
+		fop $args -fo - -if application/pdf "$out"
 		;;
 esac
