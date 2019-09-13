@@ -3560,7 +3560,15 @@
   </xsl:template>
 
   <xsl:template match="acronymTerm">
-    <xsl:apply-templates/>
+    <xsl:choose>
+      <xsl:when test="text()">
+        <xsl:apply-templates/>
+      </xsl:when>
+      <xsl:when test="@internalRefId">
+        <xsl:variable name="id" select="@internalRefId"/>
+        <xsl:apply-templates select="//acronym[@id = $id or acronymDefinition/@id = $id]/acronymTerm"/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="acronymDefinition">
