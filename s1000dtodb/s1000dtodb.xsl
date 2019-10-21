@@ -143,7 +143,7 @@
          - Only the infoName is presented
          - No TOC, LOF, LOTBL, or References
          - No centerhead 'Description' -->
-  <xsl:param name="front.matter.info.codes">001 005 006 007 009 00A 00S 00U 00Z</xsl:param>
+  <xsl:param name="front.matter.info.codes">001 005 006 007 009 00A 00S 00U 00V 00Z</xsl:param>
   <!-- Descriptive data modules with these info codes are presented as "simple"/"tabular", meaning
          - No TOC, LOF, LOTBL, or References
          - No centerhead 'Description' -->
