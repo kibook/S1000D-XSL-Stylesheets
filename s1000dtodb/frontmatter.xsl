@@ -67,7 +67,14 @@
 
   <xsl:template match="frontMatterList">
     <xsl:apply-templates select="reducedPara"/>
-    <xsl:apply-templates select="frontMatterSubList"/>
+    <xsl:choose>
+      <xsl:when test="@frontMatterType = 'fm03'">
+        <xsl:apply-templates select="frontMatterSubList" mode="high"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="frontMatterSubList"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="frontMatterSubList">
@@ -100,6 +107,28 @@
 
   <xsl:template match="frontMatterDmEntry">
     <xsl:apply-templates select="dmRef" mode="lodm"/>
+  </xsl:template>
+
+  <xsl:template match="frontMatterSubList" mode="high">
+    <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
+      <tgroup cols="2" align="left">
+        <colspec colname="c1"/>
+        <colspec colname="c2"/>
+        <thead rowsep="1">
+          <row>
+            <entry>Data module</entry>
+            <entry>Reason for update</entry>
+          </row>
+        </thead>
+        <tbody>
+          <xsl:apply-templates select="*" mode="high"/>
+        </tbody>
+      </tgroup>
+    </informaltable>
+  </xsl:template>
+
+  <xsl:template match="frontMatterDmEntry" mode="high">
+    <xsl:apply-templates select="dmRef" mode="highlights"/>
   </xsl:template>
 
 </xsl:stylesheet>
