@@ -3613,10 +3613,20 @@
     <fo:block-container display-align="center" border="solid 1px black">
       <xsl:apply-templates select="@captionWidth|@captionHeight"/>
       <xsl:attribute name="background-color">
-        <xsl:apply-templates select="@color"/>
+        <xsl:choose>
+          <xsl:when test="@color">
+            <xsl:apply-templates select="@color"/>
+          </xsl:when>
+          <xsl:otherwise>inherit</xsl:otherwise>
+        </xsl:choose>
       </xsl:attribute>
       <xsl:attribute name="color">
-        <xsl:apply-templates select="@color" mode="text.color"/>
+        <xsl:choose>
+          <xsl:when test="@color">
+            <xsl:apply-templates select="@color" mode="text.color"/>
+          </xsl:when>
+          <xsl:otherwise>inherit</xsl:otherwise>
+        </xsl:choose>
       </xsl:attribute>
       <fo:block start-indent="0pt">
         <xsl:attribute name="text-align">
@@ -3634,10 +3644,20 @@
   <xsl:template match="caption" mode="inline">
     <fo:inline border="solid 1px black" padding="0.5mm">
       <xsl:attribute name="background-color">
-        <xsl:apply-templates select="@color"/>
+        <xsl:choose>
+          <xsl:when test="@color">
+            <xsl:apply-templates select="@color"/>
+          </xsl:when>
+          <xsl:otherwise>inherit</xsl:otherwise>
+        </xsl:choose>
       </xsl:attribute>
       <xsl:attribute name="color">
-        <xsl:apply-templates select="@color" mode="text.color"/>
+        <xsl:choose>
+          <xsl:when test="@color">
+            <xsl:apply-templates select="@color" mode="text.color"/>
+          </xsl:when>
+          <xsl:otherwise>inherit</xsl:otherwise>
+        </xsl:choose>
       </xsl:attribute>
       <xsl:for-each select="captionLine">
         <xsl:apply-templates/>
