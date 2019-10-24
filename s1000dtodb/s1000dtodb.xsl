@@ -537,7 +537,7 @@
   </xsl:template>
 
   <xsl:template name="get.applicability.string">
-    <xsl:variable name="applic" select="dmStatus/applic"/>
+    <xsl:param name="applic" select="dmStatus/applic"/>
     <xsl:choose>
       <xsl:when test="$applic/displayText/simplePara">
         <xsl:apply-templates select="$applic/displayText/simplePara/node()"/>
@@ -2882,66 +2882,6 @@
     <xsl:apply-templates select="pmEntry|dmRef|dmodule" mode="lodm"/>
   </xsl:template>
 
-  <xsl:template name="table.of.content">
-    <xsl:choose>
-      <xsl:when test="reducedPara">
-        <xsl:apply-templates select="reducedPara"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <para>
-          <xsl:text>The listed documents are included in issue </xsl:text>
-          <xsl:call-template name="issue.num">
-            <xsl:with-param name="issueInfo" select="issueInfo"/>
-          </xsl:call-template>
-          <xsl:text>, dated </xsl:text>
-          <xsl:apply-templates select="issueDate"/>
-          <xsl:text>, of this publication.</xsl:text>
-        </para>
-      </xsl:otherwise>
-    </xsl:choose>
-    <xsl:apply-templates select="tocList"/>
-  </xsl:template>
-
-  <xsl:template match="tocList">
-    <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
-      <tgroup cols="5" align="left">
-        <colspec colname="c1"/>
-        <colspec colname="c2"/>
-        <colspec colname="c3" colwidth="7em"/>
-        <colspec colname="c4" colwidth="4em"/>
-        <colspec colname="c5" colwidth="8em"/>
-        <thead rowsep="1">
-          <row>
-            <entry>Document title</entry>
-            <entry>Document identifier</entry>
-            <entry>Issue date</entry>
-            <entry>
-              <xsl:choose>
-                <xsl:when test="$running.pagination = 0">No. of pages</xsl:when>
-                <xsl:otherwise>Page</xsl:otherwise>
-              </xsl:choose>
-            </entry>
-            <entry>Applicable to</entry>
-          </row>
-        </thead>
-        <tbody>
-          <xsl:apply-templates select="tocEntry" mode="toc"/>
-        </tbody>
-      </tgroup>
-    </informaltable>
-  </xsl:template>
-
-  <xsl:template match="tocEntry" mode="toc">
-    <xsl:choose>
-      <xsl:when test="$hierarchical.table.of.contents = 1">
-        <xsl:apply-templates select="title|tocEntry|dmRef" mode="toc"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:apply-templates select="tocEntry|dmRef" mode="toc"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
   <xsl:template name="gen.toc">
     <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <para>
@@ -3343,7 +3283,7 @@
   </xsl:template>
 
   <xsl:template match="pmEntryTitle|title" mode="toc">
-    <xsl:variable name="level" select="count(ancestor::pmEntry) - 1"/>
+    <xsl:variable name="level" select="count(ancestor::pmEntry|ancestor::tocEntry) - 1"/>
     
     <xsl:variable name="indent.value">
       <xsl:call-template name="get.measurement.value">
