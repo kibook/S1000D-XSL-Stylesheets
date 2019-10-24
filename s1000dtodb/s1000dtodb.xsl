@@ -2548,7 +2548,7 @@
       <xsl:apply-templates select="techName"/>
     </xsl:if>
 
-    <xsl:if test="infoName">
+    <xsl:if test="infoName != ''">
       <xsl:if test="not($dm.type = 'frontmatter')">
         <xsl:text> - </xsl:text>
       </xsl:if>
