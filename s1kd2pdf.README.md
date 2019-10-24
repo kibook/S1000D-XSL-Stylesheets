@@ -6,7 +6,7 @@ s1kd2pdf - Create a PDF from S1000D data
 SYNOPSIS
 ========
 
-    s1kd2pdf [-c <CFG>] [-s <XSL>] [-d <XSL>] [-o <out>] [-DFSh?] <src>
+    s1kd2pdf [-c <CFG>] [-s <XSL>] [-d <XSL>] [-o <out>] [-DFISh?] <src>
              [<param>...]
 
 DESCRIPTION
@@ -30,6 +30,9 @@ Use a custom stylesheet for DocBook-to-FO conversion.
 
 -F  
 Output the generated XSL-FO instead of a PDF.
+
+-I  
+Output Apache FOP intermediary format instead of a PDF.
 
 -o &lt;out&gt;  
 Output to &lt;out&gt; instead of &lt;src&gt;.pdf (or &lt;src&gt;.fo if

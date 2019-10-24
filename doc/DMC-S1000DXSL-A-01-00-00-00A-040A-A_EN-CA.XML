@@ -80,6 +80,9 @@
       <reasonForUpdate id="rfu-0014" updateReasonType="urt02">
         <simplePara>Add -c option.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0015" updateReasonType="urt02">
+        <simplePara>Add -I option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -91,7 +94,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs23" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0005 rfu-0006 rfu-0007 rfu-0014"><![CDATA[s1kd2pdf [-c <CFG>] [-s <XSL>] [-d <XSL>] [-o <out>] [-DFSh?] <src>
+          <verbatimText verbatimStyle="vs23" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0005 rfu-0006 rfu-0007 rfu-0014"><![CDATA[s1kd2pdf [-c <CFG>] [-s <XSL>] [-d <XSL>] [-o <out>] [-DFISh?] <src>
          [<param>...]]]></verbatimText>
         </para>
       </levelledPara>
@@ -125,6 +128,12 @@
               <listItemTerm>-F</listItemTerm>
               <listItemDefinition>
                 <para>Output the generated XSL-FO instead of a PDF.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0015">
+              <listItemTerm>-I</listItemTerm>
+              <listItemDefinition>
+                <para>Output Apache FOP intermediary format instead of a PDF.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

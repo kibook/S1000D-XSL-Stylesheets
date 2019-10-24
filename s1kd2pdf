@@ -9,6 +9,7 @@ show_help()
 	echo "  -D               Create template for -d option."
 	echo "  -d <dbtofo>      Use a custom stylesheet for Docbook-to-FO conversion."
 	echo "  -F               Output XSL-FO instead of PDF."
+	echo "  -I               Output Apache FOP intermediary format instead of PDF."
 	echo "  -o <out>         Output to <out> instead of <src>.pdf."
 	echo "  -S               Create template for -S option."
 	echo "  -s <s1000dtodb>  Use a custom stylesheet for S1000D-to-DocBook conversion."

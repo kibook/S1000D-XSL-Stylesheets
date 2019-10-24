@@ -9,7 +9,7 @@ s1kd2pdf \- Create a PDF from S1000D data
 .IP
 .nf
 \f[C]
-s1kd2pdf\ [\-c\ <CFG>]\ [\-s\ <XSL>]\ [\-d\ <XSL>]\ [\-o\ <out>]\ [\-DFSh?]\ <src>
+s1kd2pdf\ [\-c\ <CFG>]\ [\-s\ <XSL>]\ [\-d\ <XSL>]\ [\-o\ <out>]\ [\-DFISh?]\ <src>
 \ \ \ \ \ \ \ \ \ [<param>...]
 \f[]
 .fi
@@ -38,6 +38,11 @@ Use a custom stylesheet for DocBook\-to\-FO conversion.
 .TP
 .B \-F
 Output the generated XSL\-FO instead of a PDF.
+.RS
+.RE
+.TP
+.B \-I
+Output Apache FOP intermediary format instead of a PDF.
 .RS
 .RE
 .TP
