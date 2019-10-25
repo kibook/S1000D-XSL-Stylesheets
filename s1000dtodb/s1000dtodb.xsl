@@ -3226,13 +3226,13 @@
   <xsl:template name="gen.title.page">
     <xsl:variable name="pm" select="(/publication/pm|/pm)"/>
     <xsl:call-template name="title.page">
-      <xsl:with-param name="pmTitle" select="$pm//pmTitle"/>
-      <xsl:with-param name="shortPmTitle" select="$pm//shortPmTitle"/>
-      <xsl:with-param name="pmCode" select="$pm//pmCode"/>
-      <xsl:with-param name="issueInfo" select="$pm//pmIdent/issueInfo"/>
-      <xsl:with-param name="issueDate" select="$pm//pmAddressItems/issueDate"/>
-      <xsl:with-param name="dataRestrictions" select="$pm//pmStatus/dataRestrictions"/>
-      <xsl:with-param name="responsiblePartnerCompany" select="$pm//pmStatus/responsiblePartnerCompany"/>
+      <xsl:with-param name="pmTitle" select="($pm//pmTitle)[1]"/>
+      <xsl:with-param name="shortPmTitle" select="($pm//shortPmTitle)[1]"/>
+      <xsl:with-param name="pmCode" select="($pm//pmCode)[1]"/>
+      <xsl:with-param name="issueInfo" select="($pm//pmIdent/issueInfo)[1]"/>
+      <xsl:with-param name="issueDate" select="($pm//pmAddressItems/issueDate)[1]"/>
+      <xsl:with-param name="dataRestrictions" select="($pm//pmStatus/dataRestrictions)[1]"/>
+      <xsl:with-param name="responsiblePartnerCompany" select="($pm//pmStatus/responsiblePartnerCompany)[1]"/>
     </xsl:call-template>
   </xsl:template>
 
