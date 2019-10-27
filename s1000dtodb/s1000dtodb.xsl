@@ -1840,7 +1840,11 @@
                     <xsl:value-of select="name"/>
                   </xsl:element>
                   <entry>
-                    <xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|toolRef"/>
+                    <xsl:for-each select="catalogSeqNumberRef|natoStockNumber|identNumber|toolRef">
+                      <para>
+                        <xsl:apply-templates select="."/>
+                      </para>
+                    </xsl:for-each>
                   </entry>
                   <entry>
                     <xsl:apply-templates select="reqQuantity"/>
@@ -1902,7 +1906,11 @@
                     <xsl:value-of select="name"/>
                   </xsl:element>
                   <entry>
-                    <xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|supplyRqmtRef|supplyRef"/>
+                    <xsl:for-each select="catalogSeqNumberRef|natoStockNumber|identNumber|supplyRqmtRef|supplyRef">
+                      <para>
+                        <xsl:apply-templates select="."/>
+                      </para>
+                    </xsl:for-each>
                   </entry>
                   <entry>
                     <xsl:apply-templates select="reqQuantity"/>
@@ -1964,7 +1972,11 @@
                     <xsl:value-of select="name"/>
                   </xsl:element>
                   <entry>
-                    <xsl:apply-templates select="catalogSeqNumberRef|natoStockNumber|identNumber|functionalItemRef|partRef"/>
+                    <xsl:for-each select="catalogSeqNumberRef|natoStockNumber|identNumber|functionalItemRef|partRef">
+                      <para>
+                        <xsl:apply-templates select="."/>
+                      </para>
+                    </xsl:for-each>
                   </entry>
                   <entry>
                     <xsl:apply-templates select="reqQuantity"/>
@@ -4080,6 +4092,33 @@
         </tbody>
       </tgroup>
     </informaltable>
+  </xsl:template>
+
+  <xsl:template match="natoStockNumber">
+    <xsl:text>NSN </xsl:text>
+    <xsl:choose>
+      <xsl:when test="fullNatoStockNumber">
+        <xsl:value-of select="fullNatoStockNumber"/>
+      </xsl:when>
+      <xsl:when test="@natoSupplyClass and @natoCodificationBureau and @natoItemIdentNumberCore">
+        <xsl:value-of select="@natoSupplyClass"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@natoCodificationBureau"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="substring(@natoItemIdentNumberCore, 1, 3)"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="substring(@natoItemIdentNumberCore, 4, 4)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="substring(., 1, 4)"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="substring(., 5, 2)"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="substring(., 7, 3)"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="substring(., 10, 4)"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
