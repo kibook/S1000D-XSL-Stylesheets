@@ -68,17 +68,17 @@
   <!-- When these variables = 1 and a project includes a descriptive data module
        with their associated info code, the contents are automatically generated. -->
   <!-- 001 Title page -->
-  <xsl:param name="generate.title.page">1</xsl:param>
+  <xsl:param name="generate.title.page">0</xsl:param>
   <!-- 009 Table of contents -->
-  <xsl:param name="generate.table.of.contents">1</xsl:param>
+  <xsl:param name="generate.table.of.contents">0</xsl:param>
   <!-- 00A List of illustrations -->
-  <xsl:param name="generate.list.of.illustrations">1</xsl:param>
+  <xsl:param name="generate.list.of.illustrations">0</xsl:param>
   <!-- 00S List of effective data modules -->
-  <xsl:param name="generate.list.of.datamodules">1</xsl:param>
+  <xsl:param name="generate.list.of.datamodules">0</xsl:param>
   <!-- 00U Highlights -->
-  <xsl:param name="generate.highlights">1</xsl:param>
+  <xsl:param name="generate.highlights">0</xsl:param>
   <!-- 00Z List of tables -->
-  <xsl:param name="generate.list.of.tables">1</xsl:param>
+  <xsl:param name="generate.list.of.tables">0</xsl:param>
   <!-- 014 Alphabetical and alphanumeric index -->
   <xsl:param name="generate.index">0</xsl:param>
 
