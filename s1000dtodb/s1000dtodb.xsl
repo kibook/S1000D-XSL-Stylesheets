@@ -2025,13 +2025,33 @@
 
   <xsl:template match="note">
     <note>
+      <!-- FIXME: Change marks on individual noteParas don't seem to work well
+                  with the current DocBook stylesheets, so this will add a
+                  change mark to the whole note if any of its descendants
+                  have a change mark. -->
+      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
+        <xsl:call-template name="revisionflag">
+          <xsl:with-param name="change.mark">1</xsl:with-param>
+          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
+          <xsl:with-param name="change.type">modify</xsl:with-param>
+        </xsl:call-template>
+      </xsl:if>
       <xsl:call-template name="applic.annotation"/>
       <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </note>
   </xsl:template>
 
-  <xsl:template match="para|warningAndCautionPara|notePara|simplePara|attentionListItemPara">
+  <!-- FIXME: Separate from other paras due to the change mark issue above. -->
+  <xsl:template match="notePara">
+    <para>
+      <xsl:call-template name="copy.id"/>
+      <xsl:call-template name="applic.annotation"/>
+      <xsl:apply-templates/>
+    </para>
+  </xsl:template>
+
+  <xsl:template match="para|warningAndCautionPara|simplePara|attentionListItemPara">
     <xsl:element name="para">
       <xsl:call-template name="copy.id"/>
       <xsl:call-template name="revisionflag"/>
