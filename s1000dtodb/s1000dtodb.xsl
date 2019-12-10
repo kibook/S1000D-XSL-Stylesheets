@@ -2422,12 +2422,6 @@
         </xsl:call-template>
       </xsl:if>
       <!-- Default values of attributes -->
-      <xsl:if test="not(@colsep)">
-        <xsl:attribute name="colsep">0</xsl:attribute>
-      </xsl:if>
-      <xsl:if test="not(@frame)">
-        <xsl:attribute name="frame">topbot</xsl:attribute>
-      </xsl:if>
       <xsl:for-each select="@*">
         <xsl:if test="name(.) != 'id'">
 	  <xsl:copy/>
@@ -2439,9 +2433,6 @@
 
   <xsl:template match="tbody">
     <xsl:element name="tbody">
-      <xsl:if test="not(@rowsep|ancestor::table/@rowsep)">
-        <xsl:attribute name="rowsep">0</xsl:attribute>
-      </xsl:if>
       <xsl:for-each select="@*">
 	      <xsl:copy/>
       </xsl:for-each>
@@ -2452,9 +2443,6 @@
   <xsl:template match="tgroup|thead|colspec|spanspec|row|entry">
     <xsl:element name="{name()}">
       <xsl:call-template name="copy.id"/>
-      <xsl:if test="name(.) = 'thead' and not(@rowsep|ancestor::table/@rowsep)">
-        <xsl:attribute name="rowsep">1</xsl:attribute>
-      </xsl:if>
       <xsl:for-each select="@*">
         <xsl:choose>
 	        <xsl:when test="name(.) = 'id'">
