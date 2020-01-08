@@ -231,7 +231,7 @@
   <xsl:template match="isolationProcedureEnd" mode="iso.item.num">
     <xsl:choose>
       <xsl:when test="action">
-        <xsl:apply-templates select="action" mode="iso.item.num"/>
+        <xsl:apply-templates select="action[1]" mode="iso.item.num"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:call-template name="isolation.item.number"/>
