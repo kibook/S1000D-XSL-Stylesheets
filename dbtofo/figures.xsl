@@ -32,6 +32,12 @@
     </fo:block>
   </xsl:template>-->
 
+  <!-- Remove strict keep-together from figures, since S1000D figures may
+       consist of multiple sheets. -->
+  <xsl:attribute-set name="figure.properties" use-attribute-sets="formal.object.properties">
+    <xsl:attribute name="keep-together.within-column">auto</xsl:attribute>
+  </xsl:attribute-set>
+
   <xsl:template match="d:mediaobject/d:caption">
     <fo:block keep-with-previous="always">
       <xsl:choose>
