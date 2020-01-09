@@ -2037,7 +2037,6 @@
         </xsl:call-template>
       </xsl:if>
       <xsl:call-template name="applic.annotation"/>
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </note>
   </xsl:template>
