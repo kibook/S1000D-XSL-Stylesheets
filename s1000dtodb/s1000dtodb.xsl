@@ -2827,14 +2827,7 @@
             </xsl:element>
           </entry>
           <entry>
-            <xsl:choose>
-              <xsl:when test="identAndStatusSection/dmStatus/@issueType='new'">
-                <xsl:text>N</xsl:text>
-              </xsl:when>
-              <xsl:when test="identAndStatusSection/dmStatus/@issueType='changed'">
-                <xsl:text>C</xsl:text>
-              </xsl:when>
-            </xsl:choose>
+            <xsl:apply-templates select="identAndStatusSection/dmStatus/@issueType" mode="lodm"/>
           </entry>
           <entry>
             <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>
@@ -2872,14 +2865,7 @@
         </xsl:element>
       </entry>
       <entry>
-        <xsl:choose>
-          <xsl:when test="identAndStatusSection/dmStatus/@issueType='new'">
-            <xsl:text>N</xsl:text>
-          </xsl:when>
-          <xsl:when test="identAndStatusSection/dmStatus/@issueType='changed'">
-            <xsl:text>C</xsl:text>
-          </xsl:when>
-        </xsl:choose>
+        <xsl:apply-templates select="identAndStatusSection/dmStatus/@issueType" mode="lodm"/>
       </entry>
       <entry>
         <xsl:apply-templates select="identAndStatusSection/dmAddress/dmAddressItems/issueDate"/>

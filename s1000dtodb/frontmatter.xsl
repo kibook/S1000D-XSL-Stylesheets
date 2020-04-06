@@ -167,14 +167,6 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="@issueType">
-    <xsl:choose>
-      <xsl:when test=". = 'new'">N</xsl:when>
-      <xsl:when test=". = 'deleted'">R</xsl:when>
-      <xsl:otherwise>C</xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
   <xsl:template match="frontMatterSubList" mode="LOEDM">
     <informaltable pgwide="1" frame="topbot" colsep="0" rowsep="0">
       <tgroup cols="6" align="left">
@@ -216,7 +208,7 @@
         <xsl:apply-templates select="dmRef"/>
       </entry>
       <entry>
-        <xsl:apply-templates select="@issueType"/>
+        <xsl:apply-templates select="@issueType" mode="lodm"/>
       </entry>
       <entry>
         <xsl:apply-templates select="dmRef/dmRefAddressItems/issueDate"/>
@@ -252,7 +244,7 @@
         <xsl:apply-templates select="pmRef"/>
       </entry>
       <entry>
-        <xsl:apply-templates select="@issueType"/>
+        <xsl:apply-templates select="@issueType" mode="lodm"/>
       </entry>
       <entry>
         <xsl:apply-templates select="pmRef/pmRefAddressItems/issueDate"/>
@@ -276,7 +268,7 @@
         <xsl:apply-templates select="externalPubRef"/>
       </entry>
       <entry>
-        <xsl:apply-templates select="@issueType"/>
+        <xsl:apply-templates select="@issueType" mode="lodm"/>
       </entry>
       <entry>
         <xsl:apply-templates select="externalPubRef/externalPubRefAddressItems/externalPubIssueDate"/>

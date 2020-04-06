@@ -862,4 +862,14 @@
     </xsl:choose>
   </xsl:template>
 
+  <!-- Letter codes for issueType -->
+  <xsl:template match="@issueType" mode="lodm">
+    <xsl:choose>
+      <xsl:when test=". = 'new'">N</xsl:when>
+      <xsl:when test=". = 'deleted'">R</xsl:when>
+      <xsl:when test=". = 'status'"/>
+      <xsl:otherwise>C</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>
