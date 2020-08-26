@@ -339,6 +339,11 @@
   <!-- The prefix to show before applicability annotations. -->
   <xsl:param name="applic.prefix">Applicable to: </xsl:param>
 
+  <!-- Change bar settings. -->
+  <xsl:param name="change.bar.width">2pt</xsl:param>
+  <xsl:param name="change.bar.color">black</xsl:param>
+  <xsl:param name="change.bar.style">solid</xsl:param>
+
   <xsl:output indent="no" method="xml"/>
 
   <xsl:include href="crew.xsl"/>
@@ -770,6 +775,17 @@
     <xsl:number level="any" from="dmodule"/>
   </xsl:template>
 
+  <xsl:attribute-set name="custom.change.bar.attributes">
+    <xsl:attribute name="border-start-color"><xsl:value-of select="$change.bar.color"/></xsl:attribute>
+    <xsl:attribute name="border-start-style"><xsl:value-of select="$change.bar.style"/></xsl:attribute>
+    <xsl:attribute name="border-start-width"><xsl:value-of select="$change.bar.width"/></xsl:attribute>
+  </xsl:attribute-set>
+
+  <xsl:attribute-set name="delete.change.bar.attributes">
+    <xsl:attribute name="text-decoration">line-through</xsl:attribute>
+    <xsl:attribute name="color">red</xsl:attribute>
+  </xsl:attribute-set>
+
   <xsl:template name="labelled.para">
     <xsl:param name="label"/>
     <xsl:param name="content"/>
@@ -786,13 +802,22 @@
       <fo:list-block start-indent="0mm" provisional-distance-between-starts="{$body.start.indent}">
         <fo:list-item>
 	        <fo:list-item-label start-indent="0mm" end-indent="label-end()" text-align="start">
-	          <fo:block>
-	            <xsl:copy-of select="$label"/>
+            <fo:block>
+              <xsl:choose>
+                <xsl:when test="title/@changeMark = 1 and title/@changeType != 'delete'">
+                  <fo:block xsl:use-attribute-sets="custom.change.bar.attributes" padding-start="3mm">
+                    <xsl:copy-of select="$label"/>
+                  </fo:block>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:copy-of select="$label"/>
+                </xsl:otherwise>
+              </xsl:choose>
 	          </fo:block>
 	        </fo:list-item-label>
 	        <fo:list-item-body start-indent="body-start()">
-	          <fo:block>
-	            <xsl:copy-of select="$content"/>
+            <fo:block>
+              <xsl:copy-of select="$content"/>
 	          </fo:block>
 	        </fo:list-item-body>
         </fo:list-item>
@@ -2078,7 +2103,10 @@
   </xsl:template>
 
   <xsl:template match="title">
-    <title><xsl:apply-templates/></title>
+    <title>
+      <xsl:call-template name="revisionflag"/>
+      <xsl:apply-templates/>
+    </title>
   </xsl:template>
 
   <xsl:template name="make.imageobject" xmlns:ier="InfoEntityResolver">

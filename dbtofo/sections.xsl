@@ -20,7 +20,7 @@
   
   <xsl:template match="d:section|d:sect1|d:sect2|d:sect3|d:sect4|d:sect5">
     <xsl:choose>
-      <xsl:when test="./preceding-sibling::*[position() = 1 and name() = 'title']">
+      <xsl:when test="preceding-sibling::*[position() = 1 and self::d:title]">
         <!-- don't add space if preceding sibling is a title -->
         <xsl:apply-imports/>
       </xsl:when>

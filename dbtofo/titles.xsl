@@ -227,7 +227,23 @@
           <fo:table-row>
             <fo:table-cell>
               <fo:block text-align="left">
-                <xsl:apply-templates mode="label.markup" select="."/>
+                <xsl:variable name="content">
+                  <xsl:apply-templates mode="label.markup" select="."/>
+                </xsl:variable>
+                <xsl:choose>
+                  <xsl:when test="d:title/@revisionflag">
+                    <xsl:call-template name="make.change.bar">
+                      <xsl:with-param name="revisionflag" select="d:title/@revisionflag"/>
+                      <xsl:with-param name="content">
+                        <xsl:copy-of select="$content"/>
+                      </xsl:with-param>
+                      <xsl:with-param name="padding">3mm</xsl:with-param>
+                    </xsl:call-template>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:copy-of select="$content"/>
+                  </xsl:otherwise>
+                </xsl:choose>
               </fo:block>
             </fo:table-cell>
             <fo:table-cell>

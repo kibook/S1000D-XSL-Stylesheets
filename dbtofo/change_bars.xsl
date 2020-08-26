@@ -32,7 +32,11 @@
     <xsl:attribute name="border-start-color"><xsl:value-of select="$change.bar.color"/></xsl:attribute>
     <xsl:attribute name="border-start-style"><xsl:value-of select="$change.bar.style"/></xsl:attribute>
     <xsl:attribute name="border-start-width"><xsl:value-of select="$change.bar.width"/></xsl:attribute>
-    <xsl:attribute name="padding-start">23mm</xsl:attribute>
+  </xsl:attribute-set>
+
+  <xsl:attribute-set name="delete.change.bar.attributes" xsl:use-attribute-sets="normal.para.spacing">
+    <xsl:attribute name="text-decoration">line-through</xsl:attribute>
+    <xsl:attribute name="color">red</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:template name="make.change.bar">
@@ -42,6 +46,7 @@
     <xsl:param name="content">
       <xsl:apply-templates/>
     </xsl:param>
+    <xsl:param name="padding">23mm</xsl:param>
     <xsl:if test="$revisionflag != 'off'">
       <xsl:choose>
         <xsl:when test="$xep.extensions">
@@ -55,14 +60,14 @@
           <xsl:choose>
             <xsl:when test="@revisionflag = 'deleted'">
               <xsl:if test="$hide.deleted.content = 0">
-                <fo:block text-decoration="line-through" color="red" xsl:use-attribute-sets="normal.para.spacing">
+                <fo:block xsl:use-attribute-sets="delete.change.bar.attributes">
                   <xsl:copy-of select="$content"/>
                 </fo:block>
               </xsl:if>
             </xsl:when>
             <xsl:otherwise>
               <fo:block xsl:use-attribute-sets="normal.para.spacing">
-                <fo:block xsl:use-attribute-sets="custom.change.bar.attributes">
+                <fo:block xsl:use-attribute-sets="custom.change.bar.attributes" padding-start="{$padding}">
                   <xsl:copy-of select="$content"/>
                 </fo:block>
               </fo:block>

@@ -142,7 +142,16 @@
       <xsl:with-param name="content">
         <xsl:if test="title">
           <fo:block keep-with-next="always">
-            <xsl:apply-templates select="title"/>
+            <xsl:choose>
+              <xsl:when test="title/@changeMark = 1 and title/@changeType = 'delete'">
+                <fo:block xsl:use-attribute-sets="delete.change.bar.attributes">
+                  <xsl:apply-templates select="title"/>
+                </fo:block>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:apply-templates select="title"/>
+              </xsl:otherwise>
+            </xsl:choose>
           </fo:block>
         </xsl:if>
         <xsl:variable name="con">
