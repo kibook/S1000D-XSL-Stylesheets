@@ -4142,4 +4142,59 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="catalogSeqNumberRef">
+    <link>
+      <xsl:attribute name="linkend">
+        <xsl:text>ID_</xsl:text>
+        <xsl:value-of select="@modelIdentCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@systemDiffCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@systemCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@subSystemCode"/>
+        <xsl:value-of select="@subSubSystemCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@assyCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@figureNumber"/>
+        <xsl:choose>
+          <xsl:when test="@figureNumberVariant">
+            <xsl:value-of select="@figureNumberVariant"/>
+          </xsl:when>
+          <xsl:otherwise>0</xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>-941A-</xsl:text>
+        <xsl:choose>
+          <xsl:when test="@itemLocationCode">
+            <xsl:value-of select="@itemLocationCode"/>
+          </xsl:when>
+          <xsl:otherwise>D</xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+      <xsl:text>CSN </xsl:text>
+      <xsl:if test="@modelIdentCode">
+        <xsl:value-of select="@modelIdentCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@systemDiffCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@systemCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@subSystemCode"/>
+        <xsl:value-of select="@subSubSystemCode"/>
+        <xsl:text>-</xsl:text>
+        <xsl:value-of select="@assyCode"/>
+        <xsl:text> </xsl:text>
+      </xsl:if>
+      <xsl:text>Fig </xsl:text>
+      <xsl:value-of select="@figureNumber"/>
+      <xsl:text> Item </xsl:text>
+      <xsl:value-of select="@item"/>
+      <xsl:if test="@itemSeqNumberValue">
+        <xsl:text> ISN </xsl:text>
+        <xsl:value-of select="@itemSeqNumberValue"/>
+      </xsl:if>
+    </link>
+  </xsl:template>
+
 </xsl:stylesheet>
