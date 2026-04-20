@@ -372,6 +372,18 @@
     </book>
   </xsl:template>
 
+  <xsl:template name="change-bar-begin">
+    <xsl:if test="@changeMark = '1'">
+      <fo:change-bar-begin change-bar-class="{generate-id()}" change-bar-width="0.5mm"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="change-bar-end">
+    <xsl:if test="@changeMark = '1'">
+      <fo:change-bar-end change-bar-class="{generate-id()}"/>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template match="publication">
     <xsl:choose>
       <xsl:when test="pm">
@@ -798,21 +810,11 @@
         </xsl:if>
       </xsl:if>
       <xsl:call-template name="copy.id"/>
-      <xsl:call-template name="revisionflag"/>
       <fo:list-block start-indent="0mm" provisional-distance-between-starts="{$body.start.indent}">
         <fo:list-item>
 	        <fo:list-item-label start-indent="0mm" end-indent="label-end()" text-align="start">
             <fo:block>
-              <xsl:choose>
-                <xsl:when test="title/@changeMark = 1 and title/@changeType != 'delete'">
-                  <fo:block xsl:use-attribute-sets="custom.change.bar.attributes" padding-start="3mm">
-                    <xsl:copy-of select="$label"/>
-                  </fo:block>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:copy-of select="$label"/>
-                </xsl:otherwise>
-              </xsl:choose>
+              <xsl:copy-of select="$label"/>
 	          </fo:block>
 	        </fo:list-item-label>
 	        <fo:list-item-body start-indent="body-start()">
@@ -1101,12 +1103,12 @@
   </xsl:template>
 
   <xsl:template match="levelledPara|commonInfoDescrPara">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:if test="$alt.applic.display != 0">
       <xsl:call-template name="alt.applic.annotation"/>
     </xsl:if>
     <section>
       <xsl:call-template name="copy.id"/>
-      <xsl:call-template name="revisionflag"/>
       <xsl:if test="$alt.applic.display = 0">
         <xsl:call-template name="applic.annotation"/>
       </xsl:if>
@@ -1114,6 +1116,7 @@
       <xsl:apply-templates select="@cautionRefs"/>
       <xsl:apply-templates/>
     </section>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <!-- Experimental: Handle levelledParas the same as proceduralSteps.
@@ -1121,6 +1124,7 @@
        Allows for levelledPara's without titles to be displayed properly? -->
 
   <xsl:template match="levelledPara[not(title)]|commonInfoDescrPara[not(title)]">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:if test="$alt.applic.display != 0">
       <xsl:call-template name="alt.applic.annotation"/>
     </xsl:if>
@@ -1139,6 +1143,7 @@
         </fo:block>
       </xsl:with-param>
     </xsl:call-template>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="commonInfo">
@@ -2041,29 +2046,21 @@
   </xsl:template>
 
   <xsl:template match="warning|caution">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:call-template name="applic.annotation"/>
     <xsl:element name="{name()}">
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="note">
+    <xsl:call-template name="change-bar-begin"/>
     <note>
-      <!-- FIXME: Change marks on individual noteParas don't seem to work well
-                  with the current DocBook stylesheets, so this will add a
-                  change mark to the whole note if any of its descendants
-                  have a change mark. -->
-      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
-        <xsl:call-template name="revisionflag">
-          <xsl:with-param name="change.mark">1</xsl:with-param>
-          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
-          <xsl:with-param name="change.type">modify</xsl:with-param>
-        </xsl:call-template>
-      </xsl:if>
       <xsl:call-template name="applic.annotation"/>
       <xsl:apply-templates/>
     </note>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <!-- FIXME: Separate from other paras due to the change mark issue above. -->
@@ -2076,18 +2073,19 @@
   </xsl:template>
 
   <xsl:template match="para|warningAndCautionPara|simplePara|attentionListItemPara">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="para">
       <xsl:call-template name="copy.id"/>
-      <xsl:call-template name="revisionflag"/>
       <xsl:call-template name="applic.annotation"/>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="figure">
+    <xsl:call-template name="change-bar-begin"/>
     <figure>
       <xsl:call-template name="copy.id"/>
-      <xsl:call-template name="revisionflag"/>
       <xsl:attribute name="label">
 	      <xsl:number level="any" from="dmodule"/>
       </xsl:attribute>
@@ -2096,6 +2094,7 @@
       <xsl:apply-templates select="title|graphic"/>
     </figure>
     <xsl:apply-templates select="legend"/>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="legend">
@@ -2103,10 +2102,11 @@
   </xsl:template>
 
   <xsl:template match="title">
+    <xsl:call-template name="change-bar-begin"/>
     <title>
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </title>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template name="make.imageobject" xmlns:ier="InfoEntityResolver">
@@ -2226,17 +2226,8 @@
   </xsl:template>
   
   <xsl:template match="randomList|attentionRandomList">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="itemizedlist">
-      <!-- FIXME: Change marks on listitems don't seem to work well with the
-           current DocBook stylesheets, so this will add a change mark to the
-           whole list if any of its descendants have a change mark. -->
-      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
-        <xsl:call-template name="revisionflag">
-          <xsl:with-param name="change.mark">1</xsl:with-param>
-          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
-          <xsl:with-param name="change.type">modify</xsl:with-param>
-        </xsl:call-template>
-      </xsl:if>
       <xsl:choose>
         <xsl:when test="@listItemPrefix = 'pf01'">
           <xsl:attribute name="mark">
@@ -2271,52 +2262,24 @@
       </xsl:choose>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="sequentialList|attentionSequentialList">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="orderedlist">
-      <!-- FIXME: Change marks on listitems don't seem to work well with the
-           current DocBook stylesheets, so this will add a change mark to the
-           whole list if any of its descendants have a change mark. -->
-      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
-        <xsl:call-template name="revisionflag">
-          <xsl:with-param name="change.mark">1</xsl:with-param>
-          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
-          <xsl:with-param name="change.type">modify</xsl:with-param>
-        </xsl:call-template>
-      </xsl:if>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="definitionList">
+    <xsl:call-template name="change-bar-begin"/>
     <variablelist termlength="{$definition.list.term.width}">
-      <!-- FIXME: Change marks on individual rows doesn't seem to work well
-                  with the current DocBook stylesheets, so this will add a
-                  change mark to the whole table if any of its descendants
-                  have a change mark. -->
-      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
-        <xsl:call-template name="revisionflag">
-          <xsl:with-param name="change.mark">1</xsl:with-param>
-          <!-- there could be multiple modifications of differing types so lets just mark the list as modified -->
-          <xsl:with-param name="change.type">modify</xsl:with-param>
-        </xsl:call-template>
-      </xsl:if>
       <xsl:apply-templates/>
     </variablelist>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
-
-  <!--<xsl:template match="legend/definitionList">
-    <variablelist termlength="7mm">
-      <xsl:call-template name="revisionflag"/>
-      <title>
-        <xsl:text>Legend to Fig </xsl:text>
-        <xsl:apply-templates select="ancestor::figure" mode="number"/>
-        <xsl:text>:</xsl:text>
-      </title>
-      <xsl:apply-templates/>
-    </variablelist>
-  </xsl:template>-->
 
   <xsl:template match="legend/definitionList">
     <xsl:variable name="items" select="definitionListItem"/>
@@ -2379,32 +2342,35 @@
   </xsl:template>
   
   <xsl:template match="definitionListHeader|definitionListItem">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="varlistentry">
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="termTitle">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="term">
-      <xsl:call-template name="revisionflag"/>    
       <emphasis role="bold">
         <emphasis role="underline">
-	  <xsl:apply-templates/>
+          <xsl:apply-templates/>
         </emphasis>
       </emphasis>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="definitionTitle">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="listitem">
-      <xsl:call-template name="revisionflag"/>
       <emphasis role="bold">
         <emphasis role="underline">
-	  <xsl:apply-templates/>
+          <xsl:apply-templates/>
         </emphasis>
       </emphasis>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
   
   <xsl:template match="listItemTerm">
@@ -2414,11 +2380,12 @@
   </xsl:template>
 
   <xsl:template match="listItem|attentionSequentialListItem|attentionRandomListItem">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="listitem">
-      <xsl:call-template name="revisionflag"/>
       <xsl:call-template name="applic.annotation"/>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="listItemDefinition">
@@ -2429,6 +2396,7 @@
   </xsl:template>
   
   <xsl:template match="table">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:variable name="table-type">
       <xsl:choose>
         <xsl:when test="title">table</xsl:when>
@@ -2437,25 +2405,15 @@
     </xsl:variable>
     <xsl:element name="{$table-type}">
       <xsl:call-template name="copy.id"/>
-      <!-- FIXME: Change marks on individual rows doesn't seem to work well
-                  with the current DocBook stylesheets, so this will add a
-                  change mark to the whole table if any of its descendants
-                  have a change mark. -->
-      <xsl:if test="descendant-or-self::*[@changeMark = '1']">
-        <xsl:call-template name="revisionflag">
-          <xsl:with-param name="change.mark">1</xsl:with-param>
-          <!-- there could be multiple modifications of differing types so lets just mark the table as modified -->
-          <xsl:with-param name="change.type">modify</xsl:with-param>
-        </xsl:call-template>
-      </xsl:if>
       <!-- Default values of attributes -->
       <xsl:for-each select="@*">
         <xsl:if test="name(.) != 'id'">
-	  <xsl:copy/>
+          <xsl:copy/>
         </xsl:if>
       </xsl:for-each>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="tbody">
@@ -2505,11 +2463,12 @@
   </xsl:template>
 
   <xsl:template match="footnote">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="footnote">
       <xsl:call-template name="copy.id"/>
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="footnoteRef">
@@ -2530,55 +2489,12 @@
     <superscript><xsl:apply-templates/></superscript>
   </xsl:template>
 
-  <xsl:template name="revisionflag">
-    <xsl:param name="change.mark">
-      <xsl:value-of select="@changeMark"/>
-    </xsl:param>
-    <xsl:param name="change.type">
-      <xsl:value-of select="@changeType"/>
-    </xsl:param>
-    <!-- Do not include a revisionflag if an ancestor will already have one.
-
-         Also do not include one if it is a descendant of an element which
-         automatically displays a change mark if any of its descendants have a
-         change mark, which currently are:
-           - definitionList
-           - randomList
-           - attentionRandomList
-           - sequentialList
-           - attentionSequentialList
-           - table
-    -->
-    <xsl:variable name="ancestor" select="
-      ancestor::*[@changeMark = '1']|
-      ancestor::table|
-      ancestor::definitionList|
-      ancestor::randomList|
-      ancestor::attentionRandomList|
-      ancestor::sequentialList|
-      ancestor::attentionSequentialList"/>
-    <xsl:if test="$change.mark = '1' and not($ancestor)">
-      <xsl:attribute name="revisionflag">
-        <xsl:choose>
-          <xsl:when test="$change.type = 'add'">
-            <xsl:text>added</xsl:text>
-          </xsl:when>
-          <xsl:when test="$change.type = 'delete'">
-            <xsl:text>deleted</xsl:text>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:text>changed</xsl:text>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:attribute>
-    </xsl:if>
-  </xsl:template>
-  
   <xsl:template match="changeInline">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:element name="phrase">
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </xsl:element>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="dmTitle">
@@ -3467,10 +3383,11 @@
   </xsl:template>
 
   <xsl:template match="name">
+    <xsl:call-template name="change-bar-begin"/>
     <para>
-      <xsl:call-template name="revisionflag"/>
       <xsl:apply-templates/>
     </para>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="shortName">

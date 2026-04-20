@@ -73,36 +73,34 @@
        "vs29"         Parameter name
        "vs51"-"vs99"  Available for projects -->
   <xsl:template match="verbatimText">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:choose>
       <!-- Block verbatim text types -->
       <xsl:when test="@verbatimStyle = 'vs11'">
         <programlisting>
-          <xsl:call-template name="revisionflag"/>
           <xsl:apply-templates/>
         </programlisting>
       </xsl:when>
       <xsl:when test="@verbatimStyle = 'vs23'">
         <screen>
-          <xsl:call-template name="revisionflag"/>
           <xsl:apply-templates/>
         </screen>
       </xsl:when>
       <xsl:when test="@verbatimStyle = 'vs24'">
         <programlisting>
-          <xsl:call-template name="revisionflag"/>
           <xsl:apply-templates/>
         </programlisting>
       </xsl:when>
       <!-- Inline verbatim text types -->
       <xsl:otherwise>
         <phrase>
-          <xsl:call-template name="revisionflag"/>
           <literal>
             <xsl:apply-templates/>
           </literal>
         </phrase>
       </xsl:otherwise>
     </xsl:choose>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <!-- caption: color

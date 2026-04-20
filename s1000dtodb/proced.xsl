@@ -76,29 +76,39 @@
   </xsl:template>
 
   <xsl:template match="proceduralStep/title">
+    <xsl:call-template name="change-bar-begin"/>
     <fo:block xsl:use-attribute-sets="step.title.level1.properties">
       <xsl:apply-templates/>
     </fo:block>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
   <xsl:template match="proceduralStep/proceduralStep/title">
+    <xsl:call-template name="change-bar-begin"/>
     <fo:block xsl:use-attribute-sets="step.title.level2.properties">
       <xsl:apply-templates/>
     </fo:block>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
   <xsl:template match="proceduralStep/proceduralStep/proceduralStep/title">
+    <xsl:call-template name="change-bar-begin"/>
     <fo:block xsl:use-attribute-sets="step.title.level3.properties">
       <xsl:apply-templates/>
     </fo:block>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
   <xsl:template match="proceduralStep/proceduralStep/proceduralStep/proceduralStep/title">
+    <xsl:call-template name="change-bar-begin"/>
     <fo:block xsl:use-attribute-sets="step.title.level4.properties">
       <xsl:apply-templates/>
     </fo:block>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
   <xsl:template match="proceduralStep/proceduralStep/proceduralStep/proceduralStep/proceduralStep/title">
+    <xsl:call-template name="change-bar-begin"/>
     <fo:block xsl:use-attribute-sets="step.title.level5.properties">
       <xsl:apply-templates/>
     </fo:block>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="proceduralStep" mode="label">
@@ -128,6 +138,7 @@
   </xsl:template>
 
   <xsl:template match="proceduralStep">
+    <xsl:call-template name="change-bar-begin"/>
     <xsl:call-template name="labelled.para">
       <xsl:with-param name="label">
         <xsl:choose>
@@ -171,21 +182,11 @@
       </xsl:with-param>
     </xsl:call-template>
     <xsl:apply-templates select="proceduralStep"/>
+    <xsl:call-template name="change-bar-end"/>
   </xsl:template>
 
   <xsl:template match="proceduralStep/title" mode="labeltitle">
     <xsl:apply-templates/>
   </xsl:template>
-
-  <!--<xsl:template match="proceduralStep/para">
-    <xsl:choose>
-      <xsl:when test="position() = 1">
-	<xsl:apply-templates/>
-      </xsl:when>
-      <xsl:otherwise>
-	<para><xsl:apply-templates/></para>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>-->
 
 </xsl:stylesheet>
