@@ -200,7 +200,7 @@
                     <xsl:when test="parent::crewDrillStep/@separatorStyle">
                       <xsl:apply-templates select="parent::crewDrillStep/@separatorStyle"/>
                     </xsl:when>
-                    <xsl:otherwise>space</xsl:otherwise>
+                    <xsl:otherwise>dots</xsl:otherwise>
                   </xsl:choose>
                 </xsl:attribute>
               </fo:leader>
