@@ -60,7 +60,7 @@
   </xsl:template>
 
   <xsl:template match="crewDrill/title">
-    <bridgehead renderas="centerhead">
+    <bridgehead renderas="sidehead">
       <xsl:apply-templates/>
     </bridgehead>
   </xsl:template>
@@ -196,7 +196,12 @@
               <xsl:apply-templates select="challenge/para/node()"/>
               <fo:leader>
                 <xsl:attribute name="leader-pattern">
-                  <xsl:apply-templates select="parent::crewDrillStep/@separatorStyle"/>
+                  <xsl:choose>
+                    <xsl:when test="parent::crewDrillStep/@separatorStyle">
+                      <xsl:apply-templates select="parent::crewDrillStep/@separatorStyle"/>
+                    </xsl:when>
+                    <xsl:otherwise>space</xsl:otherwise>
+                  </xsl:choose>
                 </xsl:attribute>
               </fo:leader>
             </fo:block>
